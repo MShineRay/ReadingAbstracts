@@ -1,5 +1,8 @@
 # ReadingAbstracts
 
+- [读《重新定义创新》摘要](http://note.youdao.com/noteshare?id=b1b2e574e35ddb365901bd6fad35b2d9&sub=00ea4bf048609c6e942c6a28b50fa295)
+- [读《阈限思维：改变并没有想象的那么难》摘要](http://note.youdao.com/noteshare?id=045d697ca04d579c1e3559489f2c8a9e&sub=9b8d12cdd5597bc9c9274789f613c8d0)
+- [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
 - [读《Google工作整理术》摘要](http://note.youdao.com/noteshare?id=ad89d61a2a25b3316e00e17d7daacff1&sub=0a1e030b7da6b4704396e14162d7599f)
 - [读《半小时漫画经济学：生活常识篇》摘要](http://note.youdao.com/noteshare?id=72fa2a9253312d0ee02a3b1a8c15e70b&sub=fc30ae73ea6438c6f1197b148f0882c3)
 - [读《ES6标准入门 第3版》摘要](http://note.youdao.com/noteshare?id=592ed20457667bfee4202bc1061d7a23)
