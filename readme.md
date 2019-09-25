@@ -1,5 +1,6 @@
 # ReadingAbstracts
 
+- [读《javascript启示录》摘要](http://note.youdao.com/noteshare?id=80ee7ed07c54614d3b4b015aa034dddf)
 - [读《重新定义创新》摘要](http://note.youdao.com/noteshare?id=b1b2e574e35ddb365901bd6fad35b2d9&sub=00ea4bf048609c6e942c6a28b50fa295)
 - [读《阈限思维：改变并没有想象的那么难》摘要](http://note.youdao.com/noteshare?id=045d697ca04d579c1e3559489f2c8a9e&sub=9b8d12cdd5597bc9c9274789f613c8d0)
 - [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
