@@ -1,5 +1,6 @@
 # ReadingAbstracts
 
+- [读《你不知道的JavaScript（中卷）》摘要](http://note.youdao.com/noteshare?id=1228151f64c9cfadad8d28bb340cb36c)
 - [读《Vue.js 前端开发 快速入门与专业应用》摘要](http://note.youdao.com/noteshare?id=693b87d59063e8f1fdfe19db2b23a168&sub=8e0e5a0b5d944941848024cd143b83e6)
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
 - [读《在线》摘要](http://note.youdao.com/noteshare?id=8f6c4bc76831951106c44b8374cd1058&sub=503151406f26a0d30b0a7b9d0e47b4bd)
