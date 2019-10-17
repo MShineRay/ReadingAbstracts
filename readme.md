@@ -16,6 +16,7 @@
 - [读《红楼梦教你的10堂理财课》摘要](http://note.youdao.com/noteshare?id=af22b27c8a902de6ae8c50b9de8aef49&sub=1a631c68239849c978ff27ba247222c7)
 - [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
 - [读《半小时漫画经济学：生活常识篇》摘要](http://note.youdao.com/noteshare?id=72fa2a9253312d0ee02a3b1a8c15e70b&sub=fc30ae73ea6438c6f1197b148f0882c3)
+- [读《世界上最神奇的理财课》摘要](http://note.youdao.com/noteshare?id=67585120c0444b4416a67734e5cff963&sub=71daef9836cd8d8d71a1c1ed3f3df170)
 
 ## 其他
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
