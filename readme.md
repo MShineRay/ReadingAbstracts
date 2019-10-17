@@ -30,8 +30,8 @@
 - [读《Google工作整理术》摘要](http://note.youdao.com/noteshare?id=ad89d61a2a25b3316e00e17d7daacff1&sub=0a1e030b7da6b4704396e14162d7599f)
 
 ## 个人分享
--[点滴经验](http://note.youdao.com/noteshare?id=251df6962ac09d3f466a7c5c8cd61317)
--[读书方法总结](http://note.youdao.com/noteshare?id=cc50ece2e75c5faea321c459bedd93f1)
+- [点滴经验](http://note.youdao.com/noteshare?id=251df6962ac09d3f466a7c5c8cd61317)
+- [读书方法总结](http://note.youdao.com/noteshare?id=cc50ece2e75c5faea321c459bedd93f1)
 
 ## reference
    - 可以作为参考书单阅读
