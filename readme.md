@@ -17,6 +17,7 @@
 - [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
 - [读《半小时漫画经济学：生活常识篇》摘要](http://note.youdao.com/noteshare?id=72fa2a9253312d0ee02a3b1a8c15e70b&sub=fc30ae73ea6438c6f1197b148f0882c3)
 - [读《世界上最神奇的理财课》摘要](http://note.youdao.com/noteshare?id=67585120c0444b4416a67734e5cff963&sub=71daef9836cd8d8d71a1c1ed3f3df170)
+- [读《小岛经济学》摘要](http://note.youdao.com/noteshare?id=459171071ed25926e16b45a0fc43ebae&sub=7d03c7cc8503047851ada352682045fb)
 
 ## 其他
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
@@ -29,6 +30,8 @@
 - [读《重新定义创新》摘要](http://note.youdao.com/noteshare?id=b1b2e574e35ddb365901bd6fad35b2d9&sub=00ea4bf048609c6e942c6a28b50fa295)
 - [读《阈限思维：改变并没有想象的那么难》摘要](http://note.youdao.com/noteshare?id=045d697ca04d579c1e3559489f2c8a9e&sub=9b8d12cdd5597bc9c9274789f613c8d0)
 - [读《Google工作整理术》摘要](http://note.youdao.com/noteshare?id=ad89d61a2a25b3316e00e17d7daacff1&sub=0a1e030b7da6b4704396e14162d7599f)
+- [读《那些怪诞又实用的日常心理学》摘要](http://note.youdao.com/noteshare?id=96546348dbd44fbdb4fd93da9a166914&sub=d665b4287261fa60a1f516a6a4969ffc)
+- [读《把碎片化时间用起来》摘要](http://note.youdao.com/noteshare?id=d9d75153ca0580c5f0bcaca1f1f6649d&sub=a1f107f58bb5eb1b163ba6e5c68f2a3c)
 
 ## 个人分享
 - [点滴经验](http://note.youdao.com/noteshare?id=251df6962ac09d3f466a7c5c8cd61317)
