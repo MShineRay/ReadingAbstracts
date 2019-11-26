@@ -1,6 +1,7 @@
 # ReadingAbstracts
 
 ## 软件相关
+- [读《Webpack实战：入门、进阶与调优》摘要](http://note.youdao.com/noteshare?id=cb5af835bca0b704be12cf981da98cb3&sub=23bf4f62934ef5e64c0ba012e378be7a)
 - [读《你不知道的JavaScript（上卷）》摘要](http://note.youdao.com/noteshare?id=c7555742aa71533795a3ef14871da49b&sub=285AB558F5A74255A1E12220233EADF6)
 - [读《你不知道的JavaScript（中卷）》摘要](http://note.youdao.com/noteshare?id=1228151f64c9cfadad8d28bb340cb36c)
 - [读《你不知道的JavaScript（下卷）》摘要](http://note.youdao.com/noteshare?id=b37358fc414bfb5be8534c5f45f99f63&sub=15A50F8CABCB41CEB29213430D972E44)
