@@ -1,6 +1,8 @@
 # ReadingAbstracts
 
 ## 软件相关
+- [读《Vue企业开发实战》摘要](http://note.youdao.com/noteshare?id=9f7946f00ddfa3aba9cb2c2e117e74ef&sub=DF126A964E124591BE2D50A46C24E634)
+- [读《编写高质量代码：Web前端开发修炼》摘要](http://note.youdao.com/noteshare?id=2bca907f6a9ea43c5f1cab9473ef03d0&sub=9D698A03B4584435812FB6C2F41B0C70)
 - [读《Webpack实战：入门、进阶与调优》摘要](http://note.youdao.com/noteshare?id=cb5af835bca0b704be12cf981da98cb3&sub=23bf4f62934ef5e64c0ba012e378be7a)
 - [读《你不知道的JavaScript（上卷）》摘要](http://note.youdao.com/noteshare?id=c7555742aa71533795a3ef14871da49b&sub=285AB558F5A74255A1E12220233EADF6)
 - [读《你不知道的JavaScript（中卷）》摘要](http://note.youdao.com/noteshare?id=1228151f64c9cfadad8d28bb340cb36c)
