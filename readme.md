@@ -18,11 +18,15 @@
 - [读《Web前端自动化构建：Gulp、Bower和Yeoman开发指南》摘要](http://note.youdao.com/noteshare?id=f87ba56ab6c649fb34b8e9929a53cf9d&sub=E1897B08147442D2949A706347BE1EA0)
 
 ## 经济相关
+- [读《从零开始稳稳赚》摘要](http://note.youdao.com/noteshare?id=8199ddd88786adb143f702534b64de30&sub=468916650726400f70db8bcba797c84b)
 - [读《红楼梦教你的10堂理财课》摘要](http://note.youdao.com/noteshare?id=af22b27c8a902de6ae8c50b9de8aef49&sub=1a631c68239849c978ff27ba247222c7)
 - [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
 - [读《半小时漫画经济学：生活常识篇》摘要](http://note.youdao.com/noteshare?id=72fa2a9253312d0ee02a3b1a8c15e70b&sub=fc30ae73ea6438c6f1197b148f0882c3)
 - [读《世界上最神奇的理财课》摘要](http://note.youdao.com/noteshare?id=67585120c0444b4416a67734e5cff963&sub=71daef9836cd8d8d71a1c1ed3f3df170)
 - [读《小岛经济学》摘要](http://note.youdao.com/noteshare?id=459171071ed25926e16b45a0fc43ebae&sub=7d03c7cc8503047851ada352682045fb)
+
+## 人工智能相关
+- [读《人工智能简史》摘要](http://note.youdao.com/noteshare?id=269bb17b5c4c453b8584d72314d545c3&sub=d3babbc8c93bb6081366d8f1f802c829)
 
 ## 其他
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
