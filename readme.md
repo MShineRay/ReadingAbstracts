@@ -22,6 +22,8 @@
 - [读《Web前端自动化构建：Gulp、Bower和Yeoman开发指南》摘要](http://note.youdao.com/noteshare?id=f87ba56ab6c649fb34b8e9929a53cf9d&sub=E1897B08147442D2949A706347BE1EA0)
 
 ## 经济相关
+- [读《牛奶可乐经济学（完整版）》摘要](http://note.youdao.com/noteshare?id=10d794b7532465e7bd687c62b8a1e53e&sub=099f578adaf11bb253ee40b5e38626d2)
+- [读《卧底经济学4：世界经济运行的真相》摘要](http://note.youdao.com/noteshare?id=339935c020c6020330a5681729d75332&sub=a9fa3e96e107da533fbbb2b07d771804)
 - [读《从零开始稳稳赚》摘要](http://note.youdao.com/noteshare?id=8199ddd88786adb143f702534b64de30&sub=468916650726400f70db8bcba797c84b)
 - [读《红楼梦教你的10堂理财课》摘要](http://note.youdao.com/noteshare?id=af22b27c8a902de6ae8c50b9de8aef49&sub=1a631c68239849c978ff27ba247222c7)
 - [读《富人思维》摘要](http://note.youdao.com/noteshare?id=cc2b039732c10e982d1ab44f94f32e1c&sub=53487191615a86be14dd46883475744c)
@@ -31,8 +33,11 @@
 
 ## 人工智能相关
 - [读《人工智能简史》摘要](http://note.youdao.com/noteshare?id=269bb17b5c4c453b8584d72314d545c3&sub=d3babbc8c93bb6081366d8f1f802c829)
+- [读《人工智能时》摘要](http://note.youdao.com/noteshare?id=c608a282d25f7f0da4430bf6cbefd6c3&sub=69236ba767ef407b4df70f1fb98831fb)
 
 ## 其他
+- [读《软技能：代码之外的生存指南》摘要](http://note.youdao.com/noteshare?id=4f46f3013704c856e7e509bdd931e06b&sub=5969d0de788467fb14f36eb35f2db245)
+- [读《其实你不会记笔记》摘要](http://note.youdao.com/noteshare?id=fd21445ad6795ffc484923353e68c089&sub=a9f8b79a7334a207deff157fb9bf4801)
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
 - [读《在线》摘要](http://note.youdao.com/noteshare?id=8f6c4bc76831951106c44b8374cd1058&sub=503151406f26a0d30b0a7b9d0e47b4bd)
 - [读《深阅读：信息爆炸时代我们如何读书》摘要](http://note.youdao.com/noteshare?id=0daa0cf582bf254f854c95b41ca4c720&sub=762f6350dc8198e6205d625833d9468e)
