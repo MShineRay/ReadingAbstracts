@@ -1,7 +1,8 @@
 # ReadingAbstracts
 
 ## 软件相关
-- [读《Vue.js项目开发实战 》摘要](http://note.youdao.com/noteshare?id=133cac099c0bcb079bd4e892193bcc04&sub=F9B1FCA0485B4A9EB1FF5599393B16DE)
+- [前端工程化：体系设计与实践》摘要](http://note.youdao.com/noteshare?id=afea7e9d9adb7afc740a9666d06b58bf&sub=b5bbb09d206cbf5790f4c51fa3812580)
+- [读《Vue.js项目开发实战》摘要](http://note.youdao.com/noteshare?id=133cac099c0bcb079bd4e892193bcc04&sub=F9B1FCA0485B4A9EB1FF5599393B16DE)
 - [读《前端架构：从入门到微前端》摘要](http://note.youdao.com/noteshare?id=397acc182bfe6f7cb645199b7b44fe7d&sub=33D6AFB3C9C444C9A8F8AA684FE2F76C)
 - [读《驯服烂代码：在编程操练中悟道》摘要](http://note.youdao.com/noteshare?id=de6d26a7961c8ea2b609e1312f670dd3&sub=7414A3E47E274DDB95E1B1D9871FA631)
 - [读《Vue企业开发实战》摘要](http://note.youdao.com/noteshare?id=9f7946f00ddfa3aba9cb2c2e117e74ef&sub=DF126A964E124591BE2D50A46C24E634)
