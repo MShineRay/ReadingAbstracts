@@ -1,6 +1,7 @@
 # ReadingAbstracts
 
 ## 软件相关
+- [读《HTML5移动Web开发》摘要](http://note.youdao.com/noteshare?id=56af70562046d27b17919c39c29f2a80&sub=C8C4DFF43C8044279E6D8F680D5FD918)
 - [读《前端工程化：体系设计与实践》摘要](http://note.youdao.com/noteshare?id=afea7e9d9adb7afc740a9666d06b58bf&sub=b5bbb09d206cbf5790f4c51fa3812580)
 - [读《Vue.js项目开发实战》摘要](http://note.youdao.com/noteshare?id=133cac099c0bcb079bd4e892193bcc04&sub=F9B1FCA0485B4A9EB1FF5599393B16DE)
 - [读《前端架构：从入门到微前端》摘要](http://note.youdao.com/noteshare?id=397acc182bfe6f7cb645199b7b44fe7d&sub=33D6AFB3C9C444C9A8F8AA684FE2F76C)
