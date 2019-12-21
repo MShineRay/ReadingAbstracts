@@ -32,6 +32,7 @@
 - [读《小岛经济学》摘要](http://note.youdao.com/noteshare?id=459171071ed25926e16b45a0fc43ebae&sub=7d03c7cc8503047851ada352682045fb)
 
 ## 人工智能相关
+- [读《一本书读懂人工智能》摘要](http://note.youdao.com/noteshare?id=15136dcbf3b558d314ca66693fb4aefd&sub=F45425B53D5A44ADBB1E96F324C7E83E)
 - [读《人工智能简史》摘要](http://note.youdao.com/noteshare?id=269bb17b5c4c453b8584d72314d545c3&sub=d3babbc8c93bb6081366d8f1f802c829)
 - [读《人工智能时》摘要](http://note.youdao.com/noteshare?id=c608a282d25f7f0da4430bf6cbefd6c3&sub=69236ba767ef407b4df70f1fb98831fb)
 
