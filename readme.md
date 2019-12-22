@@ -38,6 +38,7 @@
 - [读《人工智能时》摘要](http://note.youdao.com/noteshare?id=c608a282d25f7f0da4430bf6cbefd6c3&sub=69236ba767ef407b4df70f1fb98831fb)
 
 ## 其他
+- [读《我在哈佛的最后一堂课》摘要](http://note.youdao.com/noteshare?id=84e3229cf4e04d300dd837296a3a80ae&sub=81D4D7B2B998432AB6EE5C01FDB781C3)
 - [读《软技能：代码之外的生存指南》摘要](http://note.youdao.com/noteshare?id=4f46f3013704c856e7e509bdd931e06b&sub=5969d0de788467fb14f36eb35f2db245)
 - [读《其实你不会记笔记》摘要](http://note.youdao.com/noteshare?id=fd21445ad6795ffc484923353e68c089&sub=a9f8b79a7334a207deff157fb9bf4801)
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
