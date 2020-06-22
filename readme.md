@@ -58,6 +58,8 @@
 - [点滴经验](http://note.youdao.com/noteshare?id=251df6962ac09d3f466a7c5c8cd61317)
 - [读书方法总结](http://note.youdao.com/noteshare?id=cc50ece2e75c5faea321c459bedd93f1)
 
+## [打发时间的书籍](https://note.youdao.com/ynoteshare1/index.html?id=95c5bf285157c39cfaec4c9a0cc16ad4&type=note)
+
 ## reference
    - 可以作为参考书单阅读
    - 参考个人读后总结，评估是否值得阅读 
