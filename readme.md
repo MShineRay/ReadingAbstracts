@@ -1,6 +1,7 @@
 # ReadingAbstracts
 
 ## 软件相关
+- [读《HTML5移动Web开发》摘要](http://note.youdao.com/noteshare?id=56af70562046d27b17919c39c29f2a80&sub=C8C4DFF43C8044279E6D8F680D5FD918)
 - [读《前端工程化：体系设计与实践》摘要](http://note.youdao.com/noteshare?id=afea7e9d9adb7afc740a9666d06b58bf&sub=b5bbb09d206cbf5790f4c51fa3812580)
 - [读《Vue.js项目开发实战》摘要](http://note.youdao.com/noteshare?id=133cac099c0bcb079bd4e892193bcc04&sub=F9B1FCA0485B4A9EB1FF5599393B16DE)
 - [读《前端架构：从入门到微前端》摘要](http://note.youdao.com/noteshare?id=397acc182bfe6f7cb645199b7b44fe7d&sub=33D6AFB3C9C444C9A8F8AA684FE2F76C)
@@ -32,10 +33,12 @@
 - [读《小岛经济学》摘要](http://note.youdao.com/noteshare?id=459171071ed25926e16b45a0fc43ebae&sub=7d03c7cc8503047851ada352682045fb)
 
 ## 人工智能相关
+- [读《一本书读懂人工智能》摘要](http://note.youdao.com/noteshare?id=15136dcbf3b558d314ca66693fb4aefd&sub=F45425B53D5A44ADBB1E96F324C7E83E)
 - [读《人工智能简史》摘要](http://note.youdao.com/noteshare?id=269bb17b5c4c453b8584d72314d545c3&sub=d3babbc8c93bb6081366d8f1f802c829)
 - [读《人工智能时》摘要](http://note.youdao.com/noteshare?id=c608a282d25f7f0da4430bf6cbefd6c3&sub=69236ba767ef407b4df70f1fb98831fb)
 
 ## 其他
+- [读《我在哈佛的最后一堂课》摘要](http://note.youdao.com/noteshare?id=84e3229cf4e04d300dd837296a3a80ae&sub=81D4D7B2B998432AB6EE5C01FDB781C3)
 - [读《软技能：代码之外的生存指南》摘要](http://note.youdao.com/noteshare?id=4f46f3013704c856e7e509bdd931e06b&sub=5969d0de788467fb14f36eb35f2db245)
 - [读《其实你不会记笔记》摘要](http://note.youdao.com/noteshare?id=fd21445ad6795ffc484923353e68c089&sub=a9f8b79a7334a207deff157fb9bf4801)
 - [读《白说》摘要](http://note.youdao.com/noteshare?id=fd9c46857c710f1061d32ef7f5d45a58&sub=6c0a578544469a9ae28e71cd6cce8eee)
@@ -50,10 +53,13 @@
 - [读《Google工作整理术》摘要](http://note.youdao.com/noteshare?id=ad89d61a2a25b3316e00e17d7daacff1&sub=0a1e030b7da6b4704396e14162d7599f)
 - [读《那些怪诞又实用的日常心理学》摘要](http://note.youdao.com/noteshare?id=96546348dbd44fbdb4fd93da9a166914&sub=d665b4287261fa60a1f516a6a4969ffc)
 - [读《把碎片化时间用起来》摘要](http://note.youdao.com/noteshare?id=d9d75153ca0580c5f0bcaca1f1f6649d&sub=a1f107f58bb5eb1b163ba6e5c68f2a3c)
+- [读《断舍离》摘要](http://note.youdao.com/noteshare?id=3f9e7f944c1cea39fc7942889a8b8c3f&sub=2f5f28204ccb7f8a5a4276c8de675968)
 
 ## 个人分享
 - [点滴经验](http://note.youdao.com/noteshare?id=251df6962ac09d3f466a7c5c8cd61317)
 - [读书方法总结](http://note.youdao.com/noteshare?id=cc50ece2e75c5faea321c459bedd93f1)
+
+## [打发时间的书籍](https://note.youdao.com/ynoteshare1/index.html?id=95c5bf285157c39cfaec4c9a0cc16ad4&type=note)
 
 ## reference
    - 可以作为参考书单阅读
