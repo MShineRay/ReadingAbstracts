@@ -1,8 +1,8 @@
-# book
+# interview
 
-- [](  )
-- [](  )
-- [](  )
+- [面试的 10 大潜规则，你中招了吗！]( https://mp.weixin.qq.com/s/5Zxp8LBv7SDz9CAtzRWR8A )
+- [2021 年互联网大厂职级对应薪资一览表]( https://mp.weixin.qq.com/s/A2GgBHJNuqn5nyimSOBB0g )
+- [【吐血整理】前端JavaScript高频手写面试大全，助你查漏补缺]( https://mp.weixin.qq.com/s/rvcuCxJj1p0Q0SUEx8WWDg )
 - [](  )
 - [](  )
 - [](  )

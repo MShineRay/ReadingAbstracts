@@ -1,5 +1,8 @@
 # vue
+
+### vue
 - [面试官：Vue3.0的设计目标是什么？做了哪些优化?]( https://mp.weixin.qq.com/s/Qn9lJD7wlw8z9hNle4XJOQ )
+    ~~~
     - 数据劫持
         - 在vue2中，数据劫持是通过Object.defineProperty，这个 API 有一些缺陷，并不能检测对象属性的添加和删除。
           尽管Vue为了解决这个问题提供了 set和delete实例方法，但是对于用户来说，还是增加了一定的心智负担。同时在面对嵌套层级比较深的情况下，就存在性能问题
@@ -8,7 +11,36 @@
     - composition API
     - VUE3是基于typescipt编写的，可以享受到自动的类型定义提示
     - 引入tree-shaking，可以将无用模块“剪辑”，仅打包需要的，使打包的整体体积变小了
-        
+    ~~~
+- [Scoped Style解决方案之deep深入理解]( https://mp.weixin.qq.com/s/f-sLKqlY-qzXYdVkJSTswQ )
+    ~~~
+    - deep的主要作用是「css样式选择器作用域」的提升
+    - 错误的嵌套deep
+        「嵌套deep」的错误用法而导致的移动端真机样式失效问题
+         部分样式在本地使用谷歌浏览的手机模拟窗口调试时正常，但是真机上就完全样式不生效
+    - [说一说VUE中的/deep/用法]( https://zhuanlan.zhihu.com/p/77112977 )
+    ~~~
+- [面试官：Vue3有了解过吗？能说说跟Vue2的区别吗？]( https://mp.weixin.qq.com/s/f2Ak88PtGbEnN5cVjD3ZXw )
+    ~~~
+    framents
+    在 Vue3.x 中，组件现在支持有多个根节点
+    
+    ~~~
+- [1.1万字从零解读Vue3.0源码响应式系统]( https://mp.weixin.qq.com/s/egPjrURLj8go9HJHXykkSA )
+- [34条我能告诉你的Vue之实操篇]( https://mp.weixin.qq.com/s/MchD5YiXvuIjhvkj86hTlg )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+- [](  )
+
+
+### vuex
 - [](  )
 - [](  )
 - [](  )
@@ -20,21 +52,10 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
+
+
+###vue-router
+- [面试官：vue项目如何部署？有遇到布署服务器后刷新404问题吗？]( https://mp.weixin.qq.com/s/DqS4shzElGQUqwKGD5oweA )
 - [](  )
 - [](  )
 - [](  )

@@ -74,10 +74,75 @@
         - https://www.cnblogs.com/fangdongdemao/p/10262209.html
     
     ~~~
-- [](  )
-- [](  )
-- [](  )
-- [](  )
+- [20个常用的JavaScript简写技巧]( https://mp.weixin.qq.com/s/oqzHCj5JUktc0Q_Mpr7JHw )
+- [13个JavaScript单行代码，让你看起来更专业]( https://mp.weixin.qq.com/s/ObCUGgDi5lErEmz68gxp3w )
+    ~~~
+    document.hidden属性检查当前标签页是否在视图/焦点中。
+    
+    const isBrowserTabInView = () => document.hidden;
+    isBrowserTabInView();
+    // Result: returns true or false depending on if tab is in view / focus
+    
+    ----
+    我们可以使用document.activeElement属性检查元素当前是否处于焦点。
+    
+    const elementIsInFocus = (el) => (el === document.activeElement);
+    elementIsInFocus(anyElement)
+    // Result: will return true if in focus, false if not in focus
+    
+    -----
+    检查当前用户是否支持触摸事件
+    const touchSupported = () => {
+      ('ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch);
+    }
+    console.log(touchSupported());
+    // Result: will return true if touch events are supported, false if not
+    
+    -----
+    navigator.platform用来检查当前用户是否在Apple设备上。
+    
+    const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+    console.log(isAppleDevice);
+    // Result: will return true if user is on an Apple device
+    ~~~
+- [JS模拟实现数组的map方法]( https://www.cnblogs.com/suihang/p/10535002.html )
+    ~~~
+    var arr = ["a","b","c","d","e"];
+    arr.map(function(currentValue,index,arr){
+        console.log("当前元素"+currentValue)　　　　　　　console.log("当前索引"+index)
+        console.log("数组对象"+arr)
+    })
+    map的参数:
+        currentValue  必须。当前元素的值
+        index  可选。当期元素的索引值
+        arr  可选。当期元素属于的数组对象
+    
+    
+    Array.prototype.newMap = function(fn) {
+　　　var newArr = [];
+　　　for(var i = 0; i<this.length; i++){
+　　　     newArr.push(fn(this[i],i,this))
+　　　}
+　　　return newArr;
+　  }
+    ~~~
+- [GET 和 POST请求的本质区别是什么？原来我一直理解错了]( https://mp.weixin.qq.com/s/JBcnEBSX1RqMnF7DUkU5VA )
+    ~~~
+    GET在浏览器回退时是无害的，而POST会再次提交请求。
+    GET产生的URL地址可以被Bookmark，而POST不可以。
+    GET请求会被浏览器主动cache，而POST不会，除非手动设置。
+    GET请求只能进行url编码，而POST支持多种编码方式。
+    GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。
+    GET请求在URL中传送的参数是有长度限制的，而POST么有。
+    对参数的数据类型，GET只接受ASCII字符，而POST没有限制。
+    GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。
+    GET参数通过URL传递，POST放在Request body中。
+    GET和POST本质上就是TCP链接
+        GET产生一个TCP数据包；POST产生两个TCP数据包。
+        对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+        而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+        并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。
+    ~~~
 - [](  )
 - [](  )
 - [](  )
