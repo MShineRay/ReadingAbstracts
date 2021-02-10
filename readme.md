@@ -5,6 +5,7 @@
 ## [babel](./babel/babel.md)
 ## [book](./book/book.md)
 ## [javascript](./javascript/js.md)
+## [QA](./QA/QA.md)
 ## [website](./website/website.md)
 ## [webpack](./webpack/webpack.md)
 ## [vue](./vue/vue.md)
