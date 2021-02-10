@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fingerprintjs 获取指纹</title>
+    <script
+        async
+        src="//cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"
+        onload="initFingerprintJS()"
+    ></script>
+    <script
+        async
+        src="https://lig-membres.imag.fr/donsez/cours/exemplescourstechnoweb/js_securehash/md5.js"
+    ></script>
+
+</head>
+<body>
+
+<a href="https://www.cnblogs.com/magicg/p/13389634.html">在前端开发中，如何获取浏览器的唯一标识</a>
+
+<canvas id="canvas" width="100" height="100" style="border:1px solid #ddd"></canvas>
+
+11111
+</body>
+<script>
+    window.onload = function () {
+        console.log(getCanvasFp())
+        console.log('md5:', calcMD5(getCanvasFp()))
+        //md5(getCanvasFp())//即为指纹
+    }
+    function getCanvasFp () {
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+        ctx.font = '14px Arial'
+        ctx.fillStyle = 'red'
+        ctx.fillText('hello', 0, 10)
+        return canvas.toDataURL('image/jpeg')
+    }
+
+    function initFingerprintJS() {
+        FingerprintJS.load().then(fp => {
+            // The FingerprintJS agent is ready.
+            // Get a visitor identifier when you'd like to.
+            fp.get().then(result => {
+                console.error(result)
+                console.error(result.ip)
+                // This is the visitor identifier:
+                const visitorId = result.visitorId;
+                console.log(visitorId);
+            });
+        });
+    }
+</script>
+</html>
