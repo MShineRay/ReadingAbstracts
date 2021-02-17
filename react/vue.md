@@ -28,28 +28,21 @@
     ~~~
 - [1.1万字从零解读Vue3.0源码响应式系统]( https://mp.weixin.qq.com/s/egPjrURLj8go9HJHXykkSA )
 - [34条我能告诉你的Vue之实操篇]( https://mp.weixin.qq.com/s/MchD5YiXvuIjhvkj86hTlg )
-- 用jsx写vue组件
-  ~~~
-  template，
-    优势：简洁
-    劣势：模版调试麻烦
-  
-  jsx：
-    方便调试，但可读性差
-  ~~~
-- [实测Vue SSR的渲染性能：避开20倍耗时]( https://mp.weixin.qq.com/s/EaJDaORMlmHZaaw3OVUISg )
-  ~~~
-  为了提高首屏渲染速度，wns缓存+直出 是必不可少的。
-    如果没有 server-side-render 方案，直出需要专门给写一份首屏非Vue语法的模板。
-  
-  当前常用的模板渲染方案可以归结成两类：
-  a类：string-based （基于字符串拼接）
-  b类：virtual-dom-based（基于虚拟dom对象）
-  
-  ~~~
-- [](  )
-- [](  )
-- [](  )
+- [Vue不同编译输出文件的区别]( https://mp.weixin.qq.com/s/K4w4AcX3vHnST0JDfKc3Aw )
+    ~~~
+    rollup是默认使用ES Module规范而非CommonJS,如果要引入只遵循了CommonJs规范的第三包的话，还需要使用相关的插件，插件会帮你将CommonJs规范的代码转为ES Module
+    
+    rollup提供了多种文件输出类型：
+      iife: 立即执行函数
+      cjs: 遵循CommonJs Module规范的文件输出
+      amd: 遵循AMD Module规范的文件输出
+      umd: 支持外链/CommonJs Module/AMD Module规范的文件输出
+      es: 将多个遵循ES6 Module的文件编译成1个ES6 Module
+    ~~~
+- [Vue3.0终终终于要来了！！]( https://mp.weixin.qq.com/s/qJI_RhI4w-p3VQVo6eVZ5Q )
+    slot
+- [面试之加分项vue]( https://mp.weixin.qq.com/s/dosZKhcSsroW8AU7mpflzg )
+- [前端 Vue.js 快速开发微信小程序，基于 Vue 的小程序开发框架：Megalo发布！]( https://mp.weixin.qq.com/s/fCWKniSNX4GFSPA6rO7Dtw )
 - [](  )
 - [](  )
 - [](  )
@@ -74,7 +67,6 @@
 
 ###vue-router
 - [面试官：vue项目如何部署？有遇到布署服务器后刷新404问题吗？]( https://mp.weixin.qq.com/s/DqS4shzElGQUqwKGD5oweA )
-
 - [](  )
 - [](  )
 - [](  )

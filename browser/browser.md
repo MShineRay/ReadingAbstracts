@@ -1,11 +1,7 @@
-# UE 
+# browser
 
- 
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
+- 浏览器中的渲染引擎是单线程的，几乎所有的操作都是在这个单线程中执行——解析渲染 DOM Tree 和 CSS Tree，解析执行 JavaScript ——除了网络操作。这个线程就是浏览器的主线程。单线程意味着，一段时间只做一件事，所以浏览器在同一时间内，其主线程只能关注于一个任务。
+- [优化浏览器前端]( https://mp.weixin.qq.com/s?__biz=MzI2MTY0NTEyMA==&amp;mid=2247483757&amp;idx=1&amp;sn=682f5bc4729cb7022c715ec37dc9525e&amp;chksm=ea567742dd21fe54a1393f3b589c0b5be65acadf5d263ed429e1bb08a0fbb83debea2222b49c&amp;mpshare=1&amp;scene=21&amp;srcid=0426gaqEJY6aTJATbMIUOz86&scene=21&key=&ascene=0&uin=&devicetype=Windows+10+x64&version=63010043&lang=zh_CN&fontgear=2 )
 - [](  )
 - [](  )
 - [](  )
