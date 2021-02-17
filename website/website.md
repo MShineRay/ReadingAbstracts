@@ -14,6 +14,7 @@
 - [网站模板]( https://mp.weixin.qq.com/s/V8thacl-L9PBU6e1-70khQ )
 - [GitHub上 10 个超好看可视化面板]( https://mp.weixin.qq.com/s/j1X-TT7uPfG_qB6LzCe_mw )
 - [优秀项目]( https://mp.weixin.qq.com/s/oKDXsW8V_XPJUeUARNNeFg )
+- [介绍几个开发前端动画不得不学的动画库]( https://mp.weixin.qq.com/s/9vXIMN2nnEtCETGQ52LuTA )
 
 - 公众号：前端技术江湖
 - 公众号：VUE中文社区
