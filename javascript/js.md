@@ -144,6 +144,12 @@
         并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。
     ~~~
 - [前端开发者必会的技能，你都get了吗？]( https://mp.weixin.qq.com/s/YZ1P8rHv2qhrEp6xln6vxw )
+    ~~~
+    this
+    原型、原型链
+    继承
+    箭头函数
+    ~~~
 - [2019 前端面试题汇总（主要为 Vue）]( https://mp.weixin.qq.com/s/wzA-pk4Q0RLHFJCxG48PSg )
 ~~~
 1. 谈谈你对MVVM开发模式的理解
