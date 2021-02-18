@@ -15,10 +15,18 @@
 - [GitHub上 10 个超好看可视化面板]( https://mp.weixin.qq.com/s/j1X-TT7uPfG_qB6LzCe_mw )
 - [优秀项目]( https://mp.weixin.qq.com/s/oKDXsW8V_XPJUeUARNNeFg )
 - [介绍几个开发前端动画不得不学的动画库]( https://mp.weixin.qq.com/s/9vXIMN2nnEtCETGQ52LuTA )
+- [超全的 Vue 开源项目合集，签收一下]( https://mp.weixin.qq.com/s/ri0yPeP5u1_9Eg2NpEYqUQ )
+- [推荐3款移动端网页开发调试神器](https://mp.weixin.qq.com/s/hfa8fMpvJ0A1FbQccNI8Eg)
+    vConsole、weinre、Charles 
+- [你的 Mac 用对了吗？推荐一些 Mac 上比较好用的软件] ( https://mp.weixin.qq.com/s/Sgk1f_xgFXphQfGdNAlypw )
+
 
 - 公众号：前端技术江湖
 - 公众号：VUE中文社区
-- 公众号：前端技术江湖
+    2020-01-15~至今
+    推荐3款移动端网页开发调试神器
+- 公众号：前端热点分析
+
 - 公众号：前端技术江湖
 - 公众号：前端技术江湖
 - 公众号：前端技术江湖

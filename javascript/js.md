@@ -180,10 +180,33 @@
 - [为什么越来越少的人用 jQuery？]( https://mp.weixin.qq.com/s/tXyiSSAfS0_M0NU_B7fcjg )
     Animate.css
 - [图解浏览器的工作原理]( https://mp.weixin.qq.com/s/YJficujNG3kX45ZwfFQoqA )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
+- [JavaScript将HTML页面生成PDF并下载]( https://mp.weixin.qq.com/s/mzo1kVdL6-gbASbL5nJd5A )
+    html2canvas
+    jsPDF
+- [写好 JS 条件语句的 5 条守则]( https://mp.weixin.qq.com/s/hqiqcrZSIpLUxguUaGHNHg )
+~~~
+1.多重判断时使用 Array.includes
+2.更少的嵌套，尽早 return
+3.使用默认参数和解构
+4.倾向于遍历对象而不是 Switch 语句
+5.对 所有/部分 判断使用 Array.every & Array.some
+~~~
+- [20行实现一个Promise]( https://mp.weixin.qq.com/s/oHBv7r6x7tVOwm-LsnIbgA )
+- [一文带你彻底搞懂跨域那些事]( https://mp.weixin.qq.com/s/5PAirlPygGILopm5Br7w9Q )
+    ~~~
+    同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的重要安全机制。
+    一是针对接口的请求
+    
+    二是针对Dom的查询
+    
+    JSONP
+        JSONP只能发GET请求，因为本质上script加载资源就是GET
+        
+        空iframe加form 支持POST请求
+    
+    CORS
+        
+    ~~~
 - [](  )
 - [](  )
 - [](  )
