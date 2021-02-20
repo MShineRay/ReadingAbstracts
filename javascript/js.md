@@ -213,7 +213,8 @@
     CORS
         
     ~~~
-- [](  )
+- [用9种办法解决 JS 闭包经典面试题之 for 循环取 i]( https://mp.weixin.qq.com/s/b3OnarT84HUSQTWKciQp2w )
+
 - [](  )
 - [](  )
 - [](  )

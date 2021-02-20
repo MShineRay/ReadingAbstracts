@@ -114,8 +114,15 @@ SSR优化
 
     ~~~
 - [使用 Vue与React 创建同一款 App，差别究竟有多大？]( https://mp.weixin.qq.com/s/JQU22X17xW0zGbgWs9lL3g )
-- [](  )
-- [](  )
+- [[译]Vue 最黑暗的一天]( https://mp.weixin.qq.com/s/x2NLAJ2Iv8rjiqrrxGePSw )（已整理）
+~~~
+setup函数的优点：
+很容易把相关的东西放到一起；（更聚合）
+通过查看 setup 函数的返回值，很容易地知道模板中可以获取什么变量；（利于维护）
+避免暴露模板不需要获取的内部状态（touched）。（利于维护）
+新语法有Typescript 支持，在 Vue 2.x 基于对象的语法中很难实现，轻易地把可重用的逻辑提取为可重用的函数。（更复用）
+~~~
+- [Vue源码解析之深度剖析computed属性]( https://mp.weixin.qq.com/s/7-SGo2k-JJxm-jply0gfDQ )(已整理至doc)
 - [](  )
 - [](  )
 - [](  )
