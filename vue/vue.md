@@ -123,9 +123,9 @@ setup函数的优点：
 新语法有Typescript 支持，在 Vue 2.x 基于对象的语法中很难实现，轻易地把可重用的逻辑提取为可重用的函数。（更复用）
 ~~~
 - [Vue源码解析之深度剖析computed属性]( https://mp.weixin.qq.com/s/7-SGo2k-JJxm-jply0gfDQ )(已整理至doc)
-- [](  )
-- [](  )
-- [](  )
+- (已整理)[【PPT】尤雨溪：State of Vue]( https://mp.weixin.qq.com/s/i9crL64Rywkk1tKyJqvtLg )
+- (已整理)[尤雨溪 6 月 4 日的 Vue 技术分享]( https://mp.weixin.qq.com/s/EKKBg0K0YyA0S1G0deJj_Q )
+- (已整理)[前端开发程序员选择Vue.js的5大理由]( https://mp.weixin.qq.com/s/oQhSfcZcjChMQnsz1DjrgQ )
 - [](  )
 - [](  )
 - [](  )
