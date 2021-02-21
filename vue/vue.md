@@ -126,7 +126,7 @@ setup函数的优点：
 - (已整理)[【PPT】尤雨溪：State of Vue]( https://mp.weixin.qq.com/s/i9crL64Rywkk1tKyJqvtLg )
 - (已整理)[尤雨溪 6 月 4 日的 Vue 技术分享]( https://mp.weixin.qq.com/s/EKKBg0K0YyA0S1G0deJj_Q )
 - (已整理)[前端开发程序员选择Vue.js的5大理由]( https://mp.weixin.qq.com/s/oQhSfcZcjChMQnsz1DjrgQ )
-- [](  )
+- (已整理)[7个有用的Vue开发技巧]( https://mp.weixin.qq.com/s/oovvCa-Ld3iYyp5eWJGJng )
 - [](  )
 - [](  )
 - [](  )

@@ -1,121 +1,10 @@
 # ReadingAbstracts
-
-A
-
-
-B
-## [babel](./babel/babel.md)
-## [book](./book/book.md)
-## [brower](./brower/brower.md)
-
-C
-## [css](./css/css.md)
-
-D
-## [Deno](./Deno/Deno.md)
-
-E
-
-F
-
-G
-
-H
-
-I
-## [interview](./interview/interview.md)
-
-J
-## [javascript](./javascript/js.md)
-
-
-K
-
-L
-
-
-M
-
-N
-## [net](./net/net.md)
-## [node](./node/node.md)
-
-O
-
-P
-
-
-Q
-## [QA](./QA/QA.md)
-
-
-R
-## [react](./react/react.md)
-## [RegExp](./javascript/RegExp.md)
-
-S
-## [scoll](./scoll/scoll.md)
-
-T
-## [tools](./tools/tools.md)
-
-
-U
-## [UE](./UE/UE.md)
-
-
-V
-## [vue](./vue/vue.md)
-
-
-W
-## [website](./website/website.md)
-## [webpack](./webpack/webpack.md)
-## [work](./work/work.md)
-## [wx](./wx/wx.md)
-
-
-X
-
-
-Y
-
-Z
-
-
-
-
-
-
-
-
-
-
-## reference
-   - 可以作为参考书单阅读
-   - 参考个人读后总结，评估是否值得阅读 
-   
-   
+  
 ## TODO
 
 
 
 
-
-
-
-
-
-
-
-
-https://mp.weixin.qq.com/s/n1Xb1BFZo0aNWtTsZ5290Q
-https://mp.weixin.qq.com/s/Zgt1dTYfTMJ1VA9Ek3VBdw
-https://mp.weixin.qq.com/s/hvdxP1VvY_IVFha75bE2iA
-https://mp.weixin.qq.com/s/cCnZ2BBQx-7SmlPJUQgu8g
-https://mp.weixin.qq.com/s/oovvCa-Ld3iYyp5eWJGJng
-https://mp.weixin.qq.com/s/L2lUCssKkrOwHzZGiLUbCg
-https://mp.weixin.qq.com/s/-xIdxWZKKSMQLHqo6cn87w
 https://mp.weixin.qq.com/s/ZdIyBS5iYp4j8OjugGzzwQ
 https://mp.weixin.qq.com/s/gqag4xoKiu1THZfPEqnLFg
 https://mp.weixin.qq.com/s/ShJeSnePwpVhCLgVFjwJ-w
@@ -323,3 +212,100 @@ https://mp.weixin.qq.com/s/YQ12g31oE0vRGlpYwLCLzA
  https://mp.weixin.qq.com/s/mRsg3LlK5Dfja4qmnwUPZQ
  https://mp.weixin.qq.com/s/3vTos8eeW4ma3cuM1LY1hg
    
+
+A
+
+
+B
+## [babel](./babel/babel.md)
+## [book](./book/book.md)
+## [brower](./brower/brower.md)
+
+C
+## [css](./css/css.md)
+
+D
+## [Deno](./Deno/Deno.md)
+
+E
+
+F
+
+G
+
+H
+
+I
+## [interview](./interview/interview.md)
+
+J
+## [javascript](./javascript/js.md)
+
+
+K
+
+L
+
+
+M
+
+N
+## [net](./net/net.md)
+## [node](./node/node.md)
+
+O
+
+P
+
+
+Q
+## [QA](./QA/QA.md)
+
+
+R
+## [react](./react/react.md)
+## [RegExp](./javascript/RegExp.md)
+
+S
+## [scoll](./scoll/scoll.md)
+
+T
+## [tools](./tools/tools.md)
+
+
+U
+## [UE](./UE/UE.md)
+
+
+V
+## [vue](./vue/vue.md)
+
+
+W
+## [website](./website/website.md)
+## [webpack](./webpack/webpack.md)
+## [work](./work/work.md)
+## [wx](./wx/wx.md)
+
+
+X
+
+
+Y
+
+Z
+
+
+
+
+
+
+
+
+
+
+## reference
+   - 可以作为参考书单阅读
+   - 参考个人读后总结，评估是否值得阅读 
+   
+ 

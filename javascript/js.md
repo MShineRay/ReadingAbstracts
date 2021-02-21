@@ -215,8 +215,11 @@
     ~~~
 - [用9种办法解决 JS 闭包经典面试题之 for 循环取 i]( https://mp.weixin.qq.com/s/b3OnarT84HUSQTWKciQp2w )
 
-- [](  )
-- [](  )
+- [网页大量图片同时加载卡顿问题的优化之旅]( https://mp.weixin.qq.com/s/hvdxP1VvY_IVFha75bE2iA )
+    ~~~
+    懒加载、预加载
+    ~~~
+- (已整理)[总结异步编程的六种方式]( https://mp.weixin.qq.com/s/L2lUCssKkrOwHzZGiLUbCg )
 - [](  )
 - [](  )
 - [](  )
