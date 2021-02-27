@@ -513,7 +513,8 @@ Module
 ~~~
 - [说说你对闭包的理解？闭包使用场景?]( https://mp.weixin.qq.com/s/QqnRoFqlWTrA_4PZPvsJEw )
 - [类数组对象转换为数组的六种方法]( https://www.cnblogs.com/yangai/p/11158693.html )
-- [](  )
+- [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
+- [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
 
 - [](  )
 - [](  )
