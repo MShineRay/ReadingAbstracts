@@ -485,7 +485,8 @@ Module
     都是使用于方法借用及明确this指向场景
     第一个参数都是this要指向的对象
     都可以利用后续参数传参
-不同点:
+
+
     参数传递方式不同
     call,apply是立即调用,bind是动态调用
 基本使用:
@@ -514,8 +515,45 @@ Module
 - [说说你对闭包的理解？闭包使用场景?]( https://mp.weixin.qq.com/s/QqnRoFqlWTrA_4PZPvsJEw )
 - [类数组对象转换为数组的六种方法]( https://www.cnblogs.com/yangai/p/11158693.html )
 - [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
-- [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
+- (已整理)[前端的缓存有哪些？都适用什么场景？区别是什么？]( https://mp.weixin.qq.com/s/s_9CyjZoeTnWI-HXHxK_Sg )
+  ~~~
+    前端缓存分为两部分: 
+        http 缓存
+        浏览器缓存
+    http 缓存
+        强缓存
+            强缓存主要是采用响应头中的Cache-Control和Expires两个字段进行控制的
+            Cache-Control 值理解:
+                max-age 指定设置缓存最大的有效时间(单位为s)
+                public 指定响应会被缓存，并且在多用户间共享
+                private 响应只作为私有的缓存，不能在用户间共享
+                no-cache 指定不缓存响应，表明资源不进行缓存
+                no-store 绝对禁止缓存
+            Expires 理解:
+                缓存过期时间，用来指定资源到期的时间，是服务器端的具体的时间点, 需要和Last-modified结合使用
+            Last-modified 理解
+                服务器端文件的最后修改时间，需要和cache-control共同使用，是检查服务器端资源是否更新的一种方式
+            ETag 理解
+                根据实体内容生成一段hash字符串，标识资源的状态，由服务端产生。浏览器会将这串字符串传回服务器，
+                验证资源是否已经修改
 
+        协商缓存(304)
+            协商缓存是指当强缓存机制如果检测到缓存失效，就需要进行服务器再验证
+
+    浏览器缓存 
+        Cookie
+        LocalStorage
+        SessionStorage
+        Service Worker
+        Cookie
+
+        Cookie主要用于用户信息的存储, 容量为4KB
+        LocalStorage的数据将一直保存在浏览器内，直到用户清除浏览器缓存数据为止, 容量为5MB
+        SessionStorage的其他属性同LocalStorage, 不同是的当页面关闭时会随之清除
+        Service Worker 主要是为了提高web app的用户体验，可以实现离线应用消息推送等等一系列的功能, 
+            可以看做是一个独立于浏览器的Javascript代理脚本, 在离线状态下也能提供基本的功能。 
+            出于安全性的考虑，Service Worker 只能在https协议下使用
+~~~
 - [](  )
 - [](  )
 - [](  )
