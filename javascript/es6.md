@@ -435,8 +435,117 @@ Vue组件间如何通信？
   Vuex
     Vuex解决大型项目复杂通信问题
 ~~~
-- [](  )
-- [](  )
+- (已整理)[Vue双向绑定实现原理？]( https://mp.weixin.qq.com/s/9IC8hQXLlb7yNcSRiG4IrQ )
+~~~
+Vue双向绑定实现原理？
+
+vue实现数据双向绑定主要是：采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty() 来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应监听回调。当把一个普通 Javascript 对象传给 Vue 实例来作为它的 data 选项时，Vue 将遍历它的属性，用 Object.defineProperty() 将它们转为 getter/setter。用户看不到 getter/setter，但是在内部它们让 Vue 追踪依赖，在属性被访问和修改时通知变化。
+
+vue的数据双向绑定 将MVVM作为数据绑定的入口，整合Observer，Compile和Watcher三者，通过Observer来监听自己的model的数据变化，通过Compile来解析编译模板指令（vue中是用来解析 {{}}），最终利用watcher搭起observer和Compile之间的通信桥梁，达到数据变化 —>视图更新；视图交互变化（input）—>数据model变更双向绑定效果。
+
+Observer 对所有数据的属性进行监听
+Compile 对每个元素节点的指令进行扫描跟解析,根据指令模板替换数据,以及绑定相应的更新函数
+Watcher 作为连接Observer 跟 Compile 之间的桥梁, 能够订阅接收到每个属性变动的通知,执行相应的回调函数
+代码理解:
+const Dep = function() {
+  this.subs = [];
+};
+Dep.prototype = {
+  addSub: function(sub) {
+    this.subs.push(sub);
+  },
+  notify: function() {
+    this.subs.forEach(sub = >{
+      sub.update();
+    });
+  },
+};
+const Watcher = function(vm, node, name) {
+  Dep.target = this;
+  this.name = name;
+  this.node = node;
+  this.vm = vm;
+  this.update();
+  Dep.target = null;
+};
+Watcher.prototype = {
+  update: function() {
+    this.get();
+    this.node.nodeValue = this.value;
+  },
+  get: function() {
+    this.value = this.vm[this.name];
+  },
+};
+const compile = function(node, vm) {
+  if (node.nodeType === 1) {
+    let attr = node.attributes;
+    for (let i = 0; i < attr.length; i++) {
+      if (attr[i].nodeName === 'v-model') {
+        let name = attr[i].nodeValue;
+        node.addEventListener('input', e = >{
+          vm[name] = node.value;
+        });
+        node.value = vm[name];
+        node.removeAttribute('v-model');
+      }
+    }
+  }
+  // Text 节点类型
+  if (node.nodeType === 3) {
+    if (///{//{(.*)//}//}/.test(node.nodeValue)) {
+      let name = RegExp.$1;
+      name = name.trim();
+      node.nodeValue = vm[name];
+      new Watcher(vm, node, name);
+    }
+  }
+};
+const observe = data = >{
+  if (!data || typeof data !== 'object') return 3344;
+  Object.keys(data).forEach(key = >defineReactive(data, key, data[key]));
+};
+const defineReactive = (data, key, value) = >{
+  const dep = new Dep();
+  observe(value);
+  Object.defineProperty(data, key, {
+    get: () = >{
+      if (Dep.target) dep.addSub(Dep.target);
+      return value;
+    },
+    set: function(newValue) {
+      console.log(`数据已发生变化，新的值为$ {
+        newValue
+      }`);
+      value = newValue;
+      dep.notify();
+    },
+  });
+};
+function nodeToFragment(node, vm) {
+  let flag = document.createDocumentFragment();
+  let child;
+  while ((child = node.firstChild)) {
+    compile(child, vm);
+    flag.appendChild(child);
+  }
+  return flag;
+}
+function Vue(options) {
+  let data = this.data = options.data;
+  observe(data, this);
+  let id = options.el;
+  let dom = nodeToFragment(document.getElementById(id), data);
+  document.getElementById(id).appendChild(dom);
+}
+let vm = new Vue({
+  el: 'app',
+  data: {
+    text: 'example text',
+  },
+});
+~~~
+- []( https://www.cnblogs.com/chenhuichao/p/10818396.html )
 - [](  )
 - [](  )
 - [](  )
