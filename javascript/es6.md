@@ -545,7 +545,7 @@ let vm = new Vue({
   },
 });
 ~~~
-- []( https://www.cnblogs.com/chenhuichao/p/10818396.html )
+- [vue的双向绑定原理及实现]( https://www.cnblogs.com/chenhuichao/p/10818396.html )
 - [](  )
 - [](  )
 - [](  )
