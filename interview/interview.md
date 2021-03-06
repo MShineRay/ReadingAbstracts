@@ -1,18 +1,27 @@
 # interview
+- 面向对象理解
+- 函数式编程理解
+  - [函数式编程入门教程](http://www.ruanyifeng.com/blog/2017/02/fp-tutorial.html)
+  - [函数式编程指北](https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/)
+  
+- [斐波那契数列](https://www.zhihu.com/question/28062458)
+~~~
+1、递归 也是效率最低的解法，原因是会出现大量的重复计算
+2、递推
+3、矩阵递推关系
 
+~~~
 - [面试的 10 大潜规则，你中招了吗！]( https://mp.weixin.qq.com/s/5Zxp8LBv7SDz9CAtzRWR8A )
 - [2021 年互联网大厂职级对应薪资一览表]( https://mp.weixin.qq.com/s/A2GgBHJNuqn5nyimSOBB0g )
 - [【吐血整理】前端JavaScript高频手写面试大全，助你查漏补缺]( https://mp.weixin.qq.com/s/rvcuCxJj1p0Q0SUEx8WWDg )
-- [面试鹅厂前端全过程分享]( https://mp.weixin.qq.com/s/M50YIH69cDldrcsF7mKRhQ )
+- (已整理)[面试鹅厂前端全过程分享]( https://mp.weixin.qq.com/s/M50YIH69cDldrcsF7mKRhQ )
+    
 ~~~
-合并两个数组
-内存泄漏
-闭包
-面向对象理解
-函数式编程理解
-斐波那契数列？怎么优化？
-http和https区别
-https建立的过程
+
+
+
+
+
 对微服务有什么了解？
 从数组中找出三数之和为n
 对设计有研究吗
@@ -51,17 +60,17 @@ restful接口架构的优缺点？
 restful接口架构会导致什么安全问题，具体怎么解决？
 团队合作有遇到过分歧吗？最后是怎么解决的？有什么事例最后是采取你建议的解决方案？
 ~~~
-- [这些你都会了吗？]( https://mp.weixin.qq.com/s/G9f6_7r62TE-a-vtxApS5w )--已整理
+- (已整理)[这些你都会了吗？]( https://mp.weixin.qq.com/s/G9f6_7r62TE-a-vtxApS5w )
 ~~~
 1.浏览器工作原理
-浏览器的主要组件包括：
-用户界面－ 包括地址栏、后退/前进按钮、书签目录
-浏览器引擎－ 用来查询及操作渲染引擎的接口
-渲染引擎－ 渲染界面:Firefox、Chrome和Safari是基于两种渲染引擎构建的，Firefox使用Geoko——Mozilla自主研发的渲染引擎，Safari和Chrome都使用webkit.
-网络－ 用来完成网络调用，例如http请求
-UI 后端－ 用来绘制类似组合选择框及对话框等基本组件，具有不特定于某个平台的通用接口，底层使用操作系统的用户接口
-JS解释器－ 解释执行JS代码
-数据存储－ 属于持久层，浏览器需要在硬盘中保存类似cookie的各种数据
+  浏览器的主要组件包括：
+  用户界面－ 包括地址栏、后退/前进按钮、书签目录
+  浏览器引擎－ 用来查询及操作渲染引擎的接口
+  渲染引擎－ 渲染界面:Firefox、Chrome和Safari是基于两种渲染引擎构建的，Firefox使用Geoko——Mozilla自主研发的渲染引擎，Safari和Chrome都使用webkit.
+  网络－ 用来完成网络调用，例如http请求
+  UI 后端－ 用来绘制类似组合选择框及对话框等基本组件，具有不特定于某个平台的通用接口，底层使用操作系统的用户接口
+  JS解释器－ 解释执行JS代码
+  数据存储－ 属于持久层，浏览器需要在硬盘中保存类似cookie的各种数据
 
 2.Web安全,举例说明
 3.状态码

@@ -1,13 +1,13 @@
 # js
 - [深入理解 JavaScript 事件循环（一）— event loop]( https://mp.weixin.qq.com/s/TGRvUK1LZJozleXXl_CCdA )
-    ~~~html
+~~~html
     事件循环的运行机制大致分为以下步骤：
     1.检查事件队列是否为空，如果为空，则继续检查；如不为空，则执行 2；
     2.取出事件队列的首部，压入执行栈；
     3.执行任务；
     4.检查执行栈，如果执行栈为空，则跳回第 1 步；如不为空，则继续检查；
-    ~~~
-    ~~~js
+~~~
+~~~js
     var arr = new Array(999);
     arr.fill(1);
     function asyncForEach(array, handler){
@@ -29,13 +29,13 @@
     arr.forEach(function (value, index, arr) {
         console.log(value);
     });
-    ~~~
+~~~
 - [[译] 深入理解 JS 事件循环（二）- task and microtask]( https://mp.weixin.qq.com/s/mCm_wHwqziDhD6Ji7fJXOQ )
-    ~~~html
+~~~html
     setTimeout 的工作原理，其中的延迟并不是完全精确的，这是因为 setTimeout 它会在延迟时间结束后分配一个新的 task 至 event loop 中，而不是立即执行，所以 setTimeout 的回调函数会等待前面的 task 都执行结束后再运行。
-    ~~~
+~~~
 - [为什么要用 setTimeout 模拟 setInterval ？]( https://mp.weixin.qq.com/s/l9tyHzQ0O68m1rzwWCJmMw )
-    ~~~
+~~~
     setInterval 是一个宏任务。
     
     推入任务队列后的时间不准确
@@ -65,18 +65,18 @@
            window.clearSetTimeout(timer);
            timer = null;
          }
-    ~~~
+~~~
 - [10个JavaScript 优化小技巧]( https://mp.weixin.qq.com/s/MtP1FeXLgR9oMEQlUe8WZg )
-    ~~~
+~~~
     宏任务:常见的定时器,用户交互事件等等.（宏任务就是特定的这些个任务,没什么特殊含义）
     微任务:Promise相关任务,MutationObserver等
         - [mutationobserver] ( https://developer.mozilla.org/zh-cn/docs/web/api/mutationobserver )
         - https://www.cnblogs.com/fangdongdemao/p/10262209.html
     
-    ~~~
+~~~
 - [20个常用的JavaScript简写技巧]( https://mp.weixin.qq.com/s/oqzHCj5JUktc0Q_Mpr7JHw )
 - [13个JavaScript单行代码，让你看起来更专业]( https://mp.weixin.qq.com/s/ObCUGgDi5lErEmz68gxp3w )
-    ~~~
+~~~
     document.hidden属性检查当前标签页是否在视图/焦点中。
     
     const isBrowserTabInView = () => document.hidden;
@@ -104,9 +104,9 @@
     const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
     console.log(isAppleDevice);
     // Result: will return true if user is on an Apple device
-    ~~~
+~~~
 - [JS模拟实现数组的map方法]( https://www.cnblogs.com/suihang/p/10535002.html )
-    ~~~
+~~~
     var arr = ["a","b","c","d","e"];
     arr.map(function(currentValue,index,arr){
         console.log("当前元素"+currentValue)　　　　　　　console.log("当前索引"+index)
@@ -125,9 +125,9 @@
 　　　}
 　　　return newArr;
 　  }
-    ~~~
+~~~
 - [GET 和 POST请求的本质区别是什么？原来我一直理解错了]( https://mp.weixin.qq.com/s/JBcnEBSX1RqMnF7DUkU5VA )
-    ~~~
+~~~
     GET在浏览器回退时是无害的，而POST会再次提交请求。
     GET产生的URL地址可以被Bookmark，而POST不可以。
     GET请求会被浏览器主动cache，而POST不会，除非手动设置。
@@ -142,14 +142,14 @@
         对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
         而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
         并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。
-    ~~~
+~~~
 - [前端开发者必会的技能，你都get了吗？]( https://mp.weixin.qq.com/s/YZ1P8rHv2qhrEp6xln6vxw )
-    ~~~
+~~~
     this
     原型、原型链
     继承
     箭头函数
-    ~~~
+~~~
 - [2019 前端面试题汇总（主要为 Vue）]( https://mp.weixin.qq.com/s/wzA-pk4Q0RLHFJCxG48PSg )
 ~~~
 1. 谈谈你对MVVM开发模式的理解
@@ -191,15 +191,15 @@
     jsPDF
 - [写好 JS 条件语句的 5 条守则]( https://mp.weixin.qq.com/s/hqiqcrZSIpLUxguUaGHNHg )
 ~~~
-1.多重判断时使用 Array.includes
-2.更少的嵌套，尽早 return
-3.使用默认参数和解构
-4.倾向于遍历对象而不是 Switch 语句
-5.对 所有/部分 判断使用 Array.every & Array.some
+    1.多重判断时使用 Array.includes
+    2.更少的嵌套，尽早 return
+    3.使用默认参数和解构
+    4.倾向于遍历对象而不是 Switch 语句
+    5.对 所有/部分 判断使用 Array.every & Array.some
 ~~~
 - [20行实现一个Promise]( https://mp.weixin.qq.com/s/oHBv7r6x7tVOwm-LsnIbgA )
 - [一文带你彻底搞懂跨域那些事]( https://mp.weixin.qq.com/s/5PAirlPygGILopm5Br7w9Q )
-    ~~~
+~~~
     同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的重要安全机制。
     一是针对接口的请求
     
@@ -212,16 +212,15 @@
     
     CORS
         
-    ~~~
-- [用9种办法解决 JS 闭包经典面试题之 for 循环取 i]( https://mp.weixin.qq.com/s/b3OnarT84HUSQTWKciQp2w )
+~~~
 
 - [网页大量图片同时加载卡顿问题的优化之旅]( https://mp.weixin.qq.com/s/hvdxP1VvY_IVFha75bE2iA )
-    ~~~
+~~~
     懒加载、预加载
-    ~~~
+~~~
 - (已整理)[总结异步编程的六种方式]( https://mp.weixin.qq.com/s/L2lUCssKkrOwHzZGiLUbCg )
 - (已整理)[js求数组最大值方法]( https://blog.csdn.net/juceli/article/details/90768744 )
-    ~~~
+~~~
     定义一个数组
     
     var arr = [-1, 1, 101, -52, 10, 1001, 1001]
@@ -243,7 +242,7 @@
         arr.reduce((num1, num2) => {
             return num1 > num2 ? num1 : num2}
         )
-    ~~~
+~~~
 - (已整理)[怎么理解js中是原型链? 如何实现继承?]( https://mp.weixin.qq.com/s/GCVuRfOhh2OlSXutEddVsw )
 ~~~
 参考回答:
@@ -271,6 +270,7 @@ new 运算符具体干了什么?
     调用构造函数将this指向前面创建的对象
 ~~~
 - (已整理)[怎么理解js中的内存泄漏?](https://mp.weixin.qq.com/s/EvsKEUJl9a-qvAU6tp24ew  )
+    - [内存泄漏](http://www.ruanyifeng.com/blog/2017/04/memory-leak.html)
 ~~~
 内存泄漏的定义为当程序不再需要的内存，由于某种原因其不会返回到操作系统或可用内存池，内存泄漏会导致一系列问题，
 比如: 运行缓阳，崩溃，高延迟等
@@ -512,7 +512,6 @@ Module
         }
     }
 ~~~
-- [说说你对闭包的理解？闭包使用场景?]( https://mp.weixin.qq.com/s/QqnRoFqlWTrA_4PZPvsJEw )
 - [类数组对象转换为数组的六种方法]( https://www.cnblogs.com/yangai/p/11158693.html )
 - [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
 - (已整理)[前端的缓存有哪些？都适用什么场景？区别是什么？]( https://mp.weixin.qq.com/s/s_9CyjZoeTnWI-HXHxK_Sg )
