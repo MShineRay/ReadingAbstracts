@@ -1,5 +1,5 @@
 # ReadingAbstracts
-  
+  主要存放一些阅读的文章，书籍摘要。。。
 ## TODO
 
 
@@ -9,11 +9,10 @@
 
 
 
-https://mp.weixin.qq.com/s/SG9ioir-ur6vyOvIpxgRJQ
-https://mp.weixin.qq.com/s/lCmlPu4_FMgeDBYrge1ShA
-https://mp.weixin.qq.com/s/uJLjl_ihjJTScT5xepbQXg
-https://mp.weixin.qq.com/s/o-lzO5_quv5oAKtakmEOUw
-https://mp.weixin.qq.com/s/gqbm-yacuF4YG2UzorVy_Q
+
+
+
+
 https://mp.weixin.qq.com/s/etmsaQM3XZcnSWhDjIN-AA
 https://mp.weixin.qq.com/s/0CCcoZP2cbKlWJNmluQUsw
 https://mp.weixin.qq.com/s/3lDnJKH5DFxLeKijlXyPsg

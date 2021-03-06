@@ -516,7 +516,7 @@ Module
 - [类数组对象转换为数组的六种方法]( https://www.cnblogs.com/yangai/p/11158693.html )
 - [JS 函数的 6 个基本术语]( https://mp.weixin.qq.com/s/LR38S8KGd7w7lPS8VOkBuA )
 - (已整理)[前端的缓存有哪些？都适用什么场景？区别是什么？]( https://mp.weixin.qq.com/s/s_9CyjZoeTnWI-HXHxK_Sg )
-  ~~~
+~~~
     前端缓存分为两部分: 
         http 缓存
         浏览器缓存
@@ -554,8 +554,46 @@ Module
             可以看做是一个独立于浏览器的Javascript代理脚本, 在离线状态下也能提供基本的功能。 
             出于安全性的考虑，Service Worker 只能在https协议下使用
 ~~~
-- [](  )
-- [](  )
+
+- [深入理解前端性能监控]( https://mp.weixin.qq.com/s/SG9ioir-ur6vyOvIpxgRJQ )
+- (已整理)[js技巧]( https://mp.weixin.qq.com/s/o-lzO5_quv5oAKtakmEOUw )
+~~~
+日历
+    创建过去七天的数组，如果将代码中的减号换成加号，你将得到未来7天的数组集合
+    [...Array(7).keys()].map(days=>new Date(Date.now()-86400000*days));
+
+
+获取URL的查询参数
+    这个获取URL的查询参数代码
+    
+    ?foo=bar&baz=bing => {foo: bar, baz: bing}
+    
+    q ={};
+    location.search.replace(/([^?&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v);
+    q ;
+
+数组混淆
+    随机更改数组元素顺序，混淆数组
+    function test(arr) {
+    return arr.slice().sort(() => Math.random() - 0.5)
+    }
+    var a = [1,2,3,4,5]
+    var b = test(a)
+    console.log(b)
+    console.log(a)
+    
+数组混淆
+    随机更改数组元素顺序，混淆数组
+    '#' + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0');
+
+数组去重
+    这是一个原生的JS函数但是非常简洁，Set接受任何可迭代对象，如数组[1,2,3,3]，并删除重复项
+    [...new Set(arr)]
+
+创建特定大小的数组
+    方便快捷创建特定大小的数组
+    [...Array(3).keys()]
+~~~
 - [](  )
 - [](  )
 - [](  )
