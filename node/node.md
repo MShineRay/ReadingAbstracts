@@ -1,6 +1,26 @@
 # node
 - (已整理)[为什么要用node.js？](https://mp.weixin.qq.com/s/kDpciMpG8-nyxh-TgTZZPQ)
 - [node主要用来解决什么问题](https://www.zhihu.com/question/33578075/answer/856515535)
+    ~~~
+  node.js有非阻塞，事件驱动I/O等特性，让高并发（high concurrency）在轮询（Polling）和comet构建的应用中成为可能
+    ~~~
+- node做BFF的优点是什么？
+    - [node静态服务器优缺点_Node —— BFF](https://blog.csdn.net/weixin_34164146/article/details/112451601)
+      ~~~
+      Node BFF层，并不完全等同于 BFF 网关，它是微服务里面的一个概念，它只具有 BFF 网关的一部分功能（接口聚合），
+      也可以将它称之为聚合层或者适配层
+     
+      优点
+          利于前后端解耦
+          利于多端适配
+          职能分工明确细化
+          利于提升前端体验和性能
+      缺点
+          增多了数据流链路，不利于排查和定位问题
+          前端增加了开发工作量
+          增加了前后端开发人员的技术要求
+          增加了整体框架的复杂程度
+      ~~~
 - [](  )
 - [](  )
 - [](  )

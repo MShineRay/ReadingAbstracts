@@ -1,5 +1,14 @@
 # front-end
 - [大公司里怎样开发和部署前端代码？]( https://www.zhihu.com/question/20790576 )
+- Vue与React的区别
+  - [Vue与React的区别](https://segmentfault.com/a/1190000018742160)
+  - [vue框架和react框架的区别是什么](https://m.php.cn/article/464234.html)
+    
+    ~~~
+    模板和jsx、状态管理、组件嵌套条件渲染、列表渲染、组件间的通信传值、路由管理
+    1、vue中的数据由data属性在Vue对象中进行管理，react中的数据由state属性管理；
+    2、vue通过slot插槽进行嵌套传递，react通过“props.children”的方式将标签内的部分传递给子组件。
+    ~~~
 - [](  )
 - [](  )
 - [](  )
