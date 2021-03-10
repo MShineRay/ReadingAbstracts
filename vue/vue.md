@@ -130,6 +130,15 @@ setup函数的优点：
 - (已整理)[Vue3.0的设计目标是什么？做了哪些优化?]( https://mp.weixin.qq.com/s/Bj2SRfS5cOuMSucquK3QrA )
 - (已整理)[Vue.js 组件通信精髓归纳]( https://mp.weixin.qq.com/s/cLFsA160PdHyqblrTnxkOw )
 - (已整理)[三招让你成为vue.js大师](  https://mp.weixin.qq.com/s/_jMmznzt8rRph1aEO0yAdQ )
+- vue 知识点
+  ~~~
+  深入Vue组件设计与开发
+  1. 组件设计理念
+  2. 自定义组件的双向绑定
+  3. 组件间通信机制
+  4. 插槽的使用
+  5. provide & inject API
+  ~~~
 - [](  )
 - [](  )
 - [](  )

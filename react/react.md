@@ -2,6 +2,17 @@
 - react fiber架构的理解
     - [手写React的Fiber架构，深入理解其原理](https://www.cnblogs.com/dennisj/p/13183332.html)
     - [深入理解React16之：（一）.Fiber架构](https://www.jianshu.com/p/bf824722b496)
+- react 知识点
+  ~~~
+  React16 虚拟dom 原理剖析
+  1. createElement如何构建虚拟dom
+  2. React.Component如何实现组件化
+  3. setState异步队列
+  4. dom的diff算法
+  5. render渲染逻辑
+  6. React16 fiber架构
+  7. React Hooks
+  ~~~
 - [](  )
 - [](  )
 - [](  )
