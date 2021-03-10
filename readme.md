@@ -214,6 +214,8 @@ B
 ## [brower](./browser/browser.md)
 
 C
+## [css](./compatibility/compatibility.md)
+## [chrome](./chrome/chrome.md)
 ## [css](./css/css.md)
 
 D
@@ -241,6 +243,7 @@ J
 K
 
 L
+## [learn](./learn/learn.md)
 
 
 M
@@ -265,7 +268,7 @@ R
 ## [RegExp](./javascript/RegExp.md)
 
 S
-## [scoll](./scoll/scoll.md)
+## [scoll](./scroll/scroll.md)
 
 T
 ## [tools](./tools/tools.md)
