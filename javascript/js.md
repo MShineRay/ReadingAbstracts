@@ -592,8 +592,19 @@ Module
 创建特定大小的数组
     方便快捷创建特定大小的数组
     [...Array(3).keys()]
+   
 ~~~
 - [](  )
+  ~~~
+  取出一个数组中的最大值和最小值
+    var numbers = [5, 458 , 120 , -215 , 228 , 400 , 122205, -85411]; 
+    var maxInNumbers = Math.max.apply(Math, numbers);
+    var minInNumbers = Math.min.apply(Math, numbers);
+  
+  将argruments对象转换成数组
+    var argArray = Array.prototype.slice.call(arguments);
+    或者ES6：var argArray = Array.from(arguments)
+  ~~~
 - [](  )
 - [](  )
 - [](  )
