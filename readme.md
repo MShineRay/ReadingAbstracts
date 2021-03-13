@@ -1,5 +1,12 @@
 # ReadingAbstracts
+
   主要存放一些阅读的文章，书籍摘要。。。
+## summary
+ - 学习一门技术
+   - 了解底层实现原理
+   - 了解应用场景
+   - 有何利弊
+   - 周边配套（文档、社区）
 ## TODO
 
 
@@ -15,13 +22,7 @@
 
 
 
-https://mp.weixin.qq.com/s/rkHop5837rK-NIlMcXBIHQ
-https://mp.weixin.qq.com/s/OzKwKeNG-BGPDIRJsgMnZg
-https://mp.weixin.qq.com/s/jIx2s6Oh6R4vYLyd3RpAMA
-https://mp.weixin.qq.com/s/PvRIx3jBG48R6qzgTt2lpQ
-https://mp.weixin.qq.com/s/vRz9bIsqdxaboNc_oxZ6pw
-https://mp.weixin.qq.com/s/ytdYxwYFkzhDnTXZYsTKMw
-https://mp.weixin.qq.com/s/ZZVDkpqLj3CUXgLiaA77lA
+
 https://mp.weixin.qq.com/s/l2I0OBZoXUD9jy98NYlxdA
 https://mp.weixin.qq.com/s/C4c6c02XAsngCki1hlouRQ
 https://mp.weixin.qq.com/s/rE4f-zxt1lha4OCOYbsnJw
@@ -300,11 +301,12 @@ Z
 
 
 
-
+## 
 
 
 
 ## reference
+ 
    - 可以作为参考书单阅读
    - 参考个人读后总结，评估是否值得阅读 
    

@@ -1,5 +1,47 @@
 # vue
-
+- 双向绑定
+  ~~~
+  vue 实现数据双向绑定主要是：采用数据劫持结合“发布者 - 订阅者”模式的方式，通过 Object.defineProperty() 来劫持各个属性的 setter、 getter，
+  在数据变动时发布消息给订阅者，触发相应监听回调。
+  
+  解释单向数据流和双向数据绑定
+    单向数据流：
+      数据流是单向的。数据流动方向可以跟踪，流动单一，追查问题的时候可以更快捷。
+      缺点就是写起来不太方便。要使 UI 发生变更就必须创建各种 action 来维护对应的 state。
+  
+    双向数据绑定：
+      数据之间是相通的，将数据变更的操作隐藏在框架内部。
+      优点是在表单交互较多的场景下，会简化大量与业务无关的代码。
+      缺点就是无法追踪局部状态的变化，增加了出错时 debug 的难度。
+  
+  
+  对比 jQuery ，Vue 有什么不同
+    jQuery 专注视图层，通过操作 DOM 去实现页面的一些逻辑渲染； Vue 专注于数据层，通过数据的双向绑定，
+    最终表现在 DOM 层面，减少了 DOM 操作。
+    Vue 使用了组件化思想，使得项目子集职责清晰，提高了开发效率，方便重复利用，便于协同开发。
+  
+  17. Vue 中 key 的作用
+    key 的特殊属性主要用在 Vue 的虚拟 DOM 算法，在新旧 nodes 对比时辨识 VNodes。如果不使用 key，Vue 
+    会使用一种最大限度减少动态元素并且尽可能的尝试修复/再利用相同类型元素的算法。使用 key，它会基于 key 
+    的变化重新排列元素顺序，并且会移除 key 不存在的元素。
+    
+    有相同父元素的子元素必须有独特的 key。重复的 key 会造成渲染错误。
+    
+    具体参考官方API(https://cn.vuejs.org/v2/api/#key)。
+  
+  18. Vue 的核心是什么
+    数据驱动、组件系统。
+  
+  19. Vue 等单页面应用的优缺点
+      优点
+        良好的交互体验
+        良好的前后端工作分离模式
+        减轻服务器压力
+      缺点
+        SEO 难度较高
+        前进、后退管理
+        初次加载耗时多
+  ~~~
 ### vue
 - [面试官：Vue3.0的设计目标是什么？做了哪些优化?]( https://mp.weixin.qq.com/s/Qn9lJD7wlw8z9hNle4XJOQ )
     ~~~
@@ -63,17 +105,17 @@
   
   ~~~
 - [面试官：Vue3.0 性能提升主要是通过哪几方面体现的？]( https://mp.weixin.qq.com/s/8NaPkJQUTF-T7MegVOLp2g )
-~~~
-Vue3在编译阶段，做了进一步优化。主要有如下：
-diff算法优化
-    vue3在diff算法中相比vue2增加了静态标记
-    关于这个静态标记，其作用是为了会发生变化的地方添加一个flag标记，下次发生变化的时候直接找该地方进行比较
-静态提升
-    Vue3中对不参与更新的元素，会做静态提升，只会被创建一次，在渲染时直接复用
-    这样就免去了重复的创建节点，大型应用会受益于这个改动，免去了重复的创建操作，优化了运行时候的内存占用
-事件监听缓存
-SSR优化
-~~~
+  ~~~
+  Vue3在编译阶段，做了进一步优化。主要有如下：
+  diff算法优化
+      vue3在diff算法中相比vue2增加了静态标记
+      关于这个静态标记，其作用是为了会发生变化的地方添加一个flag标记，下次发生变化的时候直接找该地方进行比较
+  静态提升
+      Vue3中对不参与更新的元素，会做静态提升，只会被创建一次，在渲染时直接复用
+      这样就免去了重复的创建节点，大型应用会受益于这个改动，免去了重复的创建操作，优化了运行时候的内存占用
+  事件监听缓存
+  SSR优化
+  ~~~
 - [Vue.js 父子组件通信的十种方式]( https://mp.weixin.qq.com/s/LQoPWxOrLz0al4piQ6rxUQ )
     ~~~
     Prop（常用）
@@ -111,17 +153,16 @@ SSR优化
     
     $root
         https://cn.vuejs.org/v2/guide/components-edge-cases.html#%E8%AE%BF%E9%97%AE%E7%88%B6%E7%BA%A7%E7%BB%84%E4%BB%B6%E5%AE%9E%E4%BE%8B
-
     ~~~
 - [使用 Vue与React 创建同一款 App，差别究竟有多大？]( https://mp.weixin.qq.com/s/JQU22X17xW0zGbgWs9lL3g )
 - [[译]Vue 最黑暗的一天]( https://mp.weixin.qq.com/s/x2NLAJ2Iv8rjiqrrxGePSw )（已整理）
-~~~
-setup函数的优点：
-很容易把相关的东西放到一起；（更聚合）
-通过查看 setup 函数的返回值，很容易地知道模板中可以获取什么变量；（利于维护）
-避免暴露模板不需要获取的内部状态（touched）。（利于维护）
-新语法有Typescript 支持，在 Vue 2.x 基于对象的语法中很难实现，轻易地把可重用的逻辑提取为可重用的函数。（更复用）
-~~~
+  ~~~
+  setup函数的优点：
+  很容易把相关的东西放到一起；（更聚合）
+  通过查看 setup 函数的返回值，很容易地知道模板中可以获取什么变量；（利于维护）
+  避免暴露模板不需要获取的内部状态（touched）。（利于维护）
+  新语法有Typescript 支持，在 Vue 2.x 基于对象的语法中很难实现，轻易地把可重用的逻辑提取为可重用的函数。（更复用）
+  ~~~
 - [Vue源码解析之深度剖析computed属性]( https://mp.weixin.qq.com/s/7-SGo2k-JJxm-jply0gfDQ )(已整理至doc)
 - (已整理)[【PPT】尤雨溪：State of Vue]( https://mp.weixin.qq.com/s/i9crL64Rywkk1tKyJqvtLg )
 - (已整理)[尤雨溪 6 月 4 日的 Vue 技术分享]( https://mp.weixin.qq.com/s/EKKBg0K0YyA0S1G0deJj_Q )
@@ -139,8 +180,8 @@ setup函数的优点：
   4. 插槽的使用
   5. provide & inject API
   ~~~
-- [](  )
-- [](  )
+- [深入 Vue 响应式原理，活捉一个 MVVM]( https://mp.weixin.qq.com/s/OzKwKeNG-BGPDIRJsgMnZg )
+- [Vue 前端面试题]( https://mp.weixin.qq.com/s/PvRIx3jBG48R6qzgTt2lpQ )
 - [](  )
 - [](  )
 - [](  )
