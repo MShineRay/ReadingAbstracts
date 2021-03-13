@@ -23,8 +23,6 @@
 
 
 
-https://mp.weixin.qq.com/s/l2I0OBZoXUD9jy98NYlxdA
-https://mp.weixin.qq.com/s/C4c6c02XAsngCki1hlouRQ
 https://mp.weixin.qq.com/s/rE4f-zxt1lha4OCOYbsnJw
 https://mp.weixin.qq.com/s/mq-uIODJTDHMVRAC0dsyEQ
 https://mp.weixin.qq.com/s/yN7PbvAHUH7SQsy5t0g49A
@@ -202,7 +200,6 @@ https://mp.weixin.qq.com/s/pnjZwn9OymwoWYBB1uzj8g
 https://mp.weixin.qq.com/s/kYQXy1EFa4TdnIxGVE9SLQ
 - https://mp.weixin.qq.com/s/gAYXADZAE6ciMM7ioM3U4A
 https://mp.weixin.qq.com/s/YQ12g31oE0vRGlpYwLCLzA
- https://mp.weixin.qq.com/s/mRsg3LlK5Dfja4qmnwUPZQ
    
 
 A
@@ -268,7 +265,8 @@ R
 ## [RegExp](./javascript/RegExp.md)
 
 S
-## [scoll](./scroll/scroll.md)
+## [scroll](./scroll/scroll.md)
+## [small routine](./small routine/small routine.md)
 
 T
 ## [tools](./tools/tools.md)

@@ -605,7 +605,65 @@ Module
     var argArray = Array.prototype.slice.call(arguments);
     或者ES6：var argArray = Array.from(arguments)
   ~~~
-- [](  )
+- [数组](https://mp.weixin.qq.com/s/C4c6c02XAsngCki1hlouRQ)
+  ~~~
+  1.扁平化n维数组
+    [1 ,[2, 3]].flat(2)//[1,2,3]
+    [1,[2,3,[4,5]].flat(3)//[1,2,3,4,5]
+    [1[2,3,[4,5[...]].flat(Infinity)//[1,2,3,4...n]
+    Array.flat(n)是ES10扁平数组的api， n表示维度， n值为 Infinity时维度为无限大。
+  
+    function flatten(arr) {      
+       while(arr.some(item=>Array.isArray(item))) {       
+            arr = [].concat(...arr);      
+       }      
+       return arr;   
+    }    
+    flatten([1,[2,3]]) //[1,2,3]   
+    flatten([1,[2,3,[4,5]]) //[1,2,3,4,5]
+    
+    实质是利用递归和数组合并方法 concat实现扁平。
+  2.去重
+      Array.from(new Set([1,2,3,3,4,4])) //[1,2,3,4]
+      [...new Set([1,2,3,3,4,4])] //[1,2,3,4]
+      set是ES6新出来的一种一种定义不重复数组的数据类型。
+      Array.from是将类数组转化为数组。
+      ...是扩展运算符，将set里面的值转化为字符串。
+      Array.prototype.distinct = function(){  
+       var arr = this, result = [],i, j, len = arr.length;   
+       for(i = 0; i < len; i++){    
+           for(j = i + 1; j < len; j++){      
+            if(arr[i] === arr[j]){       
+             j = ++i;     
+            }     
+           }     
+           result.push(arr[i]);     
+        }     
+        return result;  
+       }    
+       [1,2,3,3,4,4].distinct(); //[1,2,3,4]
+    取新数组存值，循环两个数组值相比较
+  3.排序
+  [1,2,3,4].sort(); // [1, 2,3,4],默认是升序    
+  [1,2,3,4].sort((a, b) => b - a); // [4,3,2,1] 降序
+  sort是js内置的排序方法,参数为一个函数
+  
+  Array.prototype.bubleSort=function () {       
+        let arr=this,         
+            len = arr.length;
+        for (let outer = len; outer >= 2; outer--) {       
+            for (let inner = 0; inner <= outer - 1; inner++) {       
+                if (arr[inner] > arr[inner + 1]) {      //升序          
+                    [arr[inner], arr[inner + 1]] = [arr[inner + 1], arr[inner]];             
+                    console.log([arr[inner], arr[inner + 1]]);        
+                }      
+            }
+        }
+        
+        return arr;    
+    }    
+    [1,2,3,4].bubleSort() //[1,2,3,4]
+  ~~~
 - [](  )
 - [](  )
 - [](  )

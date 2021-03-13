@@ -18,7 +18,7 @@
 6.自动化测试、发布、运维
 ~~~
 - [2019前端工程师自检清单与思考]( https://mp.weixin.qq.com/s/qJzuIjDnsSKbTDwXkRqNZg )
-- [](  )
+- [淘宝首页兜底容灾方案]( https://mp.weixin.qq.com/s/mRsg3LlK5Dfja4qmnwUPZQ )
 - [](  )
 - [](  )
 - [](  )
