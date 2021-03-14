@@ -648,6 +648,7 @@ Module
   [1,2,3,4].sort((a, b) => b - a); // [4,3,2,1] 降序
   sort是js内置的排序方法,参数为一个函数
   
+  冒泡排序：
   Array.prototype.bubleSort=function () {       
         let arr=this,         
             len = arr.length;
@@ -663,6 +664,28 @@ Module
         return arr;    
     }    
     [1,2,3,4].bubleSort() //[1,2,3,4]
+  
+    选择排序：
+    Array.prototype.selectSort=function () {      
+      let arr=this,                
+      len = arr.length;          
+        for (let i = 0, len = this.arr.length; i < len; i++) {        
+            for (let j = i, len = this.arr.length; j < len; j++) {          
+                if (this.arr[i] > this.arr[j]) {            
+                    [this.arr[i], this.arr[j]] = [this.arr[j], this.arr[i]];          
+                }        
+            }      
+        }            
+        return arr;          
+    }        
+    [1,2,3,4].selectSort() //[1,2,3,4]
+  
+  4.最大值
+    Math.max(...[1,2,3,4]) //4    
+    Math.max.apply(this,[1,2,3,4]) //4    
+    [1,2,3,4].reduce( (prev, cur,curIndex,arr)=> {    
+        return Math.max(prev,cur);    
+    },0) //4
   ~~~
 - [](  )
 - [](  )

@@ -211,8 +211,8 @@ B
 ## [brower](./browser/browser.md)
 
 C
-## [css](./compatibility/compatibility.md)
 ## [chrome](./chrome/chrome.md)
+## [compatibility](./compatibility/compatibility.md)
 ## [css](./css/css.md)
 
 D
