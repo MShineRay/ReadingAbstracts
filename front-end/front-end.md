@@ -19,8 +19,8 @@
 ~~~
 - [2019前端工程师自检清单与思考]( https://mp.weixin.qq.com/s/qJzuIjDnsSKbTDwXkRqNZg )
 - [淘宝首页兜底容灾方案]( https://mp.weixin.qq.com/s/mRsg3LlK5Dfja4qmnwUPZQ )
-- [](  )
-- [](  )
+- [从软件工程角度看大前端技术栈]( https://mp.weixin.qq.com/s/gAYXADZAE6ciMM7ioM3U4A )
+- [H5 与 Native 交互之 JSBridge 技术]( https://mp.weixin.qq.com/s/kYQXy1EFa4TdnIxGVE9SLQ )
 - [](  )
 - [](  )
 - [](  )
