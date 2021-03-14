@@ -222,6 +222,7 @@ D
 E
 
 F
+
 ##[flutter](./flutter/flutter.md)
 ##[front-end](./front-end/front-end.md)
 
@@ -266,7 +267,7 @@ R
 
 S
 ## [scroll](./scroll/scroll.md)
-## [small routine](./small routine/small routine.md)
+## [small-routine](./small-routine/small-routine.md)
 
 T
 ## [tools](./tools/tools.md)
