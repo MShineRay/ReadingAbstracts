@@ -21,7 +21,7 @@
 - [淘宝首页兜底容灾方案]( https://mp.weixin.qq.com/s/mRsg3LlK5Dfja4qmnwUPZQ )
 - [从软件工程角度看大前端技术栈]( https://mp.weixin.qq.com/s/gAYXADZAE6ciMM7ioM3U4A )
 - [H5 与 Native 交互之 JSBridge 技术]( https://mp.weixin.qq.com/s/kYQXy1EFa4TdnIxGVE9SLQ )
-- [](  )
+- [腾讯祭出大招VasSonic，让你的H5页面首屏秒开！]( https://mp.weixin.qq.com/s?__biz=MTEwNTM0ODI0MQ==&mid=2653434532&idx=1&sn=ff3bfd9f72407188f45a6cffa818b4fc&chksm=7201235a4576aa4ce904038c219740a3fc386dac6fd5faf134a772d238b69a9a0989a6fb103b&mpshare=1&srcid=0819P9FGjlysIWatHJC3ghSN&scene=21#wechat_redirect )
 - [](  )
 - [](  )
 - [](  )
