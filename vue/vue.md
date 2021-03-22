@@ -186,7 +186,11 @@
 	~~~
 	
 	~~~
-- [](  )
+- [Vue中mixin怎么理解]( https://mp.weixin.qq.com/s/pwESXATpHa9TcrasFujGlg )
+  ~~~
+  值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。两个对象键名冲突时，
+  取组件对象的键值对,Vue.extend() 也使用同样的策略进行合并。
+  ~~~
 - [](  )
 - [](  )
 - [](  )

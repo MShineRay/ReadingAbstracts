@@ -484,7 +484,147 @@ vue 和 react 组件通信
 ~~~
 - [](  )
   ~~~
+  css实现图片自适应宽高
+
+  讲flex，手写出flex常用的属性，并且讲出作用
+  
+  BFC是什么
+  
+  项目里面的前端鉴权是怎么实现的？
+  
+  vue里面的虚拟dom是怎么回事？
+  
+  vue双向绑定讲一讲
+  
+  手写函数防抖和函数节流
+  
+  讲讲常用的es6语法，比如let、promise、class等等
+  
+  浏览器渲染过程，回流重绘等等，load、DOMContentLoaded等等事件的触发顺序
+  
+  讲项目里面的鉴权和图片懒加载怎么实现的
+
+  讲vue-lazyloader的原理，手写伪代码
+  
+  讲express框架的设计思想
+  
+  线上日志是如何处理的
+  
+  讲事件循环
+  
+  讲nodejs的eventEmitter的实现
+  讲vue的响应式原理、依赖收集、监听数组、虚拟dom等等
+
+  讲express的中间件系统是如何设计的
+  
+  讲vue-lazyloader源码以及设计
+
+  使用es5实现es6的class
+  
+  websocket握手过程
+  
+  浏览器的事件循环和nodejs事件循环的区别
+  
+  跨域以及解决办法
+
+  JavaScript的sort方法内部使用的什么排序？
+  
+  vue原理，和react的区别（其实我没怎么用过react）
+
+  JavaScript异步的处理方式，现场出了一个问题，使用promise实现
+  
   HTML5新增了哪些内容或API，使用过哪些
+  
+  
+  前端持久化的方式、区别
+
+  vue-lazyloader的原理
+  
+  怎么配webpack
+  
+  手写vue双向绑定
+  
+  讲es6的一些特性，并且现场出了几个代码片段，说结果
+  
+  手写一道算法题
+  
+  http状态码
+  
+  
+  vue-router的原理
+
+  项目中怎么用的webpack，怎么优化
+  
+  讲express的设计原理
+  
+  手动实现parseInt
+  
+  讲tcp/ip网络层、三次握手，为什么不能两次握手
+
+  讲vue原理
+  
+  手写vue的mixin方法
+
+  手写promise的all方法
+  
+  怎么判断一个点是否在圆形内、正方形内
+  
+  
+  
+  vue响应式原理，什么是mvvm
+
+  es6使用过的特性
+  
+  flex常见的属性
+  
+  css选择器的优先级
+  
+  抽取过哪些vue组件
+  
+  实现一个事件发布订阅类，其实就是eventEmitter
+  
+  事件循环
+  
+  回调函数的坏处
+  
+  vue里面哪儿不会用到双向绑定
+  
+  
+  如何抽取公共组件的
+  
+  讲lazyloader实现
+
+  用docker做了什么
+  
+  用webpack做了什么
+  
+  用JavaScript的异步实现sleep函数
+  
+  手写快排，时间复杂度，优化
+
+  手写实现jsonp
+  
+  项目部署，线上问题等等
+  
+  websocket握手过程
+  
+  
+  
+  websocket握手过程
+
+  tcp/ip网络层，http的特点
+  
+  http强行使用udp能实现吗？
+  
+  vue原理
+  
+  webpack热更新原理，使用过的插件
+  
+  原型、闭包、跨域
+  如何实现一个可设置过期时间的localStorage
+  
+  实现一个发布订阅系统，包括on、emit、off等等
+  
   input和textarea的区别
   
   用一个div模拟textarea的实现
