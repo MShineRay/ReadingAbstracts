@@ -1,8 +1,19 @@
-# small routine
+# small routine 小程序
 
 - [你可能不知道的小程序运行机制]( https://mp.weixin.qq.com/s/ZZVDkpqLj3CUXgLiaA77lA )
 - [小程序多端框架全面测评]( https://mp.weixin.qq.com/s/l2I0OBZoXUD9jy98NYlxdA )
-- [](  )
+- [小程序页面之间如何通信]( https://mp.weixin.qq.com/s/q5Xz7cH0-QsRi67CaloTGA )
+  ~~~
+    首先将通信的模型列举出来, 分为以下几种
+        兄弟页面间通信
+        父路径页面向子路径页面通信
+        子路径页面向父路径页面通信
+    通信的方式
+        localStorage 本地存储
+        globalData 全局对象
+        eventBus 发布订阅
+        PageModel 缓存整个pageModel至globalData
+  ~~~
 - [](  )
 - [](  )
 - [](  )

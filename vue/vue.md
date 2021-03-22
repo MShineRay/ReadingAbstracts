@@ -182,7 +182,10 @@
   ~~~
 - [深入 Vue 响应式原理，活捉一个 MVVM]( https://mp.weixin.qq.com/s/OzKwKeNG-BGPDIRJsgMnZg )
 - [Vue 前端面试题]( https://mp.weixin.qq.com/s/PvRIx3jBG48R6qzgTt2lpQ )
-- [](  )
+- [Vue.js开源项目](https://github.com/Zulko/eagle.js )
+	~~~
+	
+	~~~
 - [](  )
 - [](  )
 - [](  )
