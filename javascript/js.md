@@ -696,9 +696,31 @@
   });
   ~~~
   
-- [](  )
+- [三个值得期待的JavaScript新特性！]( https://mp.weixin.qq.com/s/d3yVkcDeyGykIfZVDJMPYQ )
 
-- [](  )
+- (已整理)[帮你写好简洁JS代码的9条建议]( https://mp.weixin.qq.com/s/8VhcDE5BlJTQBHfOiRaBiQ )
+  ~~~
+  && ：返回第一个值为假的表达式的值。如果不存在，则返回最后一个值为真的值。
+  || ：返回第一个值为假的表达式的值。如果不存在，则返回最后一个值为假的值。
+    console.log(0 && {a: 1}) // 0
+    console.log(false && 'a') // false
+    console.log('2' && 5) // 5
+    console.log([] || false) // []
+    console.log(NaN || null) // null
+    console.log(true || 'a') // true
+  
+  链式操作
+    你遇到过这个问题吗？在访问嵌套对象的属性时，无法事先确定对象的属性是否存在？：
+    let data
+    if(myObj && myObj.firstProp && myObj.firstProp.secondProp && myObj.firstProp.secondProp.actualData) data = myObj.firstProp.secondProp.actualData
+
+    这段代码很荒谬，我们还有更好的办法，至少是在建议中的办法（下面说了怎样启用该办法）。这个办法称为optional 
+    chaining，用法如下：
+    const data = myObj?.firstProp?.secondProp?.actualData
+    用这个方法检查嵌套属性非常流畅，代码也能变得更干净。
+    目前，optional chaining还不是官方标准的一部分，但它是个stage-1的实验性功能。
+    需要在babelrc中加入@babel/plugin-proposal-optional-chaining来启用它。
+  ~~~
 - [](  )
 - [](  )
 - [](  )
