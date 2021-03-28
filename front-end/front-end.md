@@ -183,7 +183,7 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [2019 - Web开发技术指南和趋势]( https://mp.weixin.qq.com/s/XY36_YmpG-AfNPGp4RLmlQ )
 - [前端与编译原理：用 JS 写一个 JS 解释器]( https://mp.weixin.qq.com/s/-N1TlfFsk_Ahxn5NGKSpdw )
   ~~~
   JS编译器有 babylon， acorn
