@@ -184,7 +184,10 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [前端与编译原理：用 JS 写一个 JS 解释器]( https://mp.weixin.qq.com/s/-N1TlfFsk_Ahxn5NGKSpdw )
+  ~~~
+  JS编译器有 babylon， acorn
+  ~~~
 - (已整理)[从不同角度看前端]( https://mp.weixin.qq.com/s/yosssjBOpLEy1rbjUTeQAQ )
   ~~~
   前端领域：

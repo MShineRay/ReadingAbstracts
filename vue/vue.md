@@ -290,8 +290,19 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
-- [](  )
+- [Vue.js 父子组件通信的十种方式 ]( https://mp.weixin.qq.com/s/0u0D-Ge8RaTjdFPlkHmOvw)
+  ~~~
+  Prop（常用）
+    父子组件之间的数据传递相当于自上而下的下水管子，只能从上往下流，不能逆流。这也正是 Vue 的设计理念之单向数据流。而 Prop 正是管道与管道之间的一个衔接口，这样水（数据）才能往下流
+  $emit (组件封装用的较多)
+  
+  .sync语法糖 （较少）
+  
+  $attrs 和 $listeners (组件封装用的较多)
+  
+  provide 和 inject （高阶组件/组件库用的较多）
+  ~~~
+- [使用 Vue与React 创建同一款 App，差别究竟有多大？]( https://mp.weixin.qq.com/s/Gki-obuobfHI-Xh2NlcHBA )
 - (已整理)[vue.js面试中常问知识点整理]( https://mp.weixin.qq.com/s/1j6pkj8AWOl-r3xQejZm7Q )
   ~~~
   对于MVVM的理解？

@@ -806,6 +806,56 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
-- [](  )
-- [](  )
+- [JavaScript 浅拷贝与深拷贝](https://mp.weixin.qq.com/s/kwaDvzAMHFNG1kssMXq2wQ )
+  ~~~
+  深拷贝：手写递归方法
+  //定义检测数据类型的功能函数
+  function checkedType(target) {
+    return Object.prototype.toString.call(target).slice(8, -1)
+  }
+  
+  //实现深度克隆---对象/数组
+  function clone(target) {
+    //判断拷贝的数据类型
+    // 初始化变量result 成为最终克隆的数据
+    let result, targetType = checkedType(target)
+    if (targetType === 'object') {
+      result = {}
+    } else if (targetType === 'Array') {
+      result = []
+    } else {
+      return target
+    }
+    //遍历目标数据
+    for (let i in target) {
+      //获取遍历数据结构的每一项值。
+      let value = target[i]
+      //判断目标结构里的每一值是否存在对象/数组
+      if (checkedType(value) === 'Object' || checkedType(value) === 'Array') {
+        //对象/数组里嵌套了对象/数组
+        // 继续遍历获取到value值
+        result[i] = clone(value)
+      } else {
+        //获取到value值是基本的数据类型或者是函数。
+        result[i] = value;
+      }
+    }
+    return result
+  }
+  ~~~
+  
+- (已整理)[写好 JS 条件语句的 5 条守则]( https://mp.weixin.qq.com/s/tHlJbnlh44PQNMLi95zR7Q)
+  ~~~
+  1.多重判断时使用 Array.includes
+  2.更少的嵌套，尽早 return
+  3.使用默认参数和解构
+  4.倾向于遍历对象而不是 Switch 语句
+  5.对 所有/部分 判断使用 Array.every & Array.some
+  ~~~
+- [闭包、异步代码、es6]( https://mp.weixin.qq.com/s/IKAZ0eGcvTmWOsr_kAd1LQ )
+  ~~~
+  // 模拟其他语言中的 sleep，实际上可以是任何异步操作
+  const sleep = (timeountMS) => new Promise((resolve) => {
+      setTimeout(resolve, timeountMS);
+  });
+  ~~~
