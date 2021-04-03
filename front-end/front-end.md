@@ -182,7 +182,57 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [](https://mp.weixin.qq.com/s/gJeIM5V3QQItkdlOYTeIuw)
+  ~~~
+  “开闭原则”
+	软件系统应当对扩展开放，对修改封闭
+	开闭原则就是：软件系统的核心逻辑都不应该轻易改变，否则会破坏系统的稳定性和增加测试成本。我们应当建立合适的抽象并统一接口，当业务需要扩展时，我们可以通过增加实体类来完成。
+	
+	“开闭原则”在前端框架中的应用： Ant Design 组件库中的 Form 表单组件。
+	和其它组件不同，Form 组件并没有具体的形态，它更像是一个容器，提供了接入的标准，并提供了校验、表单提交等功能。
+	
+	Single Responsibility Principle 单一责任原则
+	
+	The Open Closed Principle 开放封闭原则
+	
+	The Liskov Substitution Principle 里氏替换原则
+	
+	The Dependency Inversion Principle 依赖倒置原则
+	
+	The Interface Segregation Principle 接口分离原则
+  “函数式编程”
+	函数为“一等公民”
+	
+	模块化、组合
+	
+	引用透明避免状态改变
+	
+	避免共享状态
+	
+	分别实现数组所有元素相加、相乘、相与:
+		var ops = { 
+		  "plus": (x,y)=>x+y,
+		  "mul" : (x,y)=>x*y,
+		  "and" : (x,y)=>x&y
+		}
+		
+		function operation(op, array) {
+		  return array.slice(1).reduce(ops[op], array[0]);
+		} 
+		operation("plus", array);
+		operation("mul",  array);
+		operation("and",  array);
+		
+		
+	React 其实是应用数据对UI的一种映射，不同的数据会映射出不同样式的 UI 界面，我们可以得出如下的表达式：
+		$UI = React(data)$
+	React 的本质其实是一种函数，并且还是符合 FP 要求的“引用透明”函数。所谓“引用透明”就是指函数的输出仅依赖函数参数，不受任何外部环境影响。这样的函数可测试性强，也非常容易进行组合。
+	在 React 的体系下，任何组件都可由一个个更小的组件构成，每个组件都只关心自己的输入，他们不断地接受新的数据并输出对应的新的UI界面。React 框架中常用的“高阶组件”可以看作引用透明”函数的组合模式。
+	在具体业务中我们通常还需要权衡 React 组件的复用性和开发体验，如果组件被拆分的过于细，固然复用性会提升，但文件数量会增加，对应的文档和沟通成本也会增加，这也是 FP 在实践过程中经常遭人诟病的点，即复用性提升后带来的额外开发成本。
+  
+  “消息机制”
+	使用消息机制最大的好处在于可以做到业务模块间安全解耦，模块间通过发送消息的方式进行协作
+  ~~~
 - [2019 - Web开发技术指南和趋势]( https://mp.weixin.qq.com/s/XY36_YmpG-AfNPGp4RLmlQ )
 - [前端与编译原理：用 JS 写一个 JS 解释器]( https://mp.weixin.qq.com/s/-N1TlfFsk_Ahxn5NGKSpdw )
   ~~~

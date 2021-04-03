@@ -805,7 +805,103 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- (已整理)[你（可能）不知道的web api]( https://mp.weixin.qq.com/s/LPkUzNIDZAFWt5ckdN2crg )
+  ~~~
+  page lifecycle
+	document.visibitilityState来监听网页可见度，是否卸载，但是在手机和电脑上都会现这种情况，就是比如说页面打开过了很久没有打开，这时你看在浏览器的tab页中看着是可以看到内容的，但是点进去却需要加载。chrome68添加了 freeze和 resume事件，来完善的描述一个网页从加载到卸载，包括浏览器停止后台进程，释放资源各种生命阶段。从一个生命周期阶段到另外一个生命周期阶段会触发不同的事件，比如onfocus，onblur，onvisibilitychange，onfreeze等等，通过这些事件我们可以相应网页状态的转换。
+	window.addEventListener('blur',() => {})
+	window.addEventListener('visibilitychange',() => {
+	    // 通过这个方法来获取当前标签页在浏览器中的激活状态。
+	    switch(document.visibilityState){
+	        case'prerender': // 网页预渲染 但内容不可见
+	        case'hidden':    // 内容不可见 处于后台状态，最小化，或者锁屏状态
+	        case'visible':   // 内容可见
+	        case'unloaded':  // 文档被卸载
+	    }
+	});
+  
+  onlineState
+	window.addEventListener('online',onlineHandler)
+	window.addEventListener('offline',offlineHandler)
+  
+  Vibration（震动）
+	  / 可以传入一个大于0的数字，表示让手机震动相应的时间长度，单位为ms
+	  navigator.vibrate(100)
+	  // 也可以传入一个包含数字的数组，比如下面这样就是代表震动300ms，暂停200ms，震动100ms，暂停400ms，震动100ms
+	  navigator.vibrate([300,200,100,400,100])
+	  // 也可以传入0或者一个全是0的数组，表示暂停震动
+	  navigator.vibrate(0)
+  
+  利用deviceOrientation制作一个随着手机旋转的正方体
+	window.addEventListener('deviceorientation',e => {
+	    console.log('Gamma:',e.gamma);
+	    console.log('Beta:',e.beta);
+	    console.log('Alpha:',e.Alpha);
+	})
+  
+  battery status
+	// 首先去判断当前浏览器是否支持此API
+	if ('getBattery' in navigator) {
+	    // 通过这个方法来获取battery对象
+	    navigator.getBattery().then(battery => {
+	    // battery 对象包括中含有四个属性
+	    // charging 是否在充电
+	    // level   剩余电量
+	    // chargingTime 充满电所需事件
+	    // dischargingTime  当前电量可使用时间
+	    const { charging, level, chargingTime, dischargingTime } = battery;
+	    // 同时可以给当前battery对象添加事件  对应的分别时充电状态变化 和 电量变化
+	    battery.onchargingchange = ev => {
+	        const { currentTarget } = ev;
+	        const { charging } = currentTarget;
+	    };
+	    battery.onlevelchange = ev => {
+	        const { currentTarget } = ev;
+	        const { level } = ev;
+	    }
+	    })
+	} else {
+	    alert('当前浏览器不支持~~~')
+	}
+	
+  custom event
+	let dom = document.querySelector('#app');
+	// 绑定事件， 传递过来的值可以通过ev.detail 来获取
+	dom.addEventListener('log-in',(ev) => {
+	    const { detail } = ev;
+	    console.log(detail);  // hello
+	})
+	// 派发事件，需要传入两个参数，一个是事件类型，另外一个是一个对象，detail就是传递过去的值
+	dom.dispatchEvent(new CustomEvent('log-in',{
+	    detail:'hello'
+	}))
+	
+  利用execCommand完成一个简单的富文本
+	// 一般不会直接去操作我们本身的HTML文档，可以去插入一个iframe然后通过contentDocument来获取、操作iframe中的HTML文档。
+	let iframe = document.createElement('ifram');
+	let doc = iframe.contentDocument;
+	// 首先要将HTML文档切换成设计模式
+	doc.designMode = 'on';
+	
+	// 然后就可以使用execCommand 这个命令了；
+	// 执行复制命令，复制选中区域
+	doc.execCommand('copy')
+	// 剪切选中区域
+	doc.execCommand('cut')
+	// 全选
+	doc.execCommand('selectAll')
+	// 将选中文字变成粗体，同时接下来输入的文字也会成为粗体，
+	doc.execCommand('bold')
+	// 将选中文字变成斜体，同时接下来输入的文字也会成为斜体，
+	doc.execCommand('italic')
+	// 设置背景颜色，，比如设置背景色为红色，就传入 'red'即可
+	doc.execCommand('backColor',true,'red')
+  
+  
+  web components，
+  service worker，
+  genric sensor
+  ~~~
 - [JavaScript 浅拷贝与深拷贝](https://mp.weixin.qq.com/s/kwaDvzAMHFNG1kssMXq2wQ )
   ~~~
   深拷贝：手写递归方法
