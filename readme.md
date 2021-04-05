@@ -22,10 +22,6 @@
 
 
 
-https://mp.weixin.qq.com/s/Ml8K56u_5Qr-PTU4UuI96A
-https://mp.weixin.qq.com/s/s8BZcX0rlXbWPpGBsiZC5Q
-https://mp.weixin.qq.com/s/mT5XvdMnlw0Qt8EBvgDtYQ
-https://mp.weixin.qq.com/s/jeLZDd26LpEN8iAV8BXw1w
 https://mp.weixin.qq.com/s/EI2vM6RC_6YRcE4EqC_cYA
 https://mp.weixin.qq.com/s/5L_HInmVmoJY-0eIT0M7SQ
 https://mp.weixin.qq.com/s/aBCkE_L4bdtaOyzwQatd6g
@@ -143,9 +139,6 @@ https://mp.weixin.qq.com/s/pedRqkGk9Hxb0P_X-8zd1g
 https://mp.weixin.qq.com/s/p8g6IiqeWez6sP70I3vnbQ
 https://mp.weixin.qq.com/s/4KPGXKVOdaGryP-rF12RwQ
 https://mp.weixin.qq.com/s/0GlYQjJCIa4sBIym7xB9dQ
-https://mp.weixin.qq.com/s/TWsmUaiQ1KI1B_-ofgWqFw
-https://mp.weixin.qq.com/s/w_683JT3DxsNXDyTNWy1AA
-https://mp.weixin.qq.com/s/mNL0O5IGxZuVzowR4b2urQ
 
 A
 
@@ -194,6 +187,7 @@ M
 N
 ## [net](./net/net.md)
 ## [node](./node/node.md)
+## [npm](./npm/npm.md)
 
 O
 ## [optimize](./optimize/optimize.md)
@@ -222,7 +216,11 @@ U
 
 
 V
+## [vue-router](./vue/vue-router.md)
 ## [vue](./vue/vue.md)
+## [vuex](./vue/vuex.md)
+## [vue-cli](./vue/vue-cli.md)
+## [vue.conf](./vue/vue.conf.md)
 
 
 W

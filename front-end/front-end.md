@@ -181,7 +181,10 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [用户登录状态 验证权限的时代变迁 ]( https://mp.weixin.qq.com/s/w_683JT3DxsNXDyTNWy1AA )
+- ~~~
+- Cookie\Session\Token Based
+- ~~~
 - [](https://mp.weixin.qq.com/s/gJeIM5V3QQItkdlOYTeIuw)
   ~~~
   “开闭原则”
