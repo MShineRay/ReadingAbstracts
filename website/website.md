@@ -19,7 +19,7 @@
 - [推荐3款移动端网页开发调试神器](https://mp.weixin.qq.com/s/hfa8fMpvJ0A1FbQccNI8Eg)
     vConsole、weinre、Charles 
 - [你的 Mac 用对了吗？推荐一些 Mac 上比较好用的软件]( https://mp.weixin.qq.com/s/Sgk1f_xgFXphQfGdNAlypw )
-
+- [子咻的博客](https://github.com/CodeLittlePrince/blog)
 
 - 公众号：前端技术江湖
 - 公众号：VUE中文社区
