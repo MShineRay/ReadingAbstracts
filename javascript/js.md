@@ -803,7 +803,13 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- (已整理)[2018 JavaScript 现状调查报告]( https://mp.weixin.qq.com/s/YiGXpElniYDAbYFnwDbWMA )
+	~~~
+	“方言”，如 ES6、TypeScript、Flow、Reason、Elm、ClojureScript 、CoffeeScript 
+	
+	React Native 和 Electron 是使用 Web 技术构建移动和桌面应用的两个主要解决方案
+	全新的 Headful Node 应用框架 —— Carlo ; 以及备受国内用户关注的 Flutter 。
+	~~~
 - [async/await 和 promise 的执行顺序](https://mp.weixin.qq.com/s/mT5XvdMnlw0Qt8EBvgDtYQ)
   ~~~
    async function async1() {
