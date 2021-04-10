@@ -285,7 +285,29 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [Vue高版本中一些新特性的使用]( https://mp.weixin.qq.com/s/K1p_YEypsLzGE0VjW6xJAw )
+  ~~~
+  一、深度作用选择器（ >>> ）
+    <style>
+    .parent-custom  >>> .child-title {
+        font-size:20px;
+        color: red;
+    }
+    </style>
+    
+    <style lang="less">
+    @deep: ~'>>>';
+    .parent-custom {
+         @{deep} .child-title {
+            font-size:20px;
+            color: red;
+        }
+    }
+    
+    </style>
+    
+    Sass 之类的预处理器无法正确解析 >>>。这种情况下你可以使用 /deep/ 操作符取而代之——这是一个 >>> 的别名，同样可以正常工作。
+  ~~~
 - [Vue 常用黑魔法了解一下]( https://mp.weixin.qq.com/s/7yfWzO3Vx3bwXXXKulijbg )
 - [Vue.js 3.0 新特性预览]( https://mp.weixin.qq.com/s/PFsaWCQNh_RqWjeZjww78A)
 - [Vue3.0 尝鲜，Object.defineProperty VS Proxy]( https://mp.weixin.qq.com/s/zUIiKcLNeFP0RKiPjUt-HA )

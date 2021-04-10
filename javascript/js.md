@@ -802,7 +802,7 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [JS 中可以提升幸福度的小技巧]( https://mp.weixin.qq.com/s/wZHVHKRtjRzZHCb3BrHOhw )
 - (已整理)[2018 JavaScript 现状调查报告]( https://mp.weixin.qq.com/s/YiGXpElniYDAbYFnwDbWMA )
 	~~~
 	“方言”，如 ES6、TypeScript、Flow、Reason、Elm、ClojureScript 、CoffeeScript 
@@ -843,35 +843,35 @@
    答案：
     script start
    
-	async1 start
+    async1 start
 
-	async2
+    async2
 
-	promise1
+    promise1
 
-	script end
+    script end
 
-	promise2
+    promise2
 
-	async1 end
+    async1 end
 
-	setTimeout
+    setTimeout
   ~~~
 - [DOM](https://mp.weixin.qq.com/s/OErtV9FBxIJszxYbGUL3Vg)
   ~~~
   浏览器渲染过程
-	解析HTML，构建DOM树（这里遇到外链，此时会发起请求）
-		无论是DOM还是CSSOM，都是要经过 Bytes→characters→tokens→nodes→objectmodel这个过程。
-		DOM树构建过程：当前节点的所有子节点都构建好后才会去构建当前节点的下一个兄弟节点。
-	解析CSS，生成CSS规则树
-	
-	合并DOM树和CSS规则，生成render树
-	
-	布局render树（Layout/reflow），负责各元素尺寸、位置的计算
-	
-	绘制render树（paint），绘制页面像素信息
-	
-	浏览器会将各层的信息发送给GPU，GPU将各层合成（composite），显示在屏幕上
+    解析HTML，构建DOM树（这里遇到外链，此时会发起请求）
+      无论是DOM还是CSSOM，都是要经过 Bytes→characters→tokens→nodes→objectmodel这个过程。
+      DOM树构建过程：当前节点的所有子节点都构建好后才会去构建当前节点的下一个兄弟节点。
+    解析CSS，生成CSS规则树
+    
+    合并DOM树和CSS规则，生成render树
+    
+    布局render树（Layout/reflow），负责各元素尺寸、位置的计算
+    
+    绘制render树（paint），绘制页面像素信息
+    
+    浏览器会将各层的信息发送给GPU，GPU将各层合成（composite），显示在屏幕上
   ~~~
 - (已整理)[你（可能）不知道的web api]( https://mp.weixin.qq.com/s/LPkUzNIDZAFWt5ckdN2crg )
   ~~~
