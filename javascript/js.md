@@ -800,7 +800,7 @@
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- [依赖注入]( https://mp.weixin.qq.com/s/0hveEb2m4jVP9xRtssG1Tg  )
 - [JavaScript 工程师都应懂的33个概念]( https://github.com/stephentian/33-js-concepts )
 - [JS 中可以提升幸福度的小技巧]( https://mp.weixin.qq.com/s/wZHVHKRtjRzZHCb3BrHOhw )
 - (已整理)[2018 JavaScript 现状调查报告]( https://mp.weixin.qq.com/s/YiGXpElniYDAbYFnwDbWMA )
