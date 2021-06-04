@@ -69,7 +69,7 @@
   .block__element{}// 元素是块中的组成部分。元素不能离开块来使用。BEM 不推荐在元素中嵌套其他元素。
   .block--modifier{}// 修饰符用来定义块或元素的外观和行为。同样的块在应用不同的修饰符之后，会有不同的外观。
   ~~~
-- [](  )
+- [浅谈CSS模块化]( https://mp.weixin.qq.com/s/xjmcv9AkwQ7QceJ-B6Q4pw )
 - [](  )
 - [](  )
 - [](  )
