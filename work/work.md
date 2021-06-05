@@ -443,7 +443,7 @@ DevOps 平台，你觉得难吗？但是确是很多创业公司非常需要的�
 - [](  )
 - [](  )
 - [](  )
-- [](  )
+- (已整理)[一个思维习惯，让你成为架构师]( https://mp.weixin.qq.com/s/Sq7XxmHSGGYQUG7Fu1xqpQ )
 - [代码质量管控的四个阶段]( https://mp.weixin.qq.com/s/kEdILWA7x2yNZ5AwQauQQg )
 - (已整理)[如何成为一位优秀的前端工程师？]( https://mp.weixin.qq.com/s/pB20-5JO1ojdL8PYjpQ74Q )
   ~~~

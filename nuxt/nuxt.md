@@ -1,6 +1,6 @@
 # nuxt
 - (已整理)[实现基于Nuxt.js的SSR应用]( https://mp.weixin.qq.com/s/NU6bqbtAz3Yl7xvKw7qhWQ )
-- [test](  )
+- [](  )
 - [](  )
 - [](  )
 - [](  )

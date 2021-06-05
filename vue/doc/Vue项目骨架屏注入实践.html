@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p><span
+  style="background-color: rgb(255, 255, 255);color: rgb(62, 62, 62);font-size: 15px;letter-spacing: 2px;word-spacing: 2px;">前后端分离，这种开发方式大大提升了前后端项目的可维护性与开发效率，让前后端工程师关注于自己的主业。然而在带来便利的同时，也带来了一些弊端，比如首屏渲染时间(FCP)因为首屏需要请求更多内容，比原来多了更多HTTP的往返时间(RTT)，这造成了白屏，如果白屏时间过长，用户体验会大打折扣，如果用户网速差，则FCP会更长。</span><br>
+</p>
+<figure class="" style="box-sizing: inherit;color: rgb(51, 51, 51);"><p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  由此引申出一系列的优化方法，骨架屏也因此被提出。</p>
+  <h2 class="" data-id="heading-0"
+      style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">1. FCP优化</span></h2>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    在 Google 提出的以用户为中心的四个页面性能衡量指标中，FP/FCP可能是开发者们最熟悉的了：</p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <figure
+    style="box-sizing: border-box;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <img class="" data-height="446" data-ratio="0.3484375"
+         data-src="https://mmbiz.qpic.cn/mmbiz/1NOXMW586uvpt696IYkMib1jdMicNkGqyo6F8I5AHNbthSMOqk67s5JmlhYOPMrL4U4gzXiah4iaym5YunsNXwlmhA/640?wx_fmt=other"
+         data-type="other" data-w="1280" data-width="1280"
+         style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+         _width="677px" src="./Vue项目骨架屏注入实践_files/640" crossorigin="anonymous" alt="图片" data-fail="0">
+    <figcaption
+      style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;"></figcaption>
+  </figure>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    为了优化首屏渲染时间这个指标，减少白屏时间，前端仔们想了很多办法：</p>
+  <ul style="" class="list-paddingleft-2">
+    <li><p><strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">加速或减少HTTP请求损耗</strong>：使用CDN加载公用库，使用强缓存和协商缓存，使用域名收敛，小图片使用Base64代替，使用Get请求代替Post请求，设置&nbsp;<code
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Access-Control-Max-Age</code>&nbsp;减少预检请求，页面内跳转其他域名或请求其他域名的资源时使用浏览器prefetch预解析等；
+    </p></li>
+    <li><p><strong
+      style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">延迟加载</strong>：非重要的库、非首屏图片延迟加载，SPA的组件懒加载等；
+    </p></li>
+    <li><p><strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">减少请求内容的体积</strong>：开启服务器Gzip压缩，JS、CSS文件压缩合并，减少cookies大小，SSR直接输出渲染后的HTML等；
+    </p></li>
+    <li><p><strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">浏览器渲染原理</strong>：优化关键渲染路径，尽可能减少阻塞渲染的JS、CSS；
+    </p></li>
+    <li><p><strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">优化用户等待体验</strong>：白屏使用加载进度条、菊花图、骨架屏代替等；
+    </p></li>
+  </ul>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    这里要介绍的就是优化用户等待体验的骨架屏，它可以被视为是原来加载菊花图的一种升级版，结合传统的首屏优化方法对应用进行优化可以达到不错的效果。</p>
+  <h2 class="" data-id="heading-1"
+      style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">2. 骨架屏</span></h2>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    骨架屏可以理解为是当数据还未加载进来前，页面的一个空白版本，一个简单的关键渲染路径。可以看一下下面Facebook的骨架屏实现，可以看到在页面完全渲染完成之前，用户会看到一个样式简单，描绘了当前页面的大致框架的骨架屏页面，然后骨架屏中各个占位部分被实际资源完全替换，这个过程中用户会觉得内容正在逐渐加载即将呈现，降低了用户的焦躁情绪，使得加载过程主观上变得流畅。</p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <figure
+    style="box-sizing: border-box;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <img class="__bg_gif" data-height="668" data-ratio="1.7216494845360826"
+         data-src="https://mmbiz.qpic.cn/mmbiz_gif/1NOXMW586uvpt696IYkMib1jdMicNkGqyo31iauJ01smia7ZdZzMvWlqVF3XjY1Y67DKERbaribeiaMsmLqCVyha8c0w/640?wx_fmt=gif"
+         data-type="gif" data-w="388" data-width="388"
+         style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 388px !important; height: auto !important; visibility: visible !important;"
+         _width="388px" src="./Vue项目骨架屏注入实践_files/640(1)" data-order="0" alt="图片" data-fail="0">
+    <figcaption
+      style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;"></figcaption>
+  </figure>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    可以看一下下面的示例图，第一个为骨架屏，第二个为菊花图，第三个为无优化，可以看到相比于传统的菊花图会在感官上觉得内容出现的流畅而不突兀，体验更加优良。</p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <figure
+    style="box-sizing: border-box;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <img src="Vue项目骨架屏注入实践_files/640.gif">
+    <figcaption
+      style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;"></figcaption>
+  </figure>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <br></p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    如今这项技术已经在Facebook、Google、支付宝、饿了么、简书、新浪微博、知乎、美团、领英等公司的产品中被广泛的使用。在论坛和社区也都有不少文章讨论骨架屏的实现和使用场景等。</p>
+  <h2 class="" data-id="heading-2"
+      style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">3. 生成骨架屏的方法</span></h2>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    生成骨架屏的方式主要有：</p>
+  <ol style="" class="list-paddingleft-2">
+    <li><p>手写HTML、CSS的方式为目标页定制骨架屏 做法可以参考&lt;Vue页面骨架屏注入实践&gt;，主要思路就是使用&nbsp;vue-server-renderer&nbsp;这个本来用于服务端渲染的插件，用来把我们写的<code
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.vue</code>文件处理为<code
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">HTML</code>，插入到页面模板的挂载点中，完成骨架屏的注入。这种方式不甚文明，如果页面样式改变了，还得改一遍骨架屏，增加了维护成本。
+      骨架屏的样式实现参考&nbsp;CodePen</p></li>
+    <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">使用图片作为骨架屏； 简单暴力，让UI同学花点功夫吧哈哈；小米商城的移动端页面采用的就是这个方法，它是使用了一个Base64的图片来作为骨架屏。</span>
+    </p></li>
+    <li><p>自动生成并自动插入静态骨架屏 这种方法跟第一种方法类似，不过是自动生成骨架屏，可以关注下饿了么开源的插件&nbsp;page-skeleton-webpack-plugin&nbsp;，它根据项目中不同的路由页面生成相应的骨架屏页面，并将骨架屏页面通过
+      webpack 打包到对应的静态路由页面中，不过要注意的是这个插件目前只支持history方式的路由，不支持hash方式，且目前只支持首页的骨架屏，并没有组件级的局部骨架屏实现，作者说以后会有计划实现(issue9)。</p>
+    </li>
+  </ol>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    另外还有个插件&nbsp;vue-skeleton-webpack-plugin，它将插入骨架屏的方式由手动改为自动，原理在构建时使用 Vue 预渲染功能，将骨架屏组件的渲染结果 HTML 片段插入 HTML
+    页面模版的挂载点中，将样式内联到&nbsp;<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">head</code>&nbsp;标签中。这个插件可以给单页面的不同路由设置不同的骨架屏，也可以给多页面设置，同时为了开发时调试方便，会将骨架屏作为路由写入router中，可谓是相当体贴了。
+  </p>
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    <code
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">vue-skeleton-webpack-plugin</code>的具体使用参考&nbsp;vue-style-codebase，主要关注build目录的几个文件，线上Demo&nbsp;在Chrome的DevTools中把network的网速调为<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Gast
+    3G / Slow 3G</code>就能看到效果了~</p>
+  <hr
+    style="box-sizing: border-box;margin-top: 1.5rem;margin-bottom: 1.5rem;border-style: dashed none none;border-top-color: rgb(165, 165, 165);border-right-width: initial;border-right-color: initial;border-left-width: initial;border-left-color: initial;border-bottom-width: initial;border-bottom-color: initial;height: 1px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+    网上的帖子大多深浅不一，甚至有些前后矛盾，在下的文章都是学习过程中的总结，如果发现错误，欢迎留言指出~</p>
+  <blockquote
+    style="box-sizing: border-box;margin-top: 1em;margin-bottom: 1em;padding: 15px 15px 15px 1rem;border-left-width: 5px;border-left-color: rgb(239, 112, 96);font-size: 0.9em;line-height: inherit;background: rgb(239, 235, 233);overflow: auto;word-wrap: normal;word-break: normal;letter-spacing: 2px;white-space: normal;word-spacing: 2px;">
+    <p style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">参考：</p>
+    <ol style="" class="list-paddingleft-2">
+      <li><p>认识Skeleton Screen【屏幕加载骨架】</p></li>
+      <li><p>为vue项目添加骨架屏</p></li>
+      <li><p>降低首屏时间，“直出”是个什么概念?</p></li>
+      <li><p>Vue页面骨架屏</p></li>
+      <li><p>小程序构建骨架屏的探索</p></li>
+      <li><p>饿了么的 PWA 升级实践</p></li>
+      <li><p>一个vue实现多页面骨架屏vue-skeleton-webpack-plugin插件的使用</p></li>
+    </ol>
+  </blockquote>
+  <blockquote style="max-width: 100%;color: rgb(51, 51, 51);"><p><span
+    style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;word-wrap: break-word !important;">作者</span>：SHERlocked93
+  </p>
+    <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;">
+      https://juejin.im/post/5b79a2786fb9a01a18267362</p></blockquote>
+</figure>
+</body>
+</html>

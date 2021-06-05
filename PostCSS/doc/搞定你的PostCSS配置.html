@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<figcaption
+  style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <br></figcaption>
+<blockquote
+  style="box-sizing: border-box;margin-top: 1em;margin-bottom: 1em;padding: 15px 15px 15px 1rem;border-left-width: 5px;border-left-color: rgb(239, 112, 96);font-size: 0.9em;line-height: inherit;background: rgb(239, 235, 233);overflow: auto;word-wrap: normal;word-break: normal;letter-spacing: 2px;white-space: normal;word-spacing: 2px;">
+  <p style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;"><code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">PostCSS</code>并不是一门语言，而是一个类似于<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">webpack</code>的工具，它支持很多插件，来达到便捷的编译效果，组成一个CSS编译/lint/autoprefixer的生态圈。它的作者是Euil
+    Martians，一家致力于技术研究与网站外包开发的公司。其后端技术栈偏重于Ruby，而前端从React到Node都有涉猎。</p></blockquote>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">PostCSS</code>的一大特点是，具体的编译插件甚至是CSS书写风格，可以根据自己的需要进行安装，选择自己需要的特性：嵌套，函数，变量。自动补全，CSS新特性等等，而不是像<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">less</code>或者<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">scss</code>一样的大型全家桶。因此，不需要再专门去学习<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">less</code>或者<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">scss</code>的语法，只要选择自己喜欢的特性，可以只写CSS文件，但依旧可以写嵌套或者函数，然后选择合适的插件编译它就行了。
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-left: 4px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(239, 112, 96);line-height: inherit;display: inline-block;font-weight: normal;background: none;border-top-right-radius: 3px;border-top-left-radius: 3px;">Use with webpack</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  鉴于现在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">webpack</code>也越来越火，所以之后的配置主要是借助于<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">postcss-loader</code>，将<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">PostCSS</code>的生态圈依托在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">webpack</code>之下。
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;安装webpack&nbsp;postcss&nbsp;loader</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;postcss-loader&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">基本配置</span></h4>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;配置webpack.config.js</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">module</span>:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">loaders</span>:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">test</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/\.css$/</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;如果使用了&nbsp;ExtractTextPlugin</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loader:&nbsp;ExtractTextPlugin.extract(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'style'</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'css!postcss'</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;否则</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;loader:&nbsp;"style-loader!css-loader!postcss-loader"</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">postcss</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>&nbsp;(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;里面是我们要用的插件</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;];<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">使用插件</span></h4>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;cssnext可以让你写CSS4的语言，并能配合autoprefixer进行浏览器兼容的不全，而且还支持嵌套语法</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;postcss-cssnext&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;浏览器兼容补全</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;autoprefixer&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;类似scss的语法，实际上如果只是想用嵌套的话有cssnext就够了</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;precss&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;在@import&nbsp;css文件的时候让webpack监听并编译</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;postcss-import&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;配置webpack.config.js</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;postcssImport&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'postcss-import'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;cssnext&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'postcss-cssnext'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>&nbsp;(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;postcssImport({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">addDependencyTo</span>:&nbsp;webpack&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cssnext({<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">autoprefixer</span>:&nbsp;{<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">browsers</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"ie&nbsp;&gt;=&nbsp;10,&nbsp;..."</span>}})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;];<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<h3
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-left: 4px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(239, 112, 96);line-height: inherit;display: inline-block;font-weight: normal;background: none;border-top-right-radius: 3px;border-top-left-radius: 3px;">兼容性CSS的自动补全</span>
+</h3>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">$&nbsp;npm&nbsp;install&nbsp;autoprefixer&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<ul style="" class="list-paddingleft-2">
+  <li><p><code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">autoprefixer</code>也可以单独配置使用
+  </p></li>
+</ul>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;webpack.config.js</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;autoprefixer&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'autoprefixer'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[autoprefixer({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">browsers</span>:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'last&nbsp;2&nbsp;versions'</span>]&nbsp;})]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<ul style="" class="list-paddingleft-2">
+  <li><p>或者与postcss-cssnext一起使用，但<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">autoprefixer</code>都要进行安装
+  </p></li>
+</ul>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;cssnext&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'postcss-cssnext'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;通过配置browsers，可以指定将CSS语法兼容到什么程度</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[cssnext({<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">autoprefixer</span>:&nbsp;{<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">browsers</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"ie&nbsp;&gt;=&nbsp;10,&nbsp;..."</span>}})]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<ul style="" class="list-paddingleft-2">
+  <li><p>`autoprefixer`的配置</p></li>
+</ul>
+<h3
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-left: 4px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(239, 112, 96);line-height: inherit;display: inline-block;font-weight: normal;background: none;border-top-right-radius: 3px;border-top-left-radius: 3px;">Use stylelint</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  Stylelint插件可以让你在编译的时候就知道自己CSS文件里的错误</p><h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">在webpack内单独使用stylelint</span>
+</h4>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  用到如下插件：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>stylelint-webpack-plugin</p></li>
+  <li><p>stylelint-config-standard</p></li>
+</ul>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">$&nbsp;npm&nbsp;install&nbsp;stylelint-webpack-plugin&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;stylelint语法，使用标准语法</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;stylelint-config-standard&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;webpack.config.js</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;StyleLintPlugin&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'stylelint-webpack-plugin'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">plugins:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span>&nbsp;StyleLintPlugin({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">config</span>:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;你的lint扩展自刚刚安装的stylelint-config-standard</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"extends"</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"stylelint-config-standard"</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;正则匹配想要lint监测的文件</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;files:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'frontend/stylesheet/**/*.l?(e|c)ss'</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">在PostCSS内使用(荐)</span>
+</h4>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  会用到如下插件：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>stylelint</p></li>
+  <li><p>postcss-reporter</p></li>
+  <li><p>stylelint-config-standard</p></li>
+</ul>
+<h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">1.&nbsp;基础使用方式</span>
+</h4>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#&nbsp;安装stylelint</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">$&nbsp;npm&nbsp;install&nbsp;stylelint&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;webpack.config.js</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;stylelint&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'stylelint'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">module</span>:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">loaders</span>:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">test</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/\.css$/</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">loader</span>:&nbsp;ExtractTextPlugin.extract(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'style'</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'css!postcss'</span>)&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;postcssImport({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">addDependencyTo</span>:&nbsp;webpack&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;stylelint({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">failOnError</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  这就是最基本的配置了。因为有<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">postcss-loader</code>的存在，所以在webpack解析css的时候，都会调用postcss里返回的插件，因此就会使用<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">stylelint</code>对代码进行检查。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  但这样的配置有一个很严重的缺点：如果你在js中引用了node_module里的css文件，或者引用了其他不想进行编译的文件，PostCSS会对其一视同仁的调用插件编译/检查。此时就需要我们来配置<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.stylelintignore</code>以及<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">stylelint.config.js</code>进行更精确的编译/检查。
+</p><h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">2. 增加配置文件</span></h4>
+<ul style="" class="list-paddingleft-2">
+  <li><p>stylelint配置说明</p></li>
+  <li><p>stylelint with postcss配置说明</p></li>
+</ul>
+<h5
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">`.stylelintignore`</span>
+</h5>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  在项目根目录下添加<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.stylelintignore</code>文件，并在内部写下不想通过PostCSS编译的文件路径：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: 14px;color: rgb(248, 35, 117);line-height: 18px;border-radius: 0px;background: rgb(248, 248, 248);font-family: Consolas, Inconsolata, Courier, monospace;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;display: block !important;word-break: normal !important;overflow: auto !important;">node_modules/<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">frontend/vendor/<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  之后，在没有指明<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">ignorePath</code>的情况下，stylelint会自动寻找根目录下的<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.stylelintignore</code>文件。
+</p><h5
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">`stylelint.config.js`</span>
+</h5>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  安装<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">stylelint-config-standard</code>
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">$&nbsp;npm&nbsp;install&nbsp;stylelint-config-standard&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  在配置文件中指明我们的检测语法扩展自该插件：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>User guide</p></li>
+  <li><p>配置规则</p></li>
+</ul>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;常用配置</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">module</span>.exports&nbsp;=&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">extends</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"stylelint-config-standard"</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;各rules的具体作用见上面链接</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;rules:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"block-no-empty"</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">null</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"color-no-invalid-hex"</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"comment-empty-line-before"</span>:&nbsp;[&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"always"</span>,&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"ignore"</span>:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"stylelint-commands"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"between-comments"</span>],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"declaration-colon-space-after"</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"always"</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"max-empty-lines"</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"rule-nested-empty-line-before"</span>:&nbsp;[&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"always"</span>,&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"except"</span>:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"first-nested"</span>],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"ignore"</span>:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"after-comment"</span>],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;允许的单位</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"unit-whitelist"</span>:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"em"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"rem"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"%"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"s"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"ms"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"px"</span>]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">};<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  然后指明PostCSS的配置文件：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;postcssImport({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">addDependencyTo</span>:&nbsp;webpack&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;stylelint({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">config</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'../../stylelint.config.js'</span>),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">failOnError</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  此时运行webpack，有问题的CSS文件输出大概是这样的：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">WARNING&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">in</span>&nbsp;./~/css-loader!./~/postcss-loader!./frontend/stylesheet/layout/test_post_css.css<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;stylelint:&nbsp;/Users/ecmadao1/Dev/Python/where_to_go/frontend/stylesheet/layout/test_post_css.css:17:1:&nbsp;Expected&nbsp;indentation&nbsp;of&nbsp;2&nbsp;spaces&nbsp;(indentation)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  很难看清楚吧！因此接下来安装<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">postcss-reporter</code>来美化输出：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">$&nbsp;npm&nbsp;install&nbsp;postcss-reporter&nbsp;--save-dev<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  webpack配置：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">postcss:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;postcssImport({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">addDependencyTo</span>:&nbsp;webpack&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;stylelint({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">config</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'../../stylelint.config.js'</span>),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">failOnError</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;}),<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;postcssReporter({&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">clearMessages</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span>&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  之后的输出会是这样的：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">frontend/stylesheet/layout/test_post_css.css<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">17:1&nbsp;&nbsp;&nbsp;&nbsp;⚠&nbsp;&nbsp;Expected&nbsp;indentation&nbsp;of&nbsp;2&nbsp;spaces&nbsp;(indentation)&nbsp;[stylelint]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<h4
+  style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">3.&nbsp;StyleLintPlugin的配置参数</span>
+</h4>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  stylelint options里面的配置也可以在plugin里使用。介绍几个常用的配置：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>config：lint基础配置。没有的话则会去寻找<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.stylelintrc</code>
+  </p></li>
+  <li><p>configFile：lint配置文件。可以被config的配置替代。默认为<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">.stylelintrc</code>文件
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">context：上下文环境。默认使用webpack的context</span>
+  </p></li>
+  <li><p>files：要匹配的文件。默认为<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">['*<span
+    style="box-sizing: border-box;font-size: inherit;color: rgb(98, 0, 234);line-height: inherit;">/</span>.s?(a|c)ss']</code>
+  </p></li>
+  <li><p>failOnError：错误时是否停止编译。默认<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">false</code>
+  </p></li>
+  <li><p>quiet：在console中不打印错误信息。默认<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">false</code>
+  </p></li>
+</ul>
+<p><code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);"><br></code>
+</p>
+<blockquote><p>作者：ecmadao</p>
+  <p>https://github.com/ecmadao/Coding-Guide</p></blockquote>
+
+</body>
+</html>
