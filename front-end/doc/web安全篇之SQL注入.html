@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 11pt;"></span></p>
+<p>
+  <inherit style="display: block;"><strong><span style="font-size: 20px;">什么是SQL注入</span></strong></inherit>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">SQL注入攻击（SQL Injection），简称注入攻击，是Web开发中最常见的一种安全漏洞。可以用它来从数据库获取敏感信息，或者利用数据库的特性执行添加用户，导出文件等一系列恶意操作，甚至有可能获取数据库乃至系统用户最高权限。</span>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">而造成SQL注入的原因是因为程序没有有效过滤用户的输入，使攻击者成功的向服务器提交恶意的SQL查询代码，程序在接收后错误的将攻击者的输入作为查询语句的一部分执行，导致原始的查询逻辑被改变，额外的执行了攻击者精心构造的恶意代码。</span>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;"><br></span></p>
+<p><strong><span style="font-size: 20px;">SQL注入实例</span></strong></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">很多Web开发者没有意识到SQL查询是可以被篡改的，从而把SQL查询当作可信任的命令。殊不知，SQL查询是可以绕开访问控制，从而绕过身份验证和权限检查的。更有甚者，有可能通过SQL查询去运行主机系统级的命令。</span>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">下面将通过一些真实的例子来详细讲解SQL注入的方式。</span></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">考虑以下简单的登录表单：</span></p>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">&lt;</span><span class=""
+                                                                                                    style="font-size: 10pt;color: rgb(71, 82, 93) !important;">form</span><span
+    class=""> </span><span class="" style="color: rgb(71, 82, 93) !important;">action</span><span class="">=</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">"</span><span class="">/login" </span><span class=""
+                                                                                                    style="color: rgb(71, 82, 93) !important;">method</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span class="">POST"&gt;</span>
+  </p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="2">
+  <li><p><span class="">&lt;</span><span class="" style="color: rgb(71, 82, 93) !important;">p</span><span class="">&gt;Username: &lt;</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">input</span><span class=""> </span><span class=""
+                                                                                                 style="color: rgb(71, 82, 93) !important;">type</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span class="">text" </span><span
+    class="" style="color: rgb(71, 82, 93) !important;">name</span><span class="">=</span><span class=""
+                                                                                                style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">username" /&gt;&lt;/</span><span class="" style="color: rgb(71, 82, 93) !important;">p</span><span
+    class="">&gt;</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="3">
+  <li><p><span class="">&lt;</span><span class="" style="color: rgb(71, 82, 93) !important;">p</span><span class="">&gt;Password: &lt;</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">input</span><span class=""> </span><span class=""
+                                                                                                 style="color: rgb(71, 82, 93) !important;">type</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">password" </span><span class="" style="color: rgb(71, 82, 93) !important;">name</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span class="">password" /&gt;&lt;/</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">p</span><span class="">&gt;</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="4">
+  <li><p><span class="">&lt;</span><span class="" style="color: rgb(71, 82, 93) !important;">p</span><span class="">&gt;&lt;</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">input</span><span class=""> </span><span class=""
+                                                                                                 style="color: rgb(71, 82, 93) !important;">type</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">submit" </span><span class="" style="color: rgb(71, 82, 93) !important;">value</span><span
+    class="">=</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">登陆" /&gt;&lt;/</span><span class="" style="color: rgb(71, 82, 93) !important;">p</span><span
+    class="">&gt;</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="5">
+  <li><p><span class="">&lt;/</span><span class="" style="color: rgb(71, 82, 93) !important;">form</span><span class="">&gt;</span>
+  </p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">我们的处理里面的SQL可能是这样的：</span></p>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">username</span><span class=""
+                                                                                                        style="color: rgb(71, 82, 93) !important;">:=</span><span
+    class="">r.Form.</span><span class="" style="color: rgb(71, 82, 93) !important;">Get</span><span
+    class="">(</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">username")password</span><span class="" style="color: rgb(71, 82, 93) !important;">:=</span><span class="">r.Form.</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">Get</span><span class="">(</span><span class=""
+                                                                                               style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">password")sql</span><span class="" style="color: rgb(71, 82, 93) !important;">:=</span><span class=""
+                                                                                                          style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">SELECT * FROM user WHERE username='"+username+</span><span class=""
+                                                                        style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">' AND password='"+password+</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">'"</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt;">如果用户的输入的用户名如下，密码任意</span></inherit>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt;"><br></span></inherit>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">myuser</span><span class=""
+                                                                                                      style="font-size: 10pt;color: rgb(71, 82, 93) !important;">'</span><span
+    class=""> or 'foo</span><span class="" style="color: rgb(71, 82, 93) !important;">'</span><span
+    class=""> = 'foo</span><span class="" style="color: rgb(71, 82, 93) !important;">'</span><span class=""> --</span>
+  </p></li>
+</ol>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;"><br></span></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">那么我们的SQL变成了如下所示：</span></p>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">SELECT * </span><span class=""
+                                                                                                         style="font-size: 10pt;color: rgb(71, 82, 93) !important;">FROM</span><span
+    class=""> user </span><span class="" style="color: rgb(71, 82, 93) !important;">WHERE</span><span class=""> username=</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">'</span><span class="">myuser' or </span><span class=""
+                                                                                                       style="color: rgb(71, 82, 93) !important;">'</span><span
+    class="">foo' = </span><span class="" style="color: rgb(71, 82, 93) !important;">'</span><span
+    class="">foo' --</span><span class="" style="color: rgb(71, 82, 93) !important;">'</span><span
+    class="">' </span><span class="" style="color: rgb(71, 82, 93) !important;">AND</span><span
+    class=""> password=</span><span class="" style="color: rgb(71, 82, 93) !important;">'</span><span
+    class="">xxx'</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><br></inherit>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">在SQL里面</span><span class=""
+                                                                                     style="color: rgb(43, 43, 43);font-size: 10pt;">--</span><span
+  class="">是注释标记，所以查询语句会在此中断。这就让攻击者在不知道任何合法用户名和密码的情况下成功登录了。</span></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">对于MSSQL还有更加危险的一种SQL注入，就是控制系统，下面这个可怕的例子将演示如何在某些版本的MSSQL数据库上执行系统命令。</span>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;"><br></span></p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">sql</span><span class=""
+                                                                                                   style="color: rgb(71, 82, 93) !important;">:=</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">SELECT * FROM products WHERE name LIKE '</span><span class=""
+                                                                  style="color: rgb(71, 82, 93) !important;">%</span><span
+    class="">"+prod+</span><span class="" style="color: rgb(71, 82, 93) !important;">"</span><span class=""
+                                                                                                   style="color: rgb(71, 82, 93) !important;">%</span><span
+    class="">'" Db.</span><span class="" style="color: rgb(71, 82, 93) !important;">Exec</span><span
+    class="">(sql)</span></p>
+    <p><span class=""></span></p></li>
+</ol>
+<p><br></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">如果攻击提交</span><span class=""
+                                                                                     style="color: rgb(43, 43, 43);font-size: 10pt;">a%' exec master..xp_cmdshell 'net user test testpass /ADD' --</span><span
+  class="">作为变量 prod的值，那么sql将会变成</span></p>
+<p><span class=""><br></span></p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 10pt;color: rgb(71, 82, 93) !important;">sql</span><span class=""
+                                                                                                   style="color: rgb(71, 82, 93) !important;">:=</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">"</span><span
+    class="">SELECT * FROM products WHERE name LIKE '</span><span class="" style="color: rgb(71, 82, 93) !important;">%a%' e</span><span
+    class="">xec master..xp_cmdshell 'net user test testpass /ADD'--</span><span class=""
+                                                                                 style="color: rgb(71, 82, 93) !important;">%</span><span
+    class="">'"</span></p></li>
+</ol>
+<p><span class=""></span></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">MSSQL服务器会执行这条SQL语句，包括它后面那个用于向系统添加新用户的命令。如果这个程序是以sa运行而 MSSQLSERVER服务又有足够的权限的话，攻击者就可以获得一个系统帐号来访问主机了。</span>
+</p>
+<p><span class="" style="color: rgb(118, 92, 131);font-size: 12pt;">虽然以上的例子是针对某一特定的数据库系统的，但是这并不代表不能对其它数据库系统实施类似的攻击。针对这种安全漏洞，只要使用不同方法，各种数据库都有可能遭殃。</span>
+</p>
+<p><span class="" style="color: rgb(118, 92, 131);font-size: 12pt;"><br></span></p>
+<p><strong><span style="font-size: 20px;">如何预防SQL注入</span></strong></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">也
+许你会说攻击者要知道数据库结构的信息才能实施SQL注入攻击。确实如此，但没人能保证攻击者一定拿不到这些信息，一旦他们拿到了，数据库就存在泄露的危
+险。如果你在用开放源代码的软件包来访问数据库，比如论坛程序，攻击者就很容易得到相关的代码。如果这些代码设计不良的话，风险就更大了。目前
+Discuz、phpwind、phpcms等这些流行的开源程序都有被SQL注入攻击的先例。</span></p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">这些攻击总是发生在安全性不高的代码上。所以，永远不要信任外界输入的数据，特别是来自于用户的数据，包括选择框、表单隐藏域和 cookie。就如上面的第一个例子那样，就算是正常的查询也有可能造成灾难。</span>
+</p>
+<p><span class="" style="color: rgb(43, 43, 43);font-size: 12pt;">SQL注入攻击的危害这么大，那么该如何来防治呢?下面这些建议或许对防治SQL注入有一定的帮助。</span>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 12pt;">严格限制Web应用的数据库的操作权限，给此用户提供仅仅能够满足其工作的最低权限，从而最大限度的减少注入攻击对数据库的危害。</span>
+  </p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="2">
+  <li><p><span class="">检查输入的数据是否具有所期望的数据格式，严格限制变量的类型，例如使用regexp包进行一些匹配处理，或者使用strconv包对字符串转化成其他基本类型的数据进行判断。</span></p>
+  </li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="3">
+  <li><p><span class="">对进入数据库的特殊字符（'"\尖括号&amp;*;等）进行转义处理，或编码转换。Go 的</span><span class="" style="font-size: 10pt;">text/template</span><span
+    class="">包里面的</span><span class="" style="font-size: 10pt;">HTMLEscapeString</span><span
+    class="">函数可以对字符串进行转义处理。</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="4">
+  <li><p><span class="">所有的查询语句建议使用数据库提供的参数化查询接口，参数化的语句使用参数而不是将用户输入变量嵌入到SQL语句中，即不要直接拼接SQL语句。例如使用</span><span class=""
+                                                                                                             style="font-size: 10pt;">database/sql</span><span
+    class="">里面的查询函数</span><span class="" style="font-size: 10pt;">Prepare</span><span class="">和</span><span class=""
+                                                                                                              style="font-size: 10pt;">Query</span><span
+    class="">，或者</span><span class="" style="font-size: 10pt;">Exec(query string, args ...interface{})</span><span
+    class="">。</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="5">
+  <li><p><span class="">在应用发布之前建议使用专业的SQL注入检测工具进行检测，以及时修补被发现的SQL注入漏洞。网上有很多这方面的开源工具，例如sqlmap、SQLninja等。</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="6">
+  <li><p><span class="">避免网站打印出SQL错误信息，比如类型错误、字段不匹配等，把代码里的SQL语句暴露出来，以防止攻击者利用这些错误信息进行SQL注入。</span></p></li>
+</ol>
+<blockquote><p>原文链接:https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/09.4.md</p></blockquote>
+
+</body>
+</html>

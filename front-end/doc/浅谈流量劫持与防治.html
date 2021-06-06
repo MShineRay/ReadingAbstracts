@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<figure class="" style="box-sizing: inherit;color: rgb(51, 51, 51);"><p><span
+  style="font-size: 1.2em;font-weight: 600;">什么是流量劫持</span><br></p></figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  在谈流量劫持之前，首先我们来了解一下什么叫做流量劫持。对于互联网的最终用户来说，用户对上网的直观感受就是我打开浏览器，输入一个网址，然后我立刻就能看到网页。这是站在用户的角度来看上网，但在这个“上网”的过程中，隐藏了非常多的技术细节。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img class="" data-ratio="0.5166666666666667"
+                                                                                data-src="https://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586uvic4N5SHxvea51Rib5TjdwFlKibJBvK4UpxLrKekPsLMbDiaIBPUsAFmS6L6RJI2jVJ35QE5ZfZUQvkA/640?wx_fmt=jpeg"
+                                                                                data-type="jpeg" data-w="720"
+                                                                                style="display: block; margin-right: auto; margin-left: auto; cursor: zoom-in; width: 677px !important; height: auto !important; visibility: visible !important;"
+                                                                                _width="677px"
+                                                                                src="%E6%B5%85%E8%B0%88%E6%B5%81%E9%87%8F%E5%8A%AB%E6%8C%81%E4%B8%8E%E9%98%B2%E6%B2%BB_files/640_002.webp"
+                                                                                crossorigin="anonymous" alt="图片"
+                                                                                data-fail="0" width="1768">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    真实的上网
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">我们国内用户，一般是在家用路由器后面，要访问一个网站的话，会有三个步骤：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>首先访问 DNS 服务器，将域名转换为 IP 地址。</p></li>
+  <li><p>访问这个 IP 地址，这样用户就访问了目标网站。</p></li>
+  <li><p>如果是一个建设良好的网站，一般会把静态资源放在 CDN 上。</p></li>
+</ol>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  流量劫持就是在这些环节当中，对数据进行偷窃、篡改，甚至转发流量进行攻击的这样一类行为。从危害上来说，互联网上最可怕的攻击也莫过于此了。那互联网发展这么多年了，为什么流量劫持还能够横行呢？流量劫持能够发生，无非是两个原因：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>
+    网络链路本身不安全。网络链路牵扯到具体的网络协议，这些协议当中，有些从设计上就没有考虑安全问题，贻害至今；另有一些，在当时可能是安全的，但正所谓“没有绝对的安全”，随着计算力和攻击手段的发展，当时安全的协议如今可能已经变得不再安全。</p>
+  </li>
+  <li><p>干扰安全链路，迫使链路降级到不安全的方案上。这一点可以归结到前面，但单独拿出来说，是因为很多攻击手段会利用这一点去做，导致我们的安全方案根本没有使用起来。</p></li>
+</ol>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">下面我们会详细介绍这些环节当中的流量劫持是怎么发生的，以及如何防御。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  DNS 的劫持与防治</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">我
+  们做前端开发，绝大部分时间是没有机会和 DNS 直接打交道的。这是因为我们已经站在 HTTP 协议之上，而 DNS 的解析发生在 HTTP
+  之前，同时浏览器也没有暴露任何 DNS 相关的接口给我们。但流量劫持实际可以直接发生在 DNS 查询阶段，因此我们有必要了解一下。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  DNS 是如何工作的</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">DNS 是一种使用 UDP 协议进行域名查询的协议，其最主要的目标就是将域名转换为 IP
+  地址。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">以查询&nbsp;<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">www.meituan.com</code>&nbsp;对应的 IP
+  地址为例，操作系统首先会在本地尝试解析，比如使用众所周知的<code style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">hosts</code>文件，同时如果有解析缓存的话，操作系统也会去查询。如果是在浏览器中进行查询，浏览器自己有时也会有解析缓存。
+</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img class="" data-ratio="0.5722222222222222"
+                                                                                data-src="https://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586uvic4N5SHxvea51Rib5TjdwFlia0CiaOWfWAbnaOJibzDn8kz3Fbia2gptPUibTibjutKlibzk97bX7mjhUMVQ/640?wx_fmt=jpeg"
+                                                                                data-type="jpeg" data-w="720"
+                                                                                style="display: block; margin-right: auto; margin-left: auto; cursor: zoom-in; width: 677px !important; height: auto !important; visibility: visible !important;"
+                                                                                _width="677px"
+                                                                                src="%E6%B5%85%E8%B0%88%E6%B5%81%E9%87%8F%E5%8A%AB%E6%8C%81%E4%B8%8E%E9%98%B2%E6%B2%BB_files/640.webp"
+                                                                                crossorigin="anonymous" alt="图片"
+                                                                                data-fail="0" width="1208">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    用户与公共域名服务器
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">在
+  查询没有结果时，设备最终会开始向域名服务器发起查询请求。公共域名服务器一般就是用户的 ISP
+  提供的。这种公共域名服务器通常会缓存查询结果，因此如果缓存命中，查询就可以到此结束。当然缓存本身是有时效的，这个时效就被称为 TTL
+  。对于超过时效的查询结果，域名服务器有义务重新发起查询请求。但查询本身是非常消耗流量的事情，因此也有一些公共域名服务器不严格遵守 TTL
+  ，超时缓存。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  未命中缓存的查询，公共域名服务器会向顶级域名服务器进行查询。以我们的例子来说，因为公共域名服务器不知道<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">meituan.com</code>的解析权归谁，因此它会向顶级域名服务器——<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">com</code>域名服务器——发起请求，寻找<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">meituan.com</code>对应的域名服务器。顶级域名服务器一般是由域名经营机构来维护的，有些甚至归属国家机关管理，例如国别域名。理论上来说，在顶级域名服务器之上还有一个根域名服务器，不过在平时很难意识到它的存在。
+</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img class="" data-ratio="0.5638888888888889"
+                                                                                data-src="https://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586uvic4N5SHxvea51Rib5TjdwFlEIHBxZAZ9mr9MqtBAyzlNW9vaWbaBEKmy9oDqTmCEnpBJ2otJhvFvg/640?wx_fmt=jpeg"
+                                                                                data-type="jpeg" data-w="720"
+                                                                                style="display: block; margin-right: auto; margin-left: auto; cursor: zoom-in; width: 677px !important; height: auto !important; visibility: visible !important;"
+                                                                                _width="677px"
+                                                                                src="%E6%B5%85%E8%B0%88%E6%B5%81%E9%87%8F%E5%8A%AB%E6%8C%81%E4%B8%8E%E9%98%B2%E6%B2%BB_files/640_003.webp"
+                                                                                crossorigin="anonymous" alt="图片"
+                                                                                data-fail="0" width="1242">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    顶级域名服务器
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">在查找到<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">meituan.com</code>的域名服务器之后，就可以向该域名服务器查询<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">www.meituan.com</code>的
+  IP
+  了。这个过程是由上到下指定下来的，所以这种域名服务器可以被称为权威域名服务器。对于开发者来说，我们自己平时在域名服务商那里购买到域名之后，录入自
+  己域名对应的 IP
+  ，其实就是在向权威域名服务器录入信息。一些大型企业会自己维护权威域名服务器，这样既可以抵御一些针对性的攻击，同时也可以更好地优化解析的速度。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  <img src="浅谈流量劫持与防治_files/640(1).webp"></figure>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  如何污染 DNS</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">那么如何才能够污染 DNS 以达成流量劫持的目的呢？粗略来说，一共有三种途径：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>在用户设备上动手。这个主要是通过一些恶意软件实现的，比如早期一些流氓软件会在用户本机篡改<code
+    style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">hosts</code>文件，影响用户的搜索引擎工作。</p></li>
+  <li><p>污染中间链路设备。由于 DNS 查询是基于 UDP 协议明文发送的，因此在任意中间设备上——比如路由器——进行中间人攻击，修改 UDP 包的内容，就可以影响 DNS 的结果了。</p></li>
+  <li><p>入
+    侵 DNS 服务器。这是一种成本比较高的方案，看起来似乎很困难，但 DNS
+    是一种相对古老的技术，其服务软件的实现可能已经年久失修，别有用心的攻击者可以寻找一些缺乏维护的 DNS 服务器，施行攻击。另外，有时 DNS
+    服务器上不止运行 DNS 软件，还会有一些其他的软件也在运行，比如同时也启动了 HTTP
+    服务等，这时攻击者也可以通过这些软件的漏洞来控制服务器，进而影响 DNS 的解析。由于 DNS 的缓存和上下传递关系，一旦有 DNS
+    服务器被影响，就会一次影响很多用户的访问，因此非常危险。</p></li>
+</ol>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这三种途径当中，第一种和第三种的实施成本都比较高，但污染链路设备，在 Wi-Fi
+  普及而安全意识尚未普及的今天，是最容易得手的一种途径。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  如何抵御 DNS 投毒</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">目前针对 DNS 投毒，对抗中间人攻击的研究比较多。DNS 协议本身的安全性较差，而改造 DNS
+  协议又比较困难，因此现在主要的防御手段，集中在替换 UDP 协议上。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/640(2).webp"></figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">目前，三种常见的替代方式比较流行：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>DNS over TLS。这种协议是在 TLS 协议之上传输 DNS 内容，有点类似 HTTPS 和 TLS 的关系。</p></li>
+  <li><p>DNS
+    over HTTP。用 HTTP 协议来传输 DNS ，也是可以的。国内厂商当中对这种方案的支持较多。最简单的实现是使用一个 固定的 IP
+    地址作为域名服务器，每次不发生 UDP ，而是向这台服务器发送 HTTP 请求来获取解析结果。但通常很难签发相应的证书给固定
+    IP，因此也有些厂商自己对 HTTP 报文进行加密，从而防止这些解析结果再被中间人篡改。</p></li>
+  <li><p>DNS over
+    HTTPS。和第二点比较类似，区别是使用了 HTTPS 协议。根据我的观察，采用这种方案的 Google 和 Cloudflare
+    都使用的是域名而非固定 IP
+    ，因此还是要先解析一次域名服务器自身的域名才可以进行真正的查询。这可能会导致再次被中间人扰乱，从而迫使用户降级到普通的 UDP 方式上。</p></li>
+</ol>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">比较遗憾的是，由于浏览器没有暴露 DNS 相关的接口，这三种较为安全的 DNS
+  查询方式，都无法在前端当中得以使用。而 iOS 和 Android 开发者有机会使用其中的技术进行加强，但需要单独编写一些代码。目前美团当中已有相关的技术使用。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  HTTP 流量劫持</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">基于 HTTP 的流量劫持，大家应该是比较熟悉了。特别是对于 Web
+  前端，一般大家说起流量劫持，首先能想到的就是这种。原理上我就不多介绍了，基本上就是因为 HTTP 属于明文协议，中间链路上的任意设备，都可以篡改内容，导致流量劫持。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6403.webp"></figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">那么如何去对抗这种劫持呢？</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  Content Security Policy</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">CSP 原本是为了和 XSS 对抗而产生的一种技术方案，其原理是在 HTML
+  加载的时候，指定每种资源的 URL 白名单规则，防止 XSS 的运行和数据外送。但如果巧妙利用规则，也可以让所有的资源强制走 https ，这样就可以降低流量劫持的可能性。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">具体的 CSP 规则比较复杂，大家可以在&nbsp;CSP专属网站上自己查看。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">CSP 用来防劫持的缺点也比较明显：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>CSP 可以用在 HTTP 页面，这也是我们想在 HTTP 页面用它做防御的一个原因。但中间人攻击可以在链路上直接移除 CSP 的相关标记，导致 CSP 全部失效。</p></li>
+  <li><p>CSP 规则设置比较复杂。不然也不会有一个网站专门用来查询和生成规则了。设置不当很容易玩脱，会直接导致你的资源不可用。</p></li>
+  <li><p>影响动态创建脚本。CSP 存在的一部分意义就是阻止动态创建脚本这种行为，这是防御 XSS 的一种办法。但同时市面上很多技术方案也是基于这种方式做的，比如一些统计 SDK 之类的，甚至有些开发人员的开发模式即是如此。</p>
+  </li>
+</ul>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  Subresource Integrity</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">SRI 是专门用来校验资源的一种方案，它读取资源标签中的<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">integrity</code>属性，将其中的信息摘要值，和资源实际的信息摘要值进行对比，如果发现无法匹配，那么浏览器就会拒绝执行资源。对于<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">script</code>标签来说，就是拒绝执行其中的代码，对于 CSS
+  来说则是不加载其中的样式。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">理想上来说，这样的方案可以杜绝中间人对资源的篡改。不过和 CSP 一样，它也有自己的局限性：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>和 CSP 一样，当我们用在 HTTP 页面中时，中间人可以直接移除 SRI 的相关属性，这样就完全失效了。</p></li>
+  <li><p>动态创建的脚本时，除非单独在前端计算信息摘要，否则无法使用 SRI 。</p></li>
+  <li><p>如果中途因为某种原因修改了脚本内容而忘记了更新摘要值，那么会直接影响可用性。有些自作聪明的代理或资源托管服务器，会对 JavaScript 进行压缩或者混淆，而这个过程对开发者透明，这样也会导致可用性受到影响。</p>
+  </li>
+  <li><p>兼容性比较有限。 iOS Safari 的支持至少需要 iOS 11，在目前看来不是很理想。</p></li>
+</ul>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  HTTPS 的劫持与防治</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">HTTP
+  的流量劫持，除了上面列出来的一些方案，其实还有很多特定场景下的方案。例如我曾经见过百度的同学给出的一种方案，是在 HTML
+  前面增加一大段注释后的代码，诱骗攻击者在注释内进行资源改动。但归根结底，这些方案是经不住考验的。比较理想的方案还是迁移到 HTTPS 上。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  HTTPS 是如何工作的</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">HTTPS 是什么就不多说了，大家应该都知道了，这个“S”表示的就是 SSL/TLS。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">要
+  了解 HTTPS
+  的安全性，首先还是需要了解它是如何工作的。这块知识点我私下里问过很多人，对其中的很多细节是不清楚的。我自己在准备内容的时候，也发现自己的一些盲
+  区。如果不清楚 HTTPS 的整个过程，那就不太可能理解 HTTPS 的弱点以及流量劫持的相关实现，因此我这里还是花一些篇幅来介绍 HTTPS
+  的工作原理。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">普通用户在访问网站时，常常会直接键入 URL 。以访问美团为例，如果用户手动输入<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">www.meituan.com</code>，那么浏览器会自动将地址补全为<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">http://www.meituan.com</code>。这时，浏览器就会先以
+  HTTP 协议来连接服务器。服务器因为配置了 HTTPS ，会使用301、302或者其他的一些跳转，来让浏览器再去连接443端口。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6404.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    HTTPS连接建立 - 步骤1
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这里有个知识点，就是 HTTP、HTTPS、TCP、SSL/TLS
+  之间的关系是什么。简单来说，这几个协议当中，最底层的协议是 TCP ，HTTP 是直接基于 TCP 的；SSL/TLS 也是基于 TCP 的，而 HTTPS 则是基于 SSL/TLS 的。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">因此当浏览器再去和443端口建立连接时，也是先建立 TCP 连接，三次握手是免不了的。在这之后，才是
+  SSL/TLS 的握手。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6405.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    HTTPS连接建立 - 步骤2
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这里面有几个知识点：</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  SSL 和 TLS 到底是什么关系？</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">SSL 其实是先于 TLS 出现的，后来又被规范成 TLS 协议。目前 SSL
+  已经非常不安全了，大家千万不要使用了。下图总结了 SSL 和 TLS 的演变关系：</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6406.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    SSL vs. TLS
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  这个表格中，越向下的标准，越安全，但兼容性也越差；越向上的标准，越不安全，但兼容性相对好一些。不过较新的浏览器已经禁用了部分 SSL 协议，因此也不能说 SSL 的兼容性就是最好的。目前比较推荐的是 TLS 1.2。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  什么是加密套件</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">加密套件是 TLS 握手时所要使用的加密组合。一般在 TLS
+  握手时，客户端会首先向服务器发送自己所支持的加密套件供服务器去选择，服务器选出最合适的后再告诉客户端。选出的结果之所以称为“套件”，是因为这个加密不止一种，每种加密会用在不同的场合。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">例如&nbsp;<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">TLS_RSA_WITH_AES_128_GCM_SHA256</code>这个套件：
+</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>前缀<code style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">TLS</code>是协议的名称</p>
+  </li>
+  <li><p><code style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">RSA</code>表示在密钥协商阶段使用的加密算法
+  </p></li>
+  <li><p><code style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">AES_128_GCM</code>是 TLS
+    握手结束后，双方使用的对称加密的算法</p></li>
+  <li><p>最后的<code style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">SHA256</code>是用来给信息做摘要用的算法
+  </p></li>
+</ul>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  密钥协商</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  在加密套件选取完成之后，客户端和服务端就会开始进行密钥协商。密钥协商这个过程有时也被称为“密钥交换”，但其实在协商的过程中，交换的并不是密钥，而是“生成密钥用的信息”。下面是网上一张非常好的密钥协商过程图，即使没有密码学知识也可以看懂：</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6407.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    密钥协商
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  颜料的分解在密钥协商阶段经常会对等到大数因式分解上，目前普遍认为是很难逆向的过程，因此保障了协商的安全性。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">不
+  过，如果仅仅有密钥协商也是不够的，因为这无法阻止中间人在 Alice 和 Bob
+  中间扮演传话的角色，分别和双方进行协商。因此，在密钥协商之前，双方还会互相确认身份，这是引入证书体系、证书链等一系列措施的原因。这里我们就不细说
+  证书体系相关的知识点了，大家可以在网上自行学习一下。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6408.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    HTTPS连接建立 - 步骤3
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  在密钥协商结束之后，双方就可以进行结束握手了，从这一刻起，双方的数据就是加密的了，使用的加密密钥，正是协商出的结果。通常为了防止协商被篡改，在结束握手时，双方还会再确认一遍握手的全部内容。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  HTTPS 相关的流量劫持</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">HTTPS
+  本身其实已经比较安全了，这归功于前面所说的 TLS 协议。但也不代表我们可以完全不关注 HTTPS 的安全问题。在 HTTPS
+  出现的这些年里， SSL/TLS 的安全问题其实也是不绝于耳的，这里我提两个相对经典的案例来给大家展示一下安全的协议是如何不安全的。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  SSL strip</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">在 HTTPS 协议建立之前，浏览器可能并不知道网站是基于 HTTPS 的，因此首先会去使用
+  HTTP 协议来访问网站，然后再经由网站的跳转改为 HTTPS 协议。这个过程我们上面已经说过了。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6409.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    SSL strip - 步骤1
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">中间人在这个过程中，实际上可以屏蔽掉这个跳转响应，自己和网站服务器建立 HTTPS
+  连接，而继续和被劫持的浏览器之间使用 HTTP 协议。如此一来，流量劫持就会退回到 HTTP 协议时的难度。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6410.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    SSL strip - 步骤2
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">为防止这样的情况发生，IETF 推出了一项提案——HSTS（HTTP
+  Strict-Transport-Security）。这项提案目前主流浏览器已经支持的比较好了。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6411.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    HSTS的HTTP头
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">HSTS的做法是，在<span
+  style="font-weight: 600;">HTTPS响应</span>报文的头部中，增加一个名为<code
+  style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">Strict-Transport-Security</code>的头，内容是这个头的有效期。当浏览器在
+  HTTPS 响应中看到它时，<span style="font-weight: 600;">下一次</span>浏览器会直接使用 HTTPS 来进行请求。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">聪明的读者可以看出来，这里面有两个明显的问题：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>只有 HTTPS 的响应才会去识别 HSTS ，这是为了防止中间人攻击在 HTTP 上的影响。</p></li>
+  <li><p>第一次用户如果使用 HTTP 进行请求，那么首次进行跳转依然是需要服务器进行配合。二次访问时， HSTS 才会真正开始起作用。</p></li>
+</ol>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">也就是说，在用户已经能够正常使用 HTTPS 的情况下，HSTS 能够保证用户继续使用 HTTPS
+  ，但如果用户没有访问过我们的网站，那么用户是不受保护的。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">为了解决这种尴尬，Chrome
+  维护了一份域名名单，凡是在名单中的域名且符合一定条件的域名（具体条件可见该名单），HSTS 会直接在首次访问时自动生效。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">不过这依然是一件非常麻烦且通用性差的方案，一旦业务方的服务。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  FREAK 攻击</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">接下来要说的是一种专门针对 SSL/TLS 的攻击——FREAK。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6420.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    FREAK攻击
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">FREAK 的原理在于， SSL
+  曾经支持过一种不安全的加密方式，而某些漏洞可以巧妙地触发这种不安全加密。中间人能够在密钥协商中截获 RSA 加密的公钥，并通过暴力破解来逆推出私钥。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">一旦私钥被得出，该证书也就不再安全，后续的所有会话都会处于危险之中。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">FREAK
+  攻击的技术细节比较多，这里不详细展开了，大家可以在专业的安全技术博客当中看到相关的细节。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这
+  里一个比较有意思的事情是，很多人会觉得，如果自己使用了 RSA 加密，那么自己就已经很安全了。但其实安全从来都是相对的，在 FREAK
+  攻击中，中间人可以迫使密钥协商使用512位的 RSA 加密，而这种加密是非常脆弱的。这是什么样的一种概念呢？我自己在看到这种攻击时，也觉得
+  RSA 被暴力破解的可能性很低，于是我自己查了一些文献，发现 GitHub 上其实早就有研究者制作了利用公有云服务来暴力破解 RSA
+  的工具脚本，以下是该项目中的一段话：</p>
+<blockquote
+  style="margin-top: 1em;margin-bottom: 1em;padding-left: 1em;color: rgb(100, 100, 100);border-left-color: rgb(211, 211, 211);">
+  The purpose of the FaaS (Factoring as a Service) project is to demonstrate that&nbsp;<span style="font-weight: 600;">512-bit integers can be factored in only a few hours, for less than $100 of compute time in a public cloud environment.</span>&nbsp;This
+  illustrates the amazing progress in computing power over time, and the risk of continued use of 512-bit RSA keys.
+</blockquote>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  什么意思呢？这就是说，在公有云服务上，512位长的整数可在数小时内因式分解，耗资不超过$100。同志们，几百块钱就可以破解512位的 RSA 了，这还是几年前的数据！</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  防御 HTTPS 流量劫持</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">针对 SSL/TLS
+  攻击的尝试其实从未停止过，未来也不会就此罢休。除了上面列出的两种经典攻击之外，还有很多相似的案例。在防御 HTTPS 流量劫持上，除了使用 HTTPS 之外，更关键的是挑选一个相对安全的加密套件。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">我在查询相关资料时，发现了 Mozilla
+  维护了一个非常好的套件推荐方案，其中根据兼容性和安全性做出了三种不同的方案供大家选择。我强烈建议大家参考，并把它分享给自己的同事（特别是从事运维的同事）。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  CDN 与流量劫持</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">很
+  多大型互联网企业在部署内容时，都会将静态内容部署在 CDN 上。在早期， CDN
+  往往是企业自建，在自建时会耗费很多精力和资金，因此小企业不会涉及这些内容。但随着时代发展，现在公有云服务已经将 CDN
+  作为互联网服务的“标配”了。了解 CDN 的运作原理以及相关的劫持问题，对我们每个前端开发者都很有必要。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  CDN 如何工作</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">通
+  常我们在部署网站时，会把网站部署在自己企业对应的机房内，比如美团在北京就有若干机房。这对于离机房近的用户，是非常有利的事情，用户可以快速下载到网
+  站的内容，包括静态资源。但是对于距离机房远的用户——比如海南的用户，由于距离客观的存在，他们下载我们网站的内容时，速度可能就不那么理想了。除此之
+  外，不同的宽带运营商线路不同，对下载速度也有不小的影响。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6430.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    没有CDN的世界
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  这种情况下，如果远距离的用户能够就近访问一台服务器，下载内容，那么就可以很大程度上缓解线路和距离带来的问题。例如我们如果在海南部署一组服务器，专门服务海南的用户，那么海南用户就不需要忍受海南到北京之间距离带来的问题了。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6440.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    CDN
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这样的服务器，就被称作 CDN 服务器。 CDN
+  服务器通常不孤立地存在于某个地方，而是遍布全国甚至全世界，以方便各地的用户。因此，这些服务器可以看做一个虚拟的“网络”，这也是 CDN 英文全写——Content Delivery Network 的来源。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">实
+  际上 CDN
+  不仅能够起到就近服务的功能，同时也能够作为缓存，缓解我们自己网站服务器的压力——因为流量不来我们服务器了。但这也就引入了一个问题，那就是 CDN
+  上的资源何时更新的问题。现在的通行方案是， CDN 上只部署静态资源，将文档请求（HTML）仍然交给我们自己的服务器。业界比较前沿的 CDN
+  服务商在探寻更多可能性，不过这不是本文的重点了。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">那
+  么用户如何能被引导到 CDN 服务器上呢？这主要是依赖于 DNS 服务。在前面我们聊过，用户要想知道一个域名具体对应的 IP 地址，需要进行
+  DNS 查询。那么我们只要利用 DNS 服务，对不同地区的用户，返回不同的 IP 地址，就可以将流量导流至相应的 CDN
+  服务器。这里有个小知识点是 DNS 查询的<code
+    style="margin-right: 2px;margin-left: 2px;padding: 3px 4px;border-radius: 3px;">CNAME</code>解析，大家可以自己搜索了解一下。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6450.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    CDN与DNS
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  CDN 与流量劫持</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">理想情况下，CDN 的安全性应该至少和我们的服务器一致，但现实情况是，CDN
+  的网络线路更加复杂，环境更加多变。如果大家做过一些用户侧的业务，而且还使用了 CDN 的话，会发现有时 CDN 上的内容，也会出现流量劫持的情况。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">出现劫持一般有两种原因：一是 CDN 和用户之间，走的是 HTTP
+  协议，这种情况比较多见，解决起来比较容易，就是换成 HTTPS 协议；另一个是我们的服务器和 CDN 之间，以及 CDN 内部，是 HTTP 协议的，这样就比较头疼了。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6460.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    发生在CDN上的流量劫持
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">另外，我们也曾遇到过不止一次 CDN 本身有故障的情况，如 CDN 的 HTTPS 证书过期、CDN
+  的 gzip 故障等。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">对于这种链路故障，修复的方案一般并不复杂，但耗时多发生在故障的排查阶段。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  在美团，我们不仅服务于消费者，同时也服务于商家。在商家使用我们的产品过程中，如果出现了故障，商家会和运营人员进行反馈，而运营人员确认了故障之后，会再和我们研发进行沟通。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  对于研发来说，我们知晓了故障之后，第一时间一般不会去怀疑链路上的问题，而是先排查自己代码层面的问题。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6470.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    繁琐的链路故障排查
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  在经历过一遍遍的排查甚至是版本回退后，最终我们才会将目光集中在链路上，而这中间还会不断去和商家进行再次沟通，整个过程非常耗时。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">在经历过几次这样的“折腾”之后，我们开始分析链路故障的特点，得到了下面的这些特征：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>本来应该返回200的请求，实际变成了0（HTTP协议中0表示不成功）</p></li>
+  <li><p>突然发生在某一地区、省份的运营商服务区域</p></li>
+  <li><p>不同业务会出现不同的解决方案，没有统一方案，<span style="font-weight: 600;">但不代表我们不能及时发现</span></p></li>
+</ol>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6480.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    典型的链路故障
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">上图是我们截获的一次链路故障中 JS 静态资源的内容。由于 gzip
+  出错，实际返回的内容已经彻底无法使用。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">现有的一些方案我们也进行了调研，主要是以下几种：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>方案A: 在某些省份、地区自建资源监测站，定期抓取固定的资源</p></li>
+  <li><p>问题: 资源抓取太固定，自建监测站成本高，覆盖面也不够</p></li>
+  <li><p>方案B: 业务方在自己的 HTML 中监听资源的 error 事件</p></li>
+  <li><p>问题: 无法确认问题出在链路上，容易和普通的 JS 出错混淆</p></li>
+  <li><p>方案C: 使用第三方企业服务进行监控</p></li>
+  <li><p>问题: 服务越多成本越高，对于大企业成本太高</p></li>
+  <li><p>方案D: CSP、SRI等</p></li>
+  <li><p>问题: 兼容性和灵活性不够，很难插入自定义逻辑</p></li>
+</ul>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">可以看出，无论哪种方案，都有它的不足。</p>
+<h2
+  style="margin-top: 1.66667em;margin-bottom: 0.83333em;font-variant-numeric: inherit;font-variant-east-asian: inherit;font-weight: 600;font-stretch: inherit;font-size: 1.2em;line-height: 1.5;">
+  基于代码校验的防治方案</h2>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  针对上面的情况，我们提出了一种基于代码校验的方案，尝试去快速发现和响应。这个方案我们内部称为“Damocles”。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">Damocles 方案由三部分组成，第一部分是嵌入在业务方的 HTML 代码中的，我们称之为 SDK
+  ；第二部分是放在业务方的 Node.js 代码中的，主要用于向我们核心服务传递信息，以及响应劫持；第三部分是我们自己维护的核心服务，主要用于判定和报警。</p>
+<figure style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><img src="浅谈流量劫持与防治_files/6490.webp">
+  <figcaption
+    style="margin-top: 0.66667em;padding-right: 1em;padding-left: 1em;font-size: 0.9em;line-height: 1.5;text-align: center;color: rgb(153, 153, 153);">
+    Damocles的工作流程
+  </figcaption>
+</figure>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);"><br></p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">
+  从上面可以看出，实际流程就是“浏览器下载-&gt;发送信息-&gt;服务器下载-&gt;比对信息”。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">这样做有什么优势呢？我认为主要有以下四点：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>我们监控的级别是业务级甚至页面级，而不是某个固定的资源</p></li>
+  <li><p>在业务方的 Node.js 中内置逻辑，给予了业务方自己进行降级和响应的能力</p></li>
+  <li><p>我们把核心的判断逻辑放在自己的服务中，可以通过集中分析来降低误判和警报风暴的可能，并且可以横向根据各接入方的情况，做进一步的推断</p></li>
+  <li><p>我们自己维护的核心服务如果出现故障，不影响业务方的代码执行——既不影响浏览器中的逻辑也不影响业务方的 Node.js 逻辑</p></li>
+</ul>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">我们在线上一些核心业务部署了这个服务，运转了三个月后，检测文件超过10,480,084例。</p>
+<p style="margin-top: 1em;margin-bottom: 1em;color: rgb(26, 26, 26);">在服务运转期间，发现了一次北京地区的联通线路问题，在晚上9点及时通知了运维人员进行 CDN
+  切换，并主动告知了运营和产品经理，做好了客诉的准备。对于我们来说，这个方案的确起到了我们当初想要的作用。</p>
+<p style="max-width: 100%;min-height: 1em;color: rgb(51, 51, 51);">作者:&nbsp;神机算子</p>
+<p style="max-width: 100%;min-height: 1em;color: rgb(51, 51, 51);"><br></p>
+<blockquote style="max-width: 100%;color: rgb(51, 51, 51);"><p
+  style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;">
+  https://zhuanlan.zhihu.com/p/40682772</p></blockquote>
+</body>
+</html>

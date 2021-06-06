@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h5 style="color: rgb(51, 51, 51);">假设我们有一个这样的需求：</h5>
+<pre style=";"><code class="" style=";"><span class="" style="font-weight: 700;">let</span> page = { &nbsp;<span
+  class="">init</span>: <span class=""><span class="">()</span>=&gt;</span>{ &nbsp; &nbsp;<br> &nbsp; &nbsp;<span
+  class="" style="color: rgb(153, 153, 136);">//此处(placeA)有很多业务代码或者调用了很多page中的其他初始化函数</span>
+ &nbsp;},
+ &nbsp;....
+};</code></pre>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">
+  现在业务迭代，需要我们在page.init()初始化代码块的最后增加一些功能，同时不影响原先的功能。按照正常的写法，我们可能会像下面这样写：</p>
+<pre style=";"><code class="" style=";"><span class="" style="font-weight: 700;">let</span> page = { &nbsp;<span
+  class="">init</span>: <span class=""><span class="">()</span>=&gt;</span>{ &nbsp; &nbsp;<span class=""
+                                                                                                style="color: rgb(153, 153, 136);">//placeA</span>
+ &nbsp; &nbsp;page.newFunction();
+ &nbsp;}, &nbsp;<span class="">newFunction</span>: <span class=""><span class="">()</span>=&gt;</span>{
+ &nbsp; &nbsp;...
+ &nbsp;}
+};</code></pre>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">这
+  样写是可以解决我们的需求，但是这样的代码是具有侵略性的，我们不得不在原先的代码的合适位置新增我们需要的代码。但我们思考一个问题，如果我们用了某个
+  插件或者某个被ungly、minify之后的代码呢，我们怎么在找到合适的位置添加我们需要的功能呢？大家可以先自己思考一下，再看下面的内容。</p><h5 style="color: rgb(51, 51, 51);">
+  首先我们先看解决方案，再思考其背后的东西。</h5>
+<pre style=";"><code class="" style=";"><span class="" style="color: rgb(153, 153, 136);">//我们可以在Function的原型链上定义一个扩展函数，以实现我们的需求。<br><br></span><span
+  class="" style="color: rgb(0, 134, 179);">Function</span>.prototype.fnAfter = <span class=""><span class=""
+                                                                                                     style="font-weight: 700;">function</span>(<span
+  class="">fn</span>) </span>{ &nbsp;<br> &nbsp; &nbsp;<span class="" style="font-weight: 700;">var</span> _self = <span
+  class="" style="font-weight: 700;">this</span>; &nbsp;<span class="" style="font-weight: 700;">return</span> <span
+  class=""><span class="" style="font-weight: 700;">function</span>(<span class=""></span>) </span>{
+ &nbsp; &nbsp;_self.apply(<span class="" style="font-weight: 700;">this</span>, <span class=""
+                                                                                      style="color: rgb(0, 134, 179);">arguments</span>);
+ &nbsp; &nbsp;fn.apply(<span class="" style="font-weight: 700;">this</span>, <span class=""
+                                                                                   style="color: rgb(0, 134, 179);">arguments</span>);
+ &nbsp;}
+};
+
+page.init &nbsp;= (page.init || <span class=""><span class="" style="font-weight: 700;">function</span>(<span
+    class=""></span>) </span>{}).fnAfter(<span class=""><span class="" style="font-weight: 700;">function</span>(<span
+    class=""></span>) </span>{ &nbsp;<br> &nbsp; &nbsp;<span class="" style="color: rgb(0, 134, 179);">console</span>.log(<span
+    class="" style="color: rgb(221, 17, 68);">'我们要追加的功能成功啦~'</span>);
+});
+
+page.init();</code></pre>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">上
+  面的代码已经能够实现我们的需要了，但是其实还是不够好或者可以写的更灵活一些。因为我希望可以可以做到像jquery的链式调用那样，可以一直往后面追
+  加新的功能。那么我们在上面代码的基础上再扩展下，其实很简单，我们只要再Function.prototype.fnAfter中再返回自身就好了。</p>
+<pre style=";"><code class="" style=";"><span class="" style="color: rgb(0, 134, 179);">Function</span>.prototype.fnAfter = <span
+  class=""><span class="" style="font-weight: 700;">function</span>(<span class="">fn</span>) </span>{ &nbsp;<br><span
+  class="" style="font-weight: 700;"> &nbsp; &nbsp;var</span> _self = <span class=""
+                                                                            style="font-weight: 700;">this</span>; &nbsp;<br> &nbsp; &nbsp;<span
+  class="" style="font-weight: 700;">return</span> <span class=""><span class=""
+                                                                        style="font-weight: 700;">function</span>(<span
+  class=""></span>) </span>{ &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp;<span class=""
+                                                                                style="font-weight: 700;">var</span> fnOrigin = _self.apply(<span
+  class="" style="font-weight: 700;">this</span>, <span class="" style="color: rgb(0, 134, 179);">arguments</span>);
+ &nbsp; &nbsp; &nbsp; &nbsp;fn.apply(<span class="" style="font-weight: 700;">this</span>, <span class=""
+                                                                                                 style="color: rgb(0, 134, 179);">arguments</span>); &nbsp; &nbsp;<br> &nbsp; &nbsp; &nbsp; &nbsp;<span
+    class="" style="font-weight: 700;">return</span> fnOrigin;
+ &nbsp; &nbsp;}
+};</code></pre>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">其实上面的代码写法还是可以优化的。比如：</p>
+<pre style=";"><code class="" style=";"><span class=""
+                                              style="color: rgb(153, 153, 136);">//每次扩展的时候我们都需要这么写<br><br></span>page.init &nbsp;= (page.init || <span
+  class=""><span class="" style="font-weight: 700;">function</span>(<span class=""></span>) </span>{}).fnAfter(<span
+  class=""><span class="" style="font-weight: 700;">function</span>(<span class=""></span>) </span>{ &nbsp;<span
+  class="" style="color: rgb(153, 153, 136);">//...</span>});<br><span class="" style="color: rgb(153, 153, 136);">//我们能不能再优化下，比如容错代码 || function(){} 在一个地方统一处理 &nbsp;<br></span><span
+  class="" style="color: rgb(153, 153, 136);">//或者我们新建一个工厂函数来帮我们统一做这样的事情，这里我们就不展开了，文章篇幅有限。</span></code></pre>
+<h5 style="color: rgb(51, 51, 51);"><br></h5><h5 style="color: rgb(51, 51, 51);">我
+  们上面的扩展其实就是遵循的是面向对象程序设计中的开放-封闭原则（OCP）。官方对OCP的解释是：软件实体（类、模块、函数...）应该是可以扩展
+  的，但是不可修改。设计模式中有很多模式都遵循了开发-封闭原则，比如：发布-订阅者模式、模板方法模式、策略模式、代理模式。</h5>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">
+  有的时候我们通过扩展来提高代码的灵活性并不能解决所有的场景需要，在不可避免发生修改的时候，我们可以通过增加配置文件，让用户修改配置文件以实现个性化需求也是合理的。修改配置远比修改源代码要简单的多。</p><h5
+  style="color: rgb(51, 51, 51);">有了上面的引入，我们来看几个前端开发中常见的设计模式。</h5>
+<ul style="" class="list-paddingleft-2">
+  <li><p style="line-height: 2.27rem;">单例模式</p>
+    <pre style=";"><code class="" style=";">单例模式顾名思义：保证一个类仅有一个实例， &nbsp;
+并且对外暴露一个能够访问到它的访问点。</code></pre>
+    <p style="line-height: 2.27rem;">实现单例模式的核心就是保证一个类仅有一个实例，那么意思就是当创建一个对象时，我们需要判断下之前有没有创建过该实例，如果创建过则返回之前创建的实例，否则新建。</p>
+    <pre style=";"><br></pre>
+    <p><img data-s="300,640" data-type="png"
+            data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586ussbUQQ4SLQUc57xxicJXQXgvqDiasRZ9pqVvUN3AuE6vjENehAKs0IOKibHbibsSEVVCibFEmJjoNsDtA/0?wx_fmt=png"
+            style="width: 609px !important; height: auto !important; visibility: visible !important;" class=""
+            data-ratio="0.6732348111658456" data-w="609" _width="609px"
+            src="%E4%BD%BF%E7%94%A8%E5%90%88%E9%80%82%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E6%AD%A5%E6%AD%A5%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81_files/640_003.jpg"
+            crossorigin="anonymous" alt="图片" data-fail="0"></p></li>
+  <li><p style="line-height: 2.27rem;">
+    日常的业务场景中，单例模式也比较常见，比如：一个页面中的模态框只有一个，每次打开与关闭的都应该是同一个，而不是重复新建。而且为了性能优化，我们应该在需要时再创建，而不是页面初始化时就已经存在于dom中，这个就是<em>惰性单例模式</em>。
+  </p></li>
+  <li><p><img data-s="300,640" data-type="png"
+              data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586ussbUQQ4SLQUc57xxicJXQXg35LokGicHCuAy0Q1hDqPLxazU0aKh33DMuibNBcE5az1w9adWLoLzGzQ/0?wx_fmt=png"
+              style="width: 615px !important; height: auto !important; visibility: visible !important;" class=""
+              data-ratio="0.7008130081300813" data-w="615" _width="615px"
+              src="%E4%BD%BF%E7%94%A8%E5%90%88%E9%80%82%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E6%AD%A5%E6%AD%A5%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81_files/640_002.jpg"
+              crossorigin="anonymous" alt="图片" data-fail="0"></p></li>
+  <li><p style="line-height: 2.27rem;">
+    上面的代码中，我们将创建对象和管理实例的逻辑都放在一个地方，违反了单一职责原则，我们应该单独新建一个用于创建单例的方法，这样我们不仅能创建唯一的modal实例，也能创建其他的，职责分开。</p>
+    <pre style=";"><code class="" style=";"><span class="" style="font-weight: 700;"></span></code></pre>
+  </li>
+  <li><p><img data-s="300,640" data-type="png"
+              data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586ussbUQQ4SLQUc57xxicJXQXgVeiaic394SIruq9Aj8chvQFYomwksOHRGZvV9qmb5v6szv3lRibNCh6OA/0?wx_fmt=png"
+              style="width: 610px !important; height: auto !important; visibility: visible !important;" class=""
+              data-ratio="0.7459016393442623" data-w="610" _width="610px"
+              src="%E4%BD%BF%E7%94%A8%E5%90%88%E9%80%82%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E6%AD%A5%E6%AD%A5%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81_files/640_004.jpg"
+              crossorigin="anonymous" alt="图片" data-fail="0"></p></li>
+  <li><p style="line-height: 2.27rem;">观察者模式</p>
+    <pre style=";"><code class="" style=";">定义了对象与其他对象之间的依赖关系， &nbsp;
+当某个对象发生改变的时候，所有依赖到这个对象的地方都会被通知。</code></pre>
+    <p style="line-height: 2.27rem;">
+      像knockout.js中的ko.compute以及vue中的computed函数其实就是这个模式的实践。实现观察者模式的核心就是我们需要有一个变量来保存所有的依赖，一个listen函数用于向变量中添加依赖，一个trigger函数用于触发通知。</p>
+  </li>
+  <li><p style="line-height: 2.27rem;"><img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586ussbUQQ4SLQUc57xxicJXQXgciarfbbI2wcJX76mmryX3lKz5sVgTVE5MUe6LRXGbZrqNTbyiczczibNg/0?wx_fmt=png"
+    style="width: 606px !important; height: auto !important; visibility: visible !important;" class=""
+    data-ratio="1.3844884488448845" data-w="606" data-type="png" _width="606px"
+    src="%E4%BD%BF%E7%94%A8%E5%90%88%E9%80%82%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%80%E6%AD%A5%E6%AD%A5%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81_files/640.jpg"
+    crossorigin="anonymous" alt="图片" data-fail="0"><br></p></li>
+  <li><p style="line-height: 2.27rem;">使用观察者模式（发布-订阅模式）我们可以使得代码更灵活、健壮性更高。订阅者不需要了解消息来自哪一个发布者，发布者也不需要知道消息会发送给哪些订阅者。</p>
+    <p style="line-height: 2.27rem;">同样的我们可以创建一个公用的函数库，里面存放创建observal的工具方法，需要用到的地方我们就用这个方法创建一个发布订阅对象。</p></li>
+  <li><p style="line-height: 2.27rem;">其他设计模式及设计原则</p>
+    <p style="line-height: 2.27rem;">
+      设计模式有很多，这里篇幅有限就不再展开。GoF在1995年提出了23种设计模式。诸如策略者模式优化表单验证、代理模式、组合模式、装饰者模式、适配器模式...这些后期可以再简单探讨或者大家后面自己了解。常用的设计模式及设计原则可以参考下面的思维导图。</p>
+    <p style="line-height: 2.27rem;"><br></p>
+    <figure style="margin: 2.7rem auto;text-align: center;"><img
+    src="使用合适的设计模式一步步优化前端代码_files/6401.jpg">
+      <figcaption style="font-size: 1rem;line-height: 2.7rem;color: rgb(144, 144, 144);">常用设计模式</figcaption>
+    </figure>
+    <p style="line-height: 2.27rem;"><br></p>
+    <p style="line-height: 2.27rem;"><br></p>
+    <figure style="margin: 2.7rem auto;text-align: center;"><img
+      src="使用合适的设计模式一步步优化前端代码_files/6402.png"/>
+      <figcaption style="font-size: 1rem;line-height: 2.7rem;color: rgb(144, 144, 144);">六大设计原则</figcaption>
+    </figure>
+  </li>
+</ul>
+<h5 style="color: rgb(51, 51, 51);">看了上面的文章，相信大家对设计模式的好处有了直观的了解，也大致掌握了单例模式及观察者模式。</h5>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">
+  设计模式都是经过了大量的代码、软件实践而总结出来的优秀的组织实践方案。每种设计模式都有它的适应场景，有的场景也会使用多种设计模式。只有了解了更多的设计模式，掌握各个设计模式自己的适应场景，才能更好的为我们所用。</p>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);">但是<span
+  style="font-weight: 700;"><em>过早的优化不一定是好事或者不是必须的</em></span>，
+  有时候我们可以一开始并不去优化，等到某个应用场景下出现了代码组织混乱、需要额外扩展等问题，我们再优化重构，以防过早优化导致的不必要性或者只是增加
+  了代码不必要的复杂性。就像redux，如果一个页面组件与组件之间有数据共享、需要在任意组件内部拿到某个数据、任意一个组件中某个行为导致的数据变化
+  需要通知到所有用到的地方，那么这个时候可以使用redux，一些简单的表单页面或者展示页完全可以不用redux。</p>
+<p style="line-height: 2.27rem;color: rgb(51, 51, 51);"><br></p>
+<blockquote style="max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;"><p
+  style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;">作者:<span
+  style="color: rgb(102, 102, 102);">晓飞</span></p>
+  <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;">
+    原文链接:https://juejin.im/post/59f29fda518825549f7260c9</p></blockquote>
+</body>
+</html>

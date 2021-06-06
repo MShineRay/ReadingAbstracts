@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="rich_media_content " id="js_content" style="visibility: visible;">
+
+  <section data-role="outer" label="Powered by 135editor.com" style="font-size:16px;"><p
+    style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+    测量页面的加载性能是一项艰难的任务。因此&nbsp;Google Developers&nbsp;正和社区一起致力于渐进式网页指标（Progressive Web Metrics，简称 PWM’s）。</p>
+    <section data-role="outer" label="Powered by 135editor.com" style="font-size:16px;"><p
+      style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+      PWM’s 都是些什么，我们为什么需要它们？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        先来讲一点关于浏览器指标的历史。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        此前我们有两个主要的点（事件）来测量性能：</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">DOMContentLoaded</code> — 页面加载时触发，但脚本文件刚刚开始执行。
+      </p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;事件在页面完全加载后触发，此时用户已经可以使用页面或应用。
+      </p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        举个例子，如果我们看一下&nbsp;reddit.com 的跟踪时间轴（Chrome 的开发者工具可以帮助我们用蓝色和红色的垂直线来标记那些点），就可以明白为什么这些指标不是那么有用了。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-bottom: 15px;overflow: hidden;">
+          时至今日，我们也可以看到&nbsp;<code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">window.onload</code>&nbsp;并没有像以前那样真实反映出用户的感知。
+        </p>
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-top: 15px;overflow: hidden;">参考：Steve
+          Souders，Moving beyond window.onload()&nbsp;（2013）</p></blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        确实，<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">DOMContentLoaded</code>&nbsp;的问题在于解析和执行
+        JavaScript 的时间，如果脚本文件太大，那么这个时间就会非常长。比如移动设备，在 3G 网络的限制下测量跟踪时间轴，就会发现要花费差不多十秒才能到达&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;点。
+      </p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        另一方面，<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;事件太晚触发，就无法分析出页面的性能瓶颈。
+      </p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        所以我们能否依赖这些指标？它们到底给我们提供了什么信息？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        而且最主要的问题是，从页面开始加载直至加载完成，<span style="font-weight: 700;">用户如何感知这个过程</span>？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        为
+        什么加载感知会如此重要？可以参考&nbsp;Chrome Developers&nbsp;上的一篇文章：Leveraging the
+        Performance Metrics that Most Affect User Experience，再次强调了加载问题。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        看一下下方柱状图，X 轴展示了加载时间，Y 轴展示了体验到加载时长在特定时间区间里的用户的相对数量，你就可以明白不是所有用户的体验加载时间都会小于两秒。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        因此在我们的试验里，17 秒左右的&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;时间在获取用户感知加载这方面是没有什么价值的。用户在这
+        17 秒里到底看到了什么？白屏？加载了一半的页面？页面假死（用户无法点击输入框或滚动）？如果这些问题有答案的话：</p>
+      <ol style="" class="list-paddingleft-2">
+        <li><p>可以改善用户体验</p></li>
+        <li><p>给应用带来更多的用户</p></li>
+        <li><p>增加产品所有者的利益（用户、消费者、钱）</p></li>
+      </ol>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        所以，大家都在尝试解读用户的想法并预测用户在这 17 秒的加载时间里会想些什么。</p>
+      <ol style="" class="list-paddingleft-2">
+        <li><p>“<span style="font-weight: 700;">它正在运行吗？</span>”</p></li>
+      </ol>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        我的网页浏览开始了吗（服务器有回应，等等）？<br>Has my navigation started successfully (the server has responded, etc.)?</p>
+      <ol style="" class="list-paddingleft-2">
+        <li><p>“<span style="font-weight: 700;">它有用吗？</span>”</p></li>
+      </ol>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        页面上是否有足够关键的内容使我能够理解？</p>
+      <ol style="" class="list-paddingleft-2">
+        <li><p>“<span style="font-weight: 700;">它可以使用了吗？</span>”</p></li>
+      </ol>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        我能不能和页面互动了呢？还是它依旧处于加载状态？</p>
+      <ol style="" class="list-paddingleft-2">
+        <li><p>“<span style="font-weight: 700;">用户体验良好吗？</span>”</p></li>
+      </ol>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        是否没有滚动卡顿、动画卡顿、无样式内容闪烁和缓慢的 Web 字体文件加载等问题出现，让我感到惊喜？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        如果&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">DOMContentLoaded</code>&nbsp;或者&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;指标不能回答这些问题，那么什么指标可以回答？
+      </p>
+      <h2
+        style="font-weight: bold;font-size: 2em;line-height: 1.7;margin-top: 1em;margin-bottom: 15px;cursor: text;border-bottom: 1px solid rgb(238, 238, 238);color: rgb(97, 97, 97);white-space: normal;">
+        渐进式网页指标（Progressive Web Metrics）</h2>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        PWM’s 的指标列表目的在于帮助检测性能瓶颈。除开&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;和&nbsp;<code
+        style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">DOMContentLoaded</code>，PWM’s
+        给开发者提供了更多更详细的关于页面加载的信息。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        下面让我们用 reddit.com 的跟踪时间轴来探究一下 PWM’s，并尝试弄明白每个指标的意思。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        首次绘制（First Paint，FP）</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        我曾经说我们只有两个指标，这其实不太准确。（Chrome）开发者工具还给我们提供了一个指标 - FP。这个指标表示页面绘制的时间点，换句话说它表示当用户第一次看到白屏的时间点（下面是 msn.com 的 FP
+        截屏）。可以在规范说明里阅读更多相关内容。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        想弄明白它是如何工作的话，作为例子，我们可以看一下 Chromium 图层的底层原理。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        FP 事件在图层进行绘制的时候触发，而不是文本、图片或 Canvas 出现的时候，但它也在列表里给出了一些开发者尝试使用的信息。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        但它并不是标准指标，所以测量就变得非常棘手。因此用到了一些不同的 “取巧” 技术，比如：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>附加&nbsp;<code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">requestAnimationFrame</code>&nbsp;使用
+        </p></li>
+        <li><p>捕捉 CSS 资源加载</p></li>
+        <li><p>甚至使用&nbsp;<code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">DOMContentLoaded</code>&nbsp;和&nbsp;<code
+          style="margin-right: 2px;margin-left: 2px;padding-right: 5px;padding-left: 5px;background-color: rgba(0, 0, 0, 0.04);border-radius: 3px;white-space: nowrap;">load</code>&nbsp;事件（它们的问题之前已经讲过）
+        </p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        但是，尽管做出了这些努力，它仍然不具有太大的价值，因为文本、图片和 Canvas 可能在 FP 事件触发没多久就会进行绘制，而这些则会被诸如页面权重、CSS 或 JavaScript 资源大小等性能瓶颈所影响。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">这个指标不属于 PWM
+          的一部分，但它对于理解下面将要讲到的指标很有帮助。</p></blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        所以需要其他一些指标来表示真实的内容绘制。</p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        首次内容绘制（First Contentful Paint，FCP）</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        这是当用户看见一些“内容”元素被绘制在页面上的时间点。和白屏是不一样的，它可以是文本的首次出现，或者 SVG 的首次出现，或者 Canvas 的首次出现等等。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        因此，用户可能会产生疑问，<span style="font-weight: 700;">它正在运行吗？</span>&nbsp;页面是否在他（她）键入 URL 并按 enter 键后开始加载了呢？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        继
+        续看一下 Chromium，FCP 事件在文本（正在等待字体文件加载的文本不计算在内）、图片、Canvas
+        等元素绘制期间就已经被触发了。因此，FP 和 FCP
+        的时间差异可能从几毫秒到几秒不等。这个差别甚至可以从上面的图片中看出来。这就是为什么用一个指标来表示真实的首次内容绘制是有价值的。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">你可以从这里阅读所有的规范说明。</p>
+      </blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">FCP 指标如何对开发者产生价值？</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        如果<span style="font-weight: 700;">首次内容绘制</span>耗时太长，那么：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>你的网络连接可能有性能问题</p></li>
+        <li><p>资源太过庞大（如 index.html），传输它们消耗太多时间</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        阅读&nbsp;Ilya Grigorik&nbsp;写的&nbsp;High Performance Browser Networking&nbsp;了解更多关于网络性能的问题，消除这些因素的影响。</p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        首次有意义绘制（First Meaningful Paint，FMP）</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        这是指页面主要内容出现在屏幕上的时间点，因此，<span style="font-weight: 700;">它有用吗？</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        主要内容是什么？</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        当</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>博客的标题和文本</p></li>
+        <li><p>搜索引擎的搜索文本</p></li>
+        <li><p>对于电子商务产品来说重要的图片</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        展示的时候。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        但如果展示的是</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>下拉菜单或类似的东西</p></li>
+        <li><p>无样式内容闪烁（FOUC）</p></li>
+        <li><p>导航条或页面标题</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        则<span style="font-weight: 700;">不计算</span>在主要内容之内。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">FMP = 最大布局变化时的绘制</p>
+      </blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        基于 Chromium 的实现，这个绘制是使用&nbsp;LayoutAnalyzer&nbsp;进行计算的，它会收集所有的布局变化，当布局发生最大变化时得出时间。而这个时间就是 FMP。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">你可以从这里阅读所有的规范说明。</p>
+      </blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">FMP 指标如何对开发者产生帮助？</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        如果主要内容很久都没有展示出来，那么：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>太多资源（图片、样式、字体、JavaScript）有较高的加载优先级，因此，它们阻塞了 FMP</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        我不想重复太多已有的用来提升这些瓶颈的实践方法，给大家留出一些链接：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>Addy Osmani&nbsp;的&nbsp;Preload, Prefetch And Priorities in Chrome</p></li>
+        <li><p>Ben Schwarz&nbsp;的&nbsp;Critical Request</p></li>
+        <li><p>Karolina Szczur&nbsp;的&nbsp;The State of the Web</p></li>
+        <li><p>Paul Irish&nbsp;和&nbsp;Sam Saccone&nbsp;的&nbsp;Practical Performance (Polymer Summit 2016)</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        从这些文章里可以找到所有需要的信息。</p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        视觉上准备好</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        当页面看上去“接近”加载完成，但浏览器还没有执行完所有脚本文件的状态。</p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        预计输入延迟</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        这个指标意在估计应用对于用户输入的响应有多流畅。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        但在深入研究前，我想通过解释一些术语以便大家在理解上同步。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">长任务</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        浏
+        览器底层将所有用户输入打包在一个任务里（UI 任务），并在主线程中将它们放到一个队列里。除此之外，浏览器还必须在页面上解析、编译和执行
+        JavaScript
+        代码（应用任务）。如果每个应用任务要耗费很长时间的话，那么用户输入任务就可能在其他任务结束前受到阻塞。因此它就会延迟与页面的交互，页面行为就会变
+        得卡顿有延迟。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        简单来说，长任务就是指耗时大于 50 毫秒的解析、编译和执行 JavaScript 代码块。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">你可以从这里阅读所有的规范说明。</p>
+      </blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        长任务 API 已经在 Chrome 里实现，并用作测量主线程的繁忙程度。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        回
+        到预计输入延迟，用户会假设页面响应很快，但如果主线程正忙于处理各个长任务，那么就会让用户不满意。对于应用来说，用户体验至关重要，可以
+        从&nbsp;Measure Performance with the RAIL
+        Model&nbsp;这篇文章里阅读关于这种类型的性能瓶颈如何进行性能提升。</p>
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        首次交互</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        交互 -&nbsp;<span style="font-weight: 700;">它可以使用了吗？</span>&nbsp;是的，这是当用户看见视觉上准备好的页面时提出的问题，他们希望能与页面产生交互。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        首次交互发生需满足以下条件：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p><em>FMP</em></p></li>
+        <li><p>&amp;&amp;</p></li>
+        <li><p>DOMContentLoaded&nbsp;事件被触发</p></li>
+        <li><p>&amp;&amp;</p></li>
+        <li><p>页面视觉完成度在 85%</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        首次交互 - 这个指标可以拆分成两个指标，首次交互的时间（Time to First Interactive，TTFI）和首次持续交互的时间（Time to First Consistently
+        Interactive，TTCI）。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        拆分的原因在于：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>当 UI 响应良好时，定义最小程度的交互，但如果响应不好也可以接受</p></li>
+        <li><p>当网站有着完整且令人愉悦的交互，并严格遵循&nbsp;RAIL&nbsp;的指导原则时</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">TTCI</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        使用逆序分析，从追踪线的尾端开始看，发现页面加载活动保持了 5 秒的安静并且再无更多的长任务执行，得到了一段叫做<span style="font-weight: 700;">安静窗口</span>的时期。安静窗口之后及第一个长任务（从安静期结束后开始算）之前的时间就是<span
+        style="font-weight: 700;">TTCI</span>。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">TTFI</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        这个指标的定义和 TTCI 有一点不同。我们从头至尾来分析跟踪时间轴。在 FMP 发生后应该有 3 秒的安静窗口。这个时间已经足够说明页面对于用户来说是可交互的。但可能会有<span
+        style="font-weight: 700;">长任务</span>在这个安静窗口期间或之后开始执行，它们可以被忽略。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-bottom: 15px;overflow: hidden;"><span
+          style="font-weight: 700;">长任务</span>&nbsp;- 距离 FMP 很远执行的任务，并由 250ms 的执行时间期间（信道大小）和在信道大小前后的 1
+          秒安静期分隔开来。这个示例任务有可能是第三方广告或者分析脚本。</p>
+        <p
+          style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;">
+          有时长于 250 毫秒的“长任务”会对页面有严重的影响。</p>
+        <p
+          style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;">
+          比如检测<span style="font-weight: 700;">adblock</span></p>
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;margin-top: 15px;overflow: hidden;">
+          你可以从这里阅读所有的规范说明。</p></blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">TTFI 和 TTCI 指标如何对开发者产生帮助？</span></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        当线程长时间处于<span style="font-weight: 700;">视觉上准备好</span>和<span style="font-weight: 700;">首次交互</span>中间忙碌状态时</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        这是其中一个最复杂的瓶颈，并且没有标准方法来修复这类型的问题。它是独立的，而且取决于应用的特定情况。Chrome 开发者工具有一系列文章帮助我们检测运行时的性能问题。</p>
+      <hr
+        style="border-top: 0px;height: 0.25em;margin-top: 24px;margin-bottom: 24px;background-color: rgb(231, 231, 231);color: rgb(97, 97, 97);font-size: 15px;white-space: normal;">
+      <h3
+        style="font-weight: bold;font-size: 1.5em;line-height: 1.7;cursor: text;color: rgb(97, 97, 97);white-space: normal;">
+        视觉上完成 / 速度指数</h3>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">视觉上完成</span>是通过页面截图来计算的，并使用速度指数算法来对那些截图进行像素分析。有时候测量是否<span
+        style="font-weight: 700;">视觉上完成</span>也是一件棘手的事情。</p>
+      <blockquote
+        style="line-height: 1.35;font-size: 24px;letter-spacing: 0.08em;margin-top: 15px;margin-bottom: 15px;border-left-width: 4px;border-left-color: rgb(221, 221, 221);padding-right: 15px;padding-left: 15px;color: rgb(119, 119, 119);white-space: normal;">
+        <p style="font-size: 15px;letter-spacing: 0px;line-height: 1.7;overflow: hidden;">
+          如果页面里有会发生变化的图片如轮播图，那么获取正确的视觉上完成结果就可能有点挑战了。</p></blockquote>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <span style="font-weight: 700;">速度指数</span>本身表示<span style="font-weight: 700;">视觉上完成</span>结果的中值。<span
+        style="font-weight: 700;">速度指数</span>的值越小，性能就越好。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        视觉上 100% 完成是一个最终点，决定了用户对页面是否感到满意。这个时间也是用来回答问题 -&nbsp;<span style="font-weight: 700;">用户体验良好吗？</span></p>
+      <h2
+        style="font-weight: bold;font-size: 2em;line-height: 1.7;margin-top: 1em;margin-bottom: 15px;cursor: text;border-bottom: 1px solid rgb(238, 238, 238);color: rgb(97, 97, 97);white-space: normal;">
+        总结</h2>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        上述并不是所有的 PWM，但是最重要的一部分。上面的指标都增加了一些资料链接，帮助我们更好地提升它们，另外，我还想留出一些关于测量这些类型指标的工具链接：</p>
+      <ul style="" class="list-paddingleft-2">
+        <li><p>Web Pagetest</p></li>
+        <li><p>Lighthouse</p></li>
+        <li><p>pwmetrics</p></li>
+        <li><p>Calibre</p></li>
+        <li><p>DevTools Timeline Viewer</p></li>
+      </ul>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        P.S. 要获得所有这些指标的结果的话，我推荐使用 Lighthouse 或 pwmetrics。Calibre 和 WPT 都可以运行 Lighthouse，并可以通过扩展提供所有这些指标。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        如果你想手动测量性能，有一个原生 API，叫&nbsp;PerformanceObserver，它可以帮助你实现你的测量目标。</p>
+      <p
+        style="font-size: 15px;line-height: 1.7;margin-top: 15px;margin-bottom: 15px;overflow: hidden;color: rgb(97, 97, 97);white-space: normal;">
+        <br></p>
+      <blockquote
+        style="box-sizing: border-box;padding: 10px 20px;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 14px;border-left-width: 2px;border-left-color: rgb(0, 154, 97);background: rgb(246, 246, 246);color: rgb(85, 85, 85);">
+        <p style="box-sizing: border-box;">作者:&nbsp;<span style="color: #999999;">&nbsp;</span><strong
+          style="box-sizing: border-box;"><span style="color: rgb(97, 97, 97);font-size: 13px;">llp</span></strong></p>
+        <p style="box-sizing: border-box;">链接:
+          https://llp0574.github.io/2017/10/19/performance-metrics-whats-this-all-about/</p></blockquote>
+    </section>
+  </section>
+  <p><br></p>
+</div>
+</body>
+</html>

@@ -79,11 +79,11 @@
   页面结构	将样式表放在顶部，将脚本放在底部，尽早刷新文档的输出
   代码校验	避免CSS表达式，避免重定向
   ~~~
-- [](  )
-- [](  )
-- [](  )
-- [](  )
-- [](  )
+- [浅谈流量劫持与防治 ](https://mp.weixin.qq.com/s/tTfCLt6-Yq8mXyj5R5xfXw  )
+- [如何管理好10万行代码的前端单页面应用 ]( https://mp.weixin.qq.com/s/IpzOwjOcjyAWNnNzoLlTCQ )
+- [SQL注入 ]( https://mp.weixin.qq.com/s/gcGotCuCgK044cD7QhE_pg )
+- [XSS 跨站脚本攻击 ](https://mp.weixin.qq.com/s/V09sXxP-J23vKtNUrQccBg )
+- [web中的性能指标 ]( https://mp.weixin.qq.com/s/Sjo8cT0xADCwBeL_jnNDZw )
 - [](  )
 - [](  )
 - [](  )
