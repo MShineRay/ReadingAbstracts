@@ -28,7 +28,7 @@
     推荐3款移动端网页开发调试神器
 - 公众号：前端热点分析
 - [百度EFE](https://efe.baidu.com/)
-- 公众号：
+- [最好的前端hacking备忘录](https://mp.weixin.qq.com/s/h0nUPCNy2AxwOCRzJOEzdA)
 - 公众号：
 - 公众号：
 - 公众号：

@@ -14,7 +14,7 @@
   7. React Hooks
   ~~~
 - [React 高阶组件浅析](https://mp.weixin.qq.com/s/v98X67j2WIRuf9Up8qXD2g)
-- [](  )
+- [高性能 React 组件]( https://mp.weixin.qq.com/s/BrT0Zf8qQz--BovyEIaN4A)
 - [](  )
 - [](  )
 - [](  )

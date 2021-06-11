@@ -16,7 +16,7 @@
   ~~~
 - [小程序的全栈开发新时代]( https://mp.weixin.qq.com/s/bHEVN455WW5bn2dH4Gdxnw)
 - (已整理)[小程序分享](https://mp.weixin.qq.com/s/i50jYK0UOurzVoVyUSDSbA)
-- [](  )
+- [vue和微信小程序的区别、比较]( https://mp.weixin.qq.com/s/XgNa6y8HrqYlDmlg4L6ZNg )
 - [](  )
 - [](  )
 - [](  )

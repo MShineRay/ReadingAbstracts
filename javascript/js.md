@@ -721,8 +721,8 @@
     目前，optional chaining还不是官方标准的一部分，但它是个stage-1的实验性功能。
     需要在babelrc中加入@babel/plugin-proposal-optional-chaining来启用它。
   ~~~
-- [](  )
-- [](  )
+- [轻松理解JS函数节流和函数防抖]( https://mp.weixin.qq.com/s/3FZJ0nQLhj9PCi0pfBjc9A)
+- [JavaScript深入之call和apply的模拟实现]( https://mp.weixin.qq.com/s/nFxquZAu54pVn5iG_2A9qQ)
 - [](  )
 - [](  )
 - [](  )
