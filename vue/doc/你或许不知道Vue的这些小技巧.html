@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h3 class="" data-id="heading-2"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">组件style的scoped:</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  问题：在组件中用js动态创建的dom，添加样式不生效。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">场景</strong>:
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">template</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">class</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"test"</span>&gt;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">template</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">script</span>&gt;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">let</span>&nbsp;a=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">document</span>.querySelector(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'.test'</span>);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">let</span>&nbsp;newDom=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">document</span>.createElement(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"div"</span>);&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;创建dom</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newDom.setAttribute(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"class"</span>,<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"testAdd"</span>&nbsp;);&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;添加样式</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.appendChild(newDom);&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;插入dom</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">script</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">style</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">scoped</span>&gt;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">.test</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">background</span>:blue;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">height</span>:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100px</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">width</span>:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100px</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">.testAdd</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">background</span>:red;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">height</span>:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100px</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">width</span>:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100px</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">style</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">结果</strong>：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;test生效&nbsp;&nbsp;&nbsp;testAdd&nbsp;不生效</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;data-v<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">-1</span>b971ada&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">class</span></span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"test"</span>&gt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">class</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"testAdd"</span>&gt;</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&gt;</span></span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;.test[data-v<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">-1</span>b971ada]{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;注意data-v-1b971ada</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background:blue;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100</span>px;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">100</span>px;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">原因</strong>:
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  当&nbsp;<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">&lt;style&gt;</code>&nbsp;标签有&nbsp;scoped&nbsp;属性时，它的
+  CSS 只作用于当前组件中的元素。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  它会<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">为组件中所有的标签和class样式添加一个<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">scoped</code>标识</strong>，就像上面结果中的<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">data-v-1b971ada</code>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  所以原因就很清楚了：因为动态添加的dom没有<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">scoped</code>添加的标识，<strong
+  style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">没有跟<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">testAdd</code>的样式匹配起来</strong>，导致样式失效。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">解决方式</strong>
+</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p><span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">推荐：去掉该组件的scoped</span></p>
+  </li>
+</ul>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  每个组件的css并不会很多，当设计到动态添加dom，并为dom添加样式的时候，就可以去掉scoped，会比下面的方法方便很多。</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: inherit;color: inherit;line-height: inherit;">
+    可以动态添加style</p>
+    <pre
+      style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: inherit;color: inherit;line-height: inherit;"><code
+      class=""
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;上面的栗子可以这样添加样式</span><br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newDom.style.height=<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'100px'</span>;<br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newDom.style.width=<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'100px'</span>;<br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newDom.style.background=<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'red'</span>;<br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+  </li>
+</ul>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-3"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">Vue 数组/对象更新 视图不更新</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  很多时候，我们习惯于这样操作数组和对象:</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">data</span>()&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;data数据</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr:&nbsp;[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>,<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>,<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">3</span>],<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;数据更新&nbsp;数组视图不更新</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.arr[<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>]&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'OBKoro1'</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.arr.length&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(arr);<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;['OBKoro1'];</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;数据更新&nbsp;对象视图不更新</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.obj.c&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'OBKoro1'</span>;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delete&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.obj.a;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(obj);&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;{b:2,c:'OBKoro1'}</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  由于js的限制，Vue 不能检测以上数组的变动，以及对象的添加/删除，很多人会因为像上面这样操作，出现视图没有更新的问题。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">解决方式:</strong>
+</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p
+    style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: inherit;color: inherit;line-height: inherit;">
+    <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">this.$set(你要改变的数组/对象，你要改变的位置/key，你要改成什么value)</strong>
+  </p>
+    <pre
+      style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: inherit;color: inherit;line-height: inherit;"><code
+      class=""
+      style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.$<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">set</span>(<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.arr,&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>,&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"OBKoro1"</span>);&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;改变数组</span><br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.$<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">set</span>(<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.obj,&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"c"</span>,&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"OBKoro1"</span>);&nbsp;<span
+      class=""
+      style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;改变对象</span><br
+      style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+  </li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  如果还是不懂的话，可以看看这个codependemo。</p>
+<ol start="2" style="" class="list-paddingleft-2">
+  <li><p><strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">数组原生方法触发视图更新</strong>:
+  </p></li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  Vue可以监测到数组变化的，<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">数组原生方法</strong>:
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">splice</span>()、&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">push</span>()、<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">pop</span>()、<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">shift</span>()、<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">unshift</span>()、<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">sort</span>()、<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">reverse</span>()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  意思是<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">使用这些方法不用我们再进行额外的操作，视图自动进行更新</strong>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  推荐使用<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">splice</code>方法会比较好自定义,因为slice可以在数组的任何位置进行删除/添加操作</p>
+<ol start="3" style="" class="list-paddingleft-2">
+  <li><p><strong
+    style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">替换数组/对象</strong></p>
+  </li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  比方说:你想遍历这个数组/对象，对每个元素进行处理，然后触发视图更新。</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;文档中的栗子:&nbsp;filter遍历数组，返回一个新数组，用新数组替换旧数组</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example1.items&nbsp;=&nbsp;example1.items.filter(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">function</span>&nbsp;(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">item</span>)&nbsp;</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>&nbsp;item.message.match(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/Foo/</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">举一反三</strong>：可以先把这个数组/对象保存在一个变量中，然后对这个变量进行遍历，等遍历结束后再用<strong
+  style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">变量替换对象/数组</strong>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong
+    style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">并不会重新渲染整个列表</strong>:
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  Vue 为了使得 DOM 元素得到最大范围的重用而实现了一些智能的、启发式的方法，所以用一个含有相同元素的数组去替换原来的数组是非常高效的操作。</p>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-5"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">列表渲染相关</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">v-for循环绑定model:</strong>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  input在v-for中可以像如下这么进行绑定，我敢打赌很多人不知道。</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;数据&nbsp;&nbsp;&nbsp;&nbsp;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data()&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">return</span>{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">obj</span>:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ob</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"OB"</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">koro1</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"Koro1"</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">model</span>:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ob</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"默认ob"</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">koro1</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"默认koro1"</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;html模板</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&nbsp;v-<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">for</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"(value,key)&nbsp;in&nbsp;obj"</span>&gt;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">input</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">type</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"text"</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-model</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"model[key]"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&gt;</span></span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;input就跟数据绑定在一起了，那两个默认数据也会在input中显示</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  为此，我做了个demo,你可以点进去试试。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong
+    style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">一段取值的v-for</strong>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  如果我们有一段重复的html模板要渲染，又没有数据关联，我们可以:</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-for</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"n&nbsp;in&nbsp;5"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">span</span>&gt;</span>这里会被渲染5次，渲染模板{{n}}<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">span</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">div</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">v-if尽量不要与v-for在同一节点使用</strong>:
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  v-for 的优先级比 v-if 更高,如果它们处于同一节点的话，那么每一个循环都会运行一遍v-if。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  如果你想根据循环中的<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">每一项的数据来判断是否渲染，那么你这样做是对的</strong>:
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&nbsp;v-<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">for</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"todo&nbsp;in&nbsp;todos"</span>&nbsp;v-<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">if</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"todo.type===1"</span>&gt;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{&nbsp;todo&nbsp;}}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  如果你想要根据<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">某些条件跳过循环，而又跟将要渲染的每一项数据没有关系的话，你可以将v-if放在v-for的父节点</strong>：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;根据elseData是否为true&nbsp;来判断是否渲染，跟每个元素没有关系&nbsp;&nbsp;&nbsp;&nbsp;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ul</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-if</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"elseData"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">li</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-for</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"todo&nbsp;in&nbsp;todos"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{&nbsp;todo&nbsp;}}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">li</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ul</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;数组是否有数据&nbsp;跟每个元素没有关系<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ul</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-if</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"todos.length"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">li</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-for</span>=<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"todo&nbsp;in&nbsp;todos"</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{&nbsp;todo&nbsp;}}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">li</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">ul</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">p</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">v-else</span>&gt;</span>No&nbsp;todos&nbsp;left!<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&lt;/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">p</span>&gt;</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  如上，正确使用v-for与v-if优先级的关系，可以为你节省大量的性能。</p>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-6"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">深度watch与watch立即触发回调</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong
+    style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">选项：deep</strong></p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  在选项参数中指定&nbsp;<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">deep:
+  true</code>，可以监听对象中属性的变化。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong
+    style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">选项：immediate</strong>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  在选项参数中指定 immediate: true, 将立即以表达式的当前值触发回调，也就是立即触发一次。</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;watch:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">val</span>,&nbsp;oldVal)&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'属性发生变化触发这个回调'</span>,<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">val</span>,&nbsp;oldVal);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deep:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;监听这个对象中的每一个属性变化</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;step:&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;属性</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//watch</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">val</span>,&nbsp;oldVal)&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"默认立即触发一次"</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">val</span>,&nbsp;oldVal);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;immediate:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">true</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;默认立即触发一次</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  这两个选项可以同时使用，另外：是的，又有一个demo。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  还有下面这一点需要注意。</p>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-7"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">这些情况下不要使用箭头函数:</span>
+</h3>
+<ul style="" class="list-paddingleft-2">
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不应该使用箭头函数来定义一个生命周期方法</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不应该使用箭头函数来定义 method 函数</span>
+  </p></li>
+  <li><p><span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不应该使用箭头函数来定义计算属性函数</span></p>
+  </li>
+  <li><p><span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不应该对 data 属性使用箭头函数</span></p>
+  </li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不应该使用箭头函数来定义 watcher 函数</span>
+  </p></li>
+</ul>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  示例：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;上面watch的栗子：</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">val,&nbsp;oldVal</span>)=&gt;</span>&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;可以执行</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">"默认触发一次"</span>,&nbsp;val,&nbsp;oldVal);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;method：</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;methods:&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">plus</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span>&nbsp;=&gt;</span>&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;可以执行</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;do&nbsp;something</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;生命周期:</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;created:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span>=&gt;</span>{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;可以执行</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'lala'</span>,<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">this</span>.obj)&nbsp;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  是的，没错，这些都能执行。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">but</strong>:
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  箭头函数绑定了父级作用域的上下文，<strong
+  style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">this 将不会按照期望指向 Vue
+  实例</strong>。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  也就是说，你<strong style="box-sizing: border-box;color: rgb(233, 105, 0);font-size: inherit;line-height: inherit;">不能使用this来访问你组件中的data数据以及method方法了</strong>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  this将会指向undefined。</p>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-8"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">路由懒加载写法:</span>
+</h3>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;我所采用的方法，个人感觉比较简洁一些，少了一步引入赋值。</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;router&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span>&nbsp;VueRouter({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">routes</span>:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'/app'</span>,<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">component</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span>&nbsp;=&gt;</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">import</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'./app'</span>),&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;引入组件</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;Vue路由文档的写法:</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;app&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span>&nbsp;=&gt;</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">import</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'./app.vue'</span>)&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//&nbsp;引入组件</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">const</span>&nbsp;router&nbsp;=&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span>&nbsp;VueRouter({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">routes</span>:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">path</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'/app'</span>,&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(165, 218, 45);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">component</span>:&nbsp;app&nbsp;}<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  文档的写法在于问题在于：如果我们的路由比较多的话，是不是要在路由上方引入赋值十几行组件？</p>
+<hr
+  style="box-sizing: border-box;margin: 2.5rem 20px;border-top: 3px solid rgb(165, 165, 165);border-right: none;border-left: none;border-bottom-style: solid;border-bottom-color: rgb(207, 207, 207);height: 8px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;border-radius: 50%;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+<h3 class="" data-id="heading-9"
+    style="box-sizing: border-box;margin-top: 1.6em;margin-bottom: 1.6em;font-weight: bold;font-size: 1.1em;color: rgb(62, 62, 62);line-height: inherit;border-bottom: 2px solid rgb(239, 112, 96);letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  <span
+    style="box-sizing: border-box;margin-right: 3px;padding: 3px 10px 1px;font-size: inherit;color: rgb(255, 255, 255);line-height: inherit;display: inline-block;font-weight: normal;background: rgb(239, 112, 96);border-top-right-radius: 3px;border-top-left-radius: 3px;">路由的项目启动页和404页面</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  实际上这也就是一个设置而已:</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;word-spacing: 2px;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;word-spacing: 0px;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">export</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">default</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span>&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Router</span>({<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">routes</span>:&nbsp;[<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'/'</span>,&nbsp;//&nbsp;项目启动页<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redirect:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'/login'</span>&nbsp;&nbsp;//&nbsp;重定向到下方声明的路由&nbsp;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">path</span>:&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'*'</span>,&nbsp;//&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">404</span>&nbsp;页面&nbsp;<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;component:&nbsp;()&nbsp;=&gt;&nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">import</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'./notFind'</span>)&nbsp;//&nbsp;或者使用component也可以的<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">&nbsp;&nbsp;&nbsp;&nbsp;</code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  比如你的域名为:<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">www.baidu.com</code>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  项目启动页指的是: 当你进入<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">www.baidu.com</code>，会自动跳转到login登录页。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  404页面指的是: 当进入一个没有 声明/没有匹配 的路由页面时就会跳转到404页面。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  比如进入<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">www.baidu.com/testRouter</code>,就会自动跳转到<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">notFind</code>页面。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.7em;margin-bottom: 1.7em;font-size: 15px;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;white-space: normal;word-spacing: 2px;background-color: rgb(255, 255, 255);">
+  当你没有声明一个404页面，进入<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">www.baidu.com/testRouter</code>，显示的页面是一片空白。
+</p>
+
+<blockquote style="white-space: normal;max-width: 100%;color: rgb(51, 51, 51);"><p>作者:OBKoro1</p></blockquote>
+<blockquote style="white-space: normal;"><p>https://juejin.im/post/5b41bdef6fb9a04fe63765f1</p></blockquote>
+</body>
+</html>

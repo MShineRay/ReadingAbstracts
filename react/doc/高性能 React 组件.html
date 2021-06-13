@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  组件的重新渲染</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  说到 React 组件，肯定离不开组件的 props 和 state，我们可以在 props 和 state 存放任何类型的数据，通过改变 props 和 state，去控制整个组件的状态。当 props 和 state
+  发生变化时，React 会重新渲染整个组件，组件重新渲染的过程可简化如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7bvibe014VBQMat5vzfR6LnOKFQq15BoZSvEKCJ4n2ed3GVfe5TJKWibw/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.6374570446735395" data-w="1164" data-type="png" _width="677px" src="./高性能 React 组件_files/640"
+    crossorigin="anonymous" alt="图片" data-fail="0"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  当组件的 props 或 state 变化，React 将会构建新的 virtual DOM，使用 diff 算法把新老的 virtual DOM 进行比较，如果新老 virtual DOM 树不相等则重新渲染，相等则不重新渲染。DOM
+  操作是非常耗时的，这导致重新渲染也非常的耗时，因此要提高组件的性能就应该尽一切可能的减少组件的重新渲染。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  假设有一个渲染完成的组件，如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB70madFVM3oXMX1jibJlW9w04dVcfLan2f6pG3EQJqNlpx40eI2MBwicpQ/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.3671988388969521" data-w="1378" data-type="png" _width="677px"
+    src="./高性能 React 组件_files/640(1)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  接下来因为状态改变，需要重新渲染下图的绿色的节点，如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7X7bQtR7wN4wicjzRHuSrvPoPnt9sr5iccIiaia2FeVichOge4neX9jRBuRw/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.44903988183161003" data-w="1354" data-type="png" _width="677px"
+    src="./高性能 React 组件_files/640(2)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  一般的想法是只需要更新下面的三个绿色节点就能够完成组件的更新，如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7NpsavDNuf0UVbjh4WrZic38cVZ15dylWl6c2cXxbAbNhnLEaYejwyuQ/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.36623748211731044" data-w="1398" data-type="png" _width="677px"
+    src="./高性能 React 组件_files/640(3)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  事实上根据 React 的更新规则，只要组件的 props 或 state 发生了变化就会重新渲染整个组件，因此除了上述的三个绿色节点以外，还需要重新渲染所有的黄色的节点，如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7mOicKlicby945z0FKia8ErpLeH3RTztuAHuicibDq2PpYZMlG66dH4LtwLA/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+    class="" data-ratio="0.3734087694483734" data-w="1414" data-type="png" _width="677px"
+    src="./高性能 React 组件_files/640(4)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  除了必要渲染的三个节点外，还渲染了其他不必要渲染的节点，这对性能是一个很大的浪费。如果对于复杂的页面，这将导致页面的整体体验效果非常差。因此要提高组件的性能，就应该想尽一切方法减少不必要的渲染。</p>
+<h1
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  组件优化</h1>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  Pure Component</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  如果一个组件只和 props 和 state 有关系，给定相同的 props 和 state 就会渲染出相同的结果，那么这个组件就叫做纯组件，换一句话说纯组件只依赖于组件的 props 和
+  state，下面的代码表示的就是一个纯组件。</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">render() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; return (</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &lt;div style={{width: this.props.width}}&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{this.state.rows}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; );</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  shouldComponentUpdate</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;这个函数会在组件重新渲染之前调用，函数的返回值确定了组件是否需要重新渲染。函数默认的返回值是&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">true</code>，意思就是只要组件的
+  props 或者 state 发生了变化，就会重新构建 virtual DOM，然后使用 diff 算法进行比较，再接着根据比较结果决定是否重新渲染整个组件。函数的返回值为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>&nbsp;表示不需要重新渲染。&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;在组件的重新渲染的过程中的位置如下图：
+</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7mmBHCE1bz7AlcKPdde9Rka2lLUs1pr33JOb9BhxBDvzK9HSjBtd02A/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: 438.059px !important;"
+    class="img_loading" data-ratio="0.6470588235294118" data-w="1156" data-type="png" _width="677px"
+    src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+    crossorigin="anonymous" alt="图片"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  函数默认返回为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">true</code>，表示在任何情况下都进行重新渲染的操作，要减少重新渲染，只需要在一些不必要重新渲染的时候，使得函数的返回结果为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>。如果使得函数的结果一直为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>，这样不管组件的状态怎么变化，组件都不会重新渲染，当然一般情况下没有人会这样干。
+</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  PureRenderMixin</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  React 官方提供了 PureRenderMixin 插件，插件的功能就是在不必要的情况下让函数&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;返回&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>,
+  使用这个插件就能够减少不必要的重新渲染，得到一定程度上的性能提升，其使用方法如下：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">import PureRenderMixin from 'react-addons-pure-render-mixin';</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">class FooComponent extends React.Component {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;constructor(props) {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;super(props);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;render() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;return &lt;div className={this.props.className}&gt;foo&lt;/div&gt;;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  查看源码后发现这个插件其实就是重写了&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;方法。
+</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">shouldComponentUpdate(nextProps, nextState) {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	return shallowCompare(this, nextProps, nextState);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  重写的方法里面根据组件的目前的状态和组件接下来的状态进行<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">浅比较</code>，如果组件的状态发生变化则返回结果为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>，状态没有发生变化则返回结果为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">true</code>，把这个函数进行进一步的分解其实现如下：
+</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">shouldComponentUpdate(nextProps, nextState) {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	return !shallowEqual(this.props, nextProps) ||</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">			!shallowEqual(this.state, nextState);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  就是分别去比较了函数的 props 和 state 的变化情况。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  在 React 的最新版本里面，提供了&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">React.PureComponent</code>&nbsp;的基础类，而不需要使用这个插件。
+</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  状态比较</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  假设在每一个组件中都使用 PureRenderMixin 这个插件，我们来看一下使用这个插件后的状态的比较过程。假设我们有一个组件如下：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;Input size={100} color='red'&gt;</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  我们想要去改变这个组件的颜色，使其变为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">blue</code>，
+</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;Input size={100} color='blue'&gt;</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  则状态的比较就是下面的对象的比较。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB7DJ80np5MJglKibicGEibmxwicEYwmoxFUSwxB4Ct8c15VIKqmRO6N3aoqw/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: 150.444px !important;"
+    class="img_loading" data-ratio="0.2222222222222222" data-w="1134" data-type="png" _width="677px"
+    src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+    crossorigin="anonymous" alt="图片"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  上图的比较是简单对象的比较，比较过程非常简单而且快速。但是如果是比较复杂的对象的比较，比如日期、函数或者一些复杂的嵌套许多层的对象，这些会比较耗时，甚至没法进行比较。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  其实我们自己可以重写&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;这个函数，使得其能够对任何事物进行比较，也就是<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">深比较</code>（通过一层一层的递归进行比较），深比较是很耗时的，一般不推荐这么干，因为要保证比较所花的时间少于重新渲染的整个组件所花的时间，同时为了减少比较所花的时间我们应该保证
+  props 和 state 尽量简单，不要把不必要的属性放入 state，能够由其他属性计算出来的属性也不要放入 state 中。</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  Immutable.js</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  对于复杂的数据的比较是非常耗时的，而且可能无法比较，通过使用 Immutable.js 能够很好地解决这个问题，Immutable.js
+  的基本原则是对于不变的对象返回相同的引用，而对于变化的对象，返回新的引用。因此对于状态的比较只需要使用如下代码即可：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">shouldComponentUpdate() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	return ref1 !== ref2;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  这类比较是非常快速的。</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  动静分离</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  假设我们有一个下面这样的组件：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;ScrollTable</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	width={300}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	color='blue'</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	scrollTop={this.props.offsetTop}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">/&gt;</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  这是一个可以滚动的表格，<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">offsetTop</code>&nbsp;代表着可视区距离浏览器的的上边界的距离，随着鼠标的滚动，这个值将会不断的发生变化，导致组件的
+  props 不断地发生变化，组件也将会不断的重新渲染。如果使用下面的这种写法：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;OuterScroll&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">	&lt;InnerTable width={300} color='blue'/&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;/OuterScroll&gt;</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  因为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">InnerTable</code>&nbsp;这个组件的
+  props 是固定的不会发生变化，在这个组件里面使用&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">pureRenderMixin</code>&nbsp;插件，能够保证&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;的返回一直为&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>，
+  因此不管组件的父组件也就是&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">OuterScroll</code>&nbsp;组件的状态是怎么变化，组件&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">InnerTable</code>&nbsp;都不会重新渲染。也就是子组件隔离了父组件的状态变化。
+</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  通过把变化的属性和不变的属性进行分离，减少了重新渲染，获得了性能的提升，同时这样做也能够让组件更容易进行分离，更好的被复用。</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  Children</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  对于嵌套多层、复杂的组件，组件的子节点很多，组件的更新的时间也将花费更多，并且难于维护，信息流从上往下由父组件传递到子组件单向流动，这可能会导致组件失去我们的控制。</p>
+<h3
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  children change over time</h3>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  有如下的一个组件（现实中没人会这样写，这只是一个 demo），组件每 1 秒渲染一次。</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">class Parent extends Component {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;shouldComponentUpdate(nextProps) {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return this.props.children != nextProps.children;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;render() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return &lt;div&gt;{this.props.children}&lt;/div&gt;;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">setInterval(() =&gt; {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;ReactDOM.render(</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;&lt;Parent&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;div&gt;child&lt;/div&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;&lt;/Parent&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}, 1000);</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  通过在&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;函数里面判断组件的
+  children 是否相等决定是否重新进行渲染，由于 children 是 props 的一个属性，应该每次都是一样的，组件应该不会重新渲染，可是事实上组件每次都会重新渲染。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  让我们来看一下，children 的具体结构，如下图：</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB75IUtlWIXSzZ50v35Ty6M7A4JwlyP0cicoHRLIu1wPicnDBVUfLCTgqeQ/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: 202.042px !important;"
+    class="img_loading" data-ratio="0.2984375" data-w="1280" data-type="png" _width="677px"
+    src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+    crossorigin="anonymous" alt="图片"></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  children 是一个比较复杂的对象，每次组件更新的时候都会重新构造，也就是说 children 是动态构建的，因此每次更新的时候都是不相等的。所以&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;每次都会返回&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">true</code>，因此组件每次都会重新渲染。可以用一个变量来代替
+  children，这样每次构造的也会是相同的对象。</p>
+<h3
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  Independent children</h3>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  再来看一个比较费力的做法，如下：</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">class TwoColumnSplit extends Component {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;shouldComponentUpdate() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return false;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;render() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return (</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;div&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;FloatLeft&gt;{this.props.children[0]}&lt;/FloatLeft&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;FloatRight&gt;{this.props.children[1]}&lt;/FloatRight&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;/div&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;TwoColumnSplit&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;&lt;TargetContainer/&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;&lt;BudgetContainer/&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">&lt;/TwoColumnSplit&gt;</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  通过在&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">shouldComponentUpdate</code>&nbsp;中返回&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>，组件将不会因为外界的状态变化而发生改变，我们这样做是因为组件&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">TargetContainer</code>&nbsp;和&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">BudgetContainer</code>&nbsp;没有从它们的父元素获取任何信息，这样就不需要管外界的变化，把
+  children 和父组件进行了隔离，其实&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">TwoColumnSplit</code>&nbsp;就是起了隔离的作用。对于不需要从外界获取数据的组件，可以通过返回&nbsp;<code
+  style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">false</code>&nbsp;来隔离外界的变化，减少重新渲染。
+</p>
+<h2
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  Container and Component</h2>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  我们也可以通过组件的容器来隔离外界的变化。容器就是一个数据层，而组件就是专门负责渲染，不进行任何数据交互，只根据得到的数据渲染相应的组件，下面就是一个容器以及他的组件。</p>
+<p><br></p>
+<p><br></p>
+<figure class=""
+        style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+  <table width="NaN">
+    <tbody
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    <tr
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <br></td>
+      <td class=""
+          style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+        <pre
+          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">class BudgetContainer extends Component {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;constructor(props) {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;super(props);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;computeState() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return BudgetStore.getStore()</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;render() {</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;return &lt;Budget {...this.state}/&gt;</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+          class=""
+          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br></p>
+<p><br></p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  容器不应该有 props 和 children，这样就能够把容器自己和父组件进行隔离，不会因为外界因素去重新渲染，也没有必要重新渲染。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  设想一下，如果设计师觉得这个组件需要移动位置，你不需要做任何的更改只需要把组件放到对应的位置即可，我们可以把它移到任何地方，可以放在不同的应用中，同时也可以应用于测试，我们只需要关心容器的内部的数据的来源即可，在不同的环境中编写不同的容器。</p>
+<p
+  style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+  <img
+    data-src="http://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utNYPjor9pIksbsPJcwBRB74WkL3M6tmXgPib3vJ98j03NkticC6icJf7cKSsAwiaKkkvhxyLRpRZ0rwA/0?wx_fmt=png"
+    style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: 334.981px !important;"
+    class="img_loading" data-ratio="0.49480249480249483" data-w="962" data-type="png" _width="677px"
+    src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+    crossorigin="anonymous" alt="图片"></p>
+<h1
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  总结</h1>
+<ul style="list-style-type: square;" class="list-paddingleft-2">
+  <li><p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    Purity =&gt; Use shouldComponentUpdate &amp; PureRenderMixin</p></li>
+  <li><p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    Data Comparability =&gt; Use highly comparable data (immutability)</p></li>
+  <li><p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    Loose coupling =&gt; Use for maintainability and performance</p></li>
+  <li><p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+    Children =&gt; Be careful of children, children create deep update,</p>
+    <pre
+      style="margin-top: 0px;margin-bottom: 0px;padding: 15px 20px;border-width: 1px 0px;border-style: solid;border-color: rgb(221, 221, 221);outline: 0px;font-weight: inherit;font-style: inherit;"><code
+      style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">children are always change, &nbsp;we should &nbsp;insulate them from parent</code></pre>
+  </li>
+  <li><p><code
+    style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><br></code>
+  </p></li>
+</ul>
+<p><br></p>
+<blockquote><p>作者：慎里</p>
+  <p>链接：http://taobaofed.org/blog/2016/08/12/optimized-react-components/</p></blockquote>
+
+</body>
+</html>

@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<section data-role="outer" label="Powered by 135editor.com">
+  <h5
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    1. webstorm 中配置 webpack-webstorm-debugger-script</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">必须要能对 webpack 整个流程进行 debug </p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    先将&nbsp;webpack-webstorm-debugger-script&nbsp;中的&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">webstorm-debugger.js</code>&nbsp;置于&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">webpack.config.js</code>&nbsp;的同一目录下，搭建好你的脚手架后就可以直接
+    Debug 这个 webstorm-debugger.js 文件了。</p><h5
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  2. webpack.config.js 配置</h5>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN" style="width: 736px;">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> path = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">require</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'path'</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> node_modules = path.resolve(__dirname, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'node_modules'</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> pathToReact = path.resolve(node_modules, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'react/dist/react.min.js'</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>.exports = {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 入口文件，是模块构建的起点，同时每一个入口文件对应最后生成的一个 chunk。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;entry: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;bundle: [</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'webpack/hot/dev-server'</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'webpack-dev-server/client?http://localhost:8080'</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;path.resolve(__dirname, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'app/app.js'</span>)</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;]</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;},</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 文件路径指向(可加快打包过程)。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;resolve: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;alias: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'react'</span>: pathToReact</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;},</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 生成文件，是模块构建的终点，包括输出文件与输出路径。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;output: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;path: path.resolve(__dirname, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'build'</span>),</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;filename: <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'[name].js'</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;},</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 这里配置了处理各模块的 loader ，包括 css 预处理 loader ，es6 编译 loader，图片处理 loader。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;loaders: [</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;test: <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(200, 40, 41);">/\.js$/</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;loader: <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'babel'</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;query: {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;presets: [<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'es2015'</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">'react'</span>]</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;],</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;noParse: [pathToReact]</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;},</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// webpack 各插件对象，在 webpack 的事件流中执行对应的方法。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;plugins: [</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> webpack.HotModuleReplacementPlugin()</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;]</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    除此之外再大致介绍下 webpack 的一些核心概念：</p>
+  <ul style="list-style-type: square;" class="list-paddingleft-2">
+    <li><p>loader：能转换各类资源，并处理成对应模块的加载器。loader 间可以串行使用。</p></li>
+    <li><p>chunk：code splitting 后的产物，也就是按需加载的分块，装载了不同的 module。</p></li>
+  </ul>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    对于 module 和 chunk 的关系可以参照 webpack 官方的这张图：</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img
+      data-src="http://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586usbUeG1R1KjxAF2cgEakteFXFpiagWQgLZpicZlIdsPsx6RVylxdyRNAwv5vVuV2AGbbx9zPqOTFKXg/0?wx_fmt=jpeg"
+      style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 368px !important; height: auto !important; visibility: visible !important;"
+      class="" data-ratio="1.4184782608695652" data-w="368" data-type="jpeg" _width="368px"
+      src="./细说 webpack 之流程篇_files/640" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+  <ul style="list-style-type: square;" class="list-paddingleft-2">
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      plugin：webpack 的插件实体，这里以 UglifyJsPlugin 为例。</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">UglifyJsPlugin</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">options</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.options = options;</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>.exports = UglifyJsPlugin;</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">UglifyJsPlugin.prototype.apply = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">compiler</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;compiler.plugin(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"compilation"</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">compilation</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;compilation.plugin(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"build-module"</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;});</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;compilation.plugin(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"optimize-chunk-assets"</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">chunks, callback</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// Uglify 逻辑</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;});</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;compilation.plugin(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"normal-module-loader"</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">context</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;});</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;});</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        在 webpack 中你经常可以看到 compilation.plugin(‘xxx’, callback) ，你可以把它当作是一个事件的绑定，这些事件在打包时由 webpack 来触发。</p>
+    </li>
+  </ul>
+  <h5
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    3. 流程总览</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在具体流程学习前，可以先通过这幅&nbsp;webpack 整体流程图&nbsp;了解一下大致流程（建议保存下来查看）。</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img
+      data-src="http://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586usbUeG1R1KjxAF2cgEakteF9VfV7ianvGVPMd1aVY0JpxHLS7lwU28ZWlhxeB9sCmtwfJudDrOvJRQ/0?wx_fmt=jpeg"
+      style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 677px !important; height: auto !important; visibility: visible !important;"
+      class="" data-ratio="0.9567177637511272" data-w="4436" data-type="jpeg" _width="677px"
+      src="./细说 webpack 之流程篇_files/640(1)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+  <h3
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    shell 与 config 解析</h3>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    每次在命令行输入 webpack 后，操作系统都会去调用&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">./node_modules/.bin/webpack</code>&nbsp;这个
+    shell 脚本。这个脚本会去调用&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">./node_modules/webpack/bin/webpack.js</code>&nbsp;并追加输入的参数，如
+    -p , -w 。(图中 webpack.js 是 webpack 的启动文件，而 $@ 是后缀参数)</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img
+      data-src="http://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586usbUeG1R1KjxAF2cgEakteFMRgkfg1Wiaaj7qnupicGRNiciaqlH18yJT1NBvQXLjhd2LH69Zc00vAMnQ/0?wx_fmt=jpeg"
+      style="margin: auto; border-width: 0px; border-style: initial; border-color: initial; outline: 0px; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; display: block; width: 500px !important; height: auto !important; visibility: visible !important;"
+      class="" data-ratio="0.222" data-w="500" data-type="jpeg" _width="500px"
+      src="./细说 webpack 之流程篇_files/640(2)" crossorigin="anonymous" alt="图片" data-fail="0"></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在 webpack.js 这个文件中 webpack 通过 optimist 将用户配置的 webpack.config.js 和 shell 脚本传过来的参数整合成 options
+    对象传到了下一个流程的控制对象中。</p><h5
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  1. optimist</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    和 commander 一样，optimist&nbsp;实现了 node 命令行的解析，其 API 调用非常方便。</p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> optimist = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">require</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"optimist"</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">optimist</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;.boolean(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"json"</span>).alias(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"json"</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"j"</span>).describe(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"json"</span>)</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;.boolean(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"colors"</span>).alias(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"colors"</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"c"</span>).describe(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"colors"</span>)</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;.boolean(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"watch"</span>).alias(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"watch"</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"w"</span>).describe(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"watch"</span>)</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    获取到后缀参数后，optimist 分析参数并以键值对的形式把参数对象保存在 optimist.argv 中，来看看 argv 究竟有什么？</p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">// webpack --hot -w</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;hot: true,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;profile: false,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;watch: true,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p><h5
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  2. config 合并与插件加载</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在加载插件之前，webpack 将 webpack.config.js 中的各个配置项拷贝到 options 对象中，并加载用户配置在 webpack.config.js 的 plugins 。接着
+    optimist.argv 会被传入到&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">./node_modules/webpack/bin/convert-argv.js</code>&nbsp;中，通过判断
+    argv 中参数的值决定是否去加载对应插件。(至于 webpack 插件运行机制，在之后的运行机制篇会提到)</p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN" style="width: 736px;">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">ifBooleanArg(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"hot"</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);"></span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;ensureArray(options, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"plugins"</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> HotModuleReplacementPlugin = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">require</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"../lib/HotModuleReplacementPlugin"</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;options.plugins.push(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> HotModuleReplacementPlugin());</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">});</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">...</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">return options;</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">options</code>&nbsp;作为最后返回结果，包含了之后构建阶段所需的重要信息。
+  </p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">{ </span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;entry: {},//入口配置</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;output: {}, //输出配置</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;plugins: [], //插件集合(配置文件 + shell指令) </span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;module: { loaders: [ [Object] ] }, //模块配置</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;context: //工程路径</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;... </span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    这和 webpack.config.js 的配置非常相似，只是多了一些经 shell 传入的插件对象。插件对象一初始化完毕， options 也就传入到了下个流程中。</p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> webpack = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">require</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"../lib/webpack.js"</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> compiler = webpack(options);</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <h3
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    编译与构建流程</h3>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在加载配置文件和 shell 后缀参数申明的插件，并传入构建信息 options 对象后，开始整个 webpack 打包最漫长的一步。而这个时候，真正的 webpack
+    对象才刚被初始化，具体的初始化逻辑在&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">lib/webpack.js</code>&nbsp;中，如下：
+  </p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">webpack</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">options</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> compiler = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> Compiler();</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 检查options,若watch字段为true,则开启watch线程</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> compiler;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">...</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    webpack 的实际入口是 Compiler 中的 run 方法，run 一旦执行后，就开始了编译和构建流程 ，其中有几个比较关键的 webpack 事件节点。</p>
+  <ul style="list-style-type: square;" class="list-paddingleft-2">
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">compile</code>&nbsp;开始编译
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">make</code>&nbsp;从入口点分析模块及其依赖的模块，创建这些模块对象
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">build-module</code>&nbsp;构建模块
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">after-compile</code>&nbsp;完成构建
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">seal</code>&nbsp;封装构建结果
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">emit</code>&nbsp;把各个chunk输出到结果文件
+    </p></li>
+    <li><p><code
+      style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">after-emit</code>&nbsp;完成输出
+    </p></li>
+  </ul>
+  <h5
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    1. 核心对象 Compilation</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    compiler.run 后首先会触发 compile ，这一步会构建出 Compilation 对象：</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img src="细说%20webpack%20之流程篇_files/0%20(2).jpeg"></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    这个对象有两个作用，一是负责组织整个打包过程，包含了每个构建环节及输出环节所对应的方法，可以从图中看到比较关键的步骤，如&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">addEntry()</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">_addModuleChain()</code>&nbsp;,<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">buildModule()</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">seal()</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">createChunkAssets()</code>&nbsp;(在每一个节点都会触发
+    webpack 事件去调用各插件)。二是该对象内部存放着所有 module ，chunk，生成的 asset 以及用来生成最后打包文件的 template 的信息。</p><h5
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  2. 编译与构建主流程</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在创建 module 之前，Compiler 会触发 make，并调用&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">Compilation.addEntry</code>&nbsp;方法，通过
+    options 对象的 entry 字段找到我们的入口js文件。之后，在 addEntry 中调用私有方法&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">_addModuleChain</code>&nbsp;，这个方法主要做了两件事情。一是根据模块的类型获取对应的模块工厂并创建模块，二是构建模块。
+  </p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    而构建模块作为最耗时的一步，又可细化为三步：</p>
+  <ul style="list-style-type: square;" class="list-paddingleft-2">
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      调用各 loader 处理模块之间的依赖</p>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        webpack 提供的一个很大的便利就是能将所有资源都整合成模块，不仅仅是 js 文件。所以需要一些 loader ，比如&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">url-loader</code>&nbsp;，&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">jsx-loader</code>&nbsp;，&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">css-loader</code>&nbsp;等等来让我们可以直接在源文件中引用各类资源。webpack
+        调用&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">doBuild()</code>&nbsp;，对每一个
+        require() 用对应的 loader 进行加工，最后生成一个 js module。</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN" style="width: 736px;">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">Compilation.prototype._addModuleChain = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">process</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">context, dependency, onModule, callback</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> start = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.profile &amp;&amp; +<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">Date</span>();</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 根据模块的类型获取对应的模块工厂并创建模块</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> moduleFactory = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.dependencyFactories.get(dependency.constructor);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;moduleFactory.create(context, dependency, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">err, module</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> result = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.addModule(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;this.buildModule(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">err</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 构建模块，添加依赖模块</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}.bind(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>));</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}.bind(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>));</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+    </li>
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      调用&nbsp;acorn&nbsp;解析经 loader 处理后的源文件生成抽象语法树 AST</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> Parser.prototype.parse = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">parse</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">source, initialState</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> ast;</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (!ast) {</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// acorn以es6的语法进行解析</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;ast = acorn.parse(source, {</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;ranges: <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">true</span>,</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;locations: <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">true</span>,</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;ecmaVersion: <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">6</span>,</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;sourceType: <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"module"</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;});</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+    </li>
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      遍历 AST，构建该模块所依赖的模块</p>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        对于当前模块，或许存在着多个依赖模块。当前模块会开辟一个依赖模块的数组，在遍历 AST 时，将 require() 中的模块通过&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">addDependency()</code>&nbsp;添加到数组中。当前模块构建完成后，webpack
+        调用&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">processModuleDependencies</code>&nbsp;开始递归处理依赖的
+        module，接着就会重复之前的构建步骤。</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN" style="width: 736px;">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> Compilation.prototype.addModuleDependencies = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module, dependencies, bail, cacheGroup, recursive, callback</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 根据依赖数组(dependencies)创建依赖模块对象</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> factories = [];</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">for</span> (<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> i = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">0</span>; i &lt; dependencies.length; i++) {</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> factory = _this.dependencyFactories.get(dependencies[i][<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">0</span>].constructor);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;factories[i] = [factory, dependencies[i]];</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;...</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 与当前模块构建步骤相同</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+    </li>
+  </ul>
+  <h5
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    3. 构建细节</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    module 是 webpack 构建的核心实体，也是所有 module 的 父类，它有几种不同子类：<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">NormalModule</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">MultiModule</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">ContextModule</code>&nbsp;,&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">DelegatedModule</code>&nbsp;等。但这些核心实体都是在构建中都会去调用对应方法，也就是&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">build()</code>&nbsp;。来看看其中具体做了什么：
+  </p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN" style="width: 736px;">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 初始化module信息，如context,id,chunks,dependencies等。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">NormalModule.prototype.build = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">build</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">options, compilation, resolver, fs, callback</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.buildTimestamp = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">Date</span>().getTime(); <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 构建计时</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.built = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">true</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.doBuild(options, compilation, resolver, fs, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">err</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 指定模块引用，不经acorn解析</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (options.module &amp;&amp; options.module.noParse) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">Array</span>.isArray(options.module.noParse)) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (options.module.noParse.some(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">regExp</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">typeof</span> regExp === <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"string"</span> ?</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.request.indexOf(regExp) === <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">0</span> :</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;regExp.test(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.request);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>)) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> callback();</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;} <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">else</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">typeof</span> options.module.noParse === <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"string"</span> ?</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.request.indexOf(options.module.noParse) === <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">0</span> :</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;options.module.noParse.test(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.request)) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> callback();</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 由acorn解析生成ast</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">try</span> {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.parser.parse(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>._source.source(), {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;current: <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>: <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;compilation: compilation,</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp; &nbsp;options: options</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;});</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;} <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">catch</span> (e) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> source = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>._source.source();</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>._source = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">null</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> callback(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">new</span> ModuleParseError(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>, source, e));</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> callback();</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}.bind(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>));</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    对于每一个 module ，它都会有这样一个构建方法。当然，它还包括了从构建到输出的一系列的有关 module 生命周期的函数，我们通过 module 父类类图其子类类图(这里以 NormalModule
+    为例)来观察其真实形态：</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img src="细说%20webpack%20之流程篇_files/0.jpeg"></p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    可以看到无论是构建流程，处理依赖流程，包括后面的封装流程都是与 module 密切相关的。</p>
+  <h3
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    打包输出</h3>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在所有模块及其依赖模块 build 完成后，webpack 会监听&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">seal</code>&nbsp;事件调用各插件对构建后的结果进行封装，要逐次对每个
+    module 和 chunk 进行整理，生成编译后的源码，合并，拆分，生成 hash 。 同时这是我们在开发时进行代码优化和功能添加的关键环节。</p>
+  <p><br></p>
+  <figure class=""
+          style="background: rgb(255, 255, 255);padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+    <table width="NaN" style="width: 736px;">
+      <tbody
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      <tr
+        style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+          <br></td>
+        <td class=""
+            style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                        <pre
+                          style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">Compilation.prototype.seal = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">seal</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">callback</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.applyPlugins(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"seal"</span>); <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 触发插件的seal事件</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.preparedChunks.sort(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">a, b</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (a.name &lt; b.name) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">-1</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (a.name &gt; b.name) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">1</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">0</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;});</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.preparedChunks.forEach(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">preparedChunk</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span> = preparedChunk.module;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> chunk = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.addChunk(preparedChunk.name, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;chunk.initial = chunk.entry = <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">true</span>;</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 整理每个Module和chunk，每个chunk对应一个输出文件。</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;chunk.addModule(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">module</span>.addChunk(chunk);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.applyPluginsAsync(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"optimize-tree"</span>, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.chunks, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.modules, <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">err</span>) </span>{</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span> (err) {</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">return</span> callback(err);</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;}</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;... <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 触发插件的事件</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.createChunkAssets(); <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 生成最终assets</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;... <span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 触发插件的事件</span></span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;}.bind(<span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>));</span><br><span
+                          class=""
+                          style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure>
+  <p><br></p><h5
+  style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+  1. 生成最终 assets</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    在封装过程中，webpack 会调用 Compilation 中的&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">createChunkAssets</code>&nbsp;方法进行打包后代码的生成。
+    createChunkAssets 流程如下：</p>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    <img src="细说%20webpack%20之流程篇_files/0%20(1).jpeg"></p>
+  <ul style="list-style-type: square;" class="list-paddingleft-2">
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      不同的 Template</p>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        从上图可以看出通过判断是入口 js 还是需要异步加载的 js 来选择不同的模板对象进行封装，入口 js 会采用 webpack 事件流的 render 事件来触发&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">Template类</code>&nbsp;中的&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">renderChunkModules()</code>&nbsp;(异步加载的
+        js 会调用 chunkTemplate 中的 render 方法)。</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN" style="width: 736px;">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">if</span>(chunk.entry) {</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;source = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.mainTemplate.render(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.hash, chunk, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.moduleTemplate, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.dependencyTemplates);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">} <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">else</span> {</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp;source = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.chunkTemplate.render(chunk, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.moduleTemplate, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.dependencyTemplates);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">}</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        在 webpack 中有四个 Template 的子类，分别是&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">MainTemplate.js</code>&nbsp;，&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">ChunkTemplate.js</code>&nbsp;，<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">ModuleTemplate.js</code>&nbsp;，&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">HotUpdateChunkTemplate.js</code>&nbsp;，前两者先前已大致有介绍，而
+        ModuleTemplate 是对所有模块进行一个代码生成，HotUpdateChunkTemplate 是对热替换模块的一个处理。</p></li>
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      模块封装</p>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        模块在封装的时候和它在构建时一样，都是调用各模块类中的方法。封装通过调用&nbsp;<code
+        style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">module.source()</code>&nbsp;来进行各操作，比如说
+        require() 的替换。</p>
+      <figure class=""
+              style="background-image: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;padding: 15px 20px;border-style: solid;border-color: rgb(221, 221, 221);border-width: 1px 0px;overflow: auto;color: rgb(77, 77, 76);line-height: 22.4px;">
+        <table width="NaN" style="width: 736px;">
+          <tbody
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+          <tr
+            style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+              <br></td>
+            <td class=""
+                style="padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-style: inherit;font-family: inherit;vertical-align: middle;">
+                            <pre
+                              style="margin-top: 0px;margin-bottom: 0px;padding: 0px;border-width: initial;border-style: none;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">MainTemplate.prototype.requireFn = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"__webpack_require__"</span>;</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">MainTemplate.prototype.render = <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(66, 113, 174);"><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">function</span>(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(245, 135, 31);">hash, chunk, moduleTemplate, dependencyTemplates</span>) </span>{</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">var</span> buf = [];</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 每一个module都有一个moduleId,在最后会替换。</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;buf.push(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"function "</span> + <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.requireFn + <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"(moduleId) {"</span>);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;buf.push(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.indent(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(137, 89, 168);">this</span>.applyPluginsWaterfall(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"require"</span>, <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">""</span>, chunk, hash)));</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;buf.push(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">"}"</span>);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;buf.push(<span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(113, 140, 0);">""</span>);</span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;"> &nbsp; &nbsp;... <span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;color: rgb(142, 144, 140);">// 其余封装操作</span></span><br><span
+                              class=""
+                              style="border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;height: 22.4px;">};</span><br></pre>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </figure>
+    </li>
+    <li><p
+      style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+      生成 assets</p>
+      <p
+        style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;font-family: inherit;vertical-align: baseline;">
+        各模块进行 doBlock 后，把 module 的最终代码循环添加到 source 中。一个 source 对应着一个 asset 对象，该对象保存了单个文件的文件名( name )和最终代码(
+        value )。</p></li>
+  </ul>
+  <h5
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    2. 输出</h5>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    最后一步，webpack 调用 Compiler 中的&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">emitAssets()</code>&nbsp;，按照
+    output 中的配置项将文件输出到了对应的 path 中，从而 webpack 整个打包过程结束。要注意的是，若想对结果进行处理，则需要在&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">emit</code>&nbsp;触发后对自定义插件进行扩展。
+  </p>
+  <h3
+    style="margin-top: 1.3em;margin-bottom: 1.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: 600;">
+    总结</h3>
+  <p
+    style="margin-top: 1.6em;margin-bottom: 1.6em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;">
+    webpack 的整体流程主要还是依赖于&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">compilation</code>&nbsp;和&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">module</code>&nbsp;这两个对象，但其思想远不止这么简单。最开始也说过，webpack
+    本质是个插件集合，并且由&nbsp;<code
+    style="padding-right: 0.3em;padding-left: 0.3em;border-width: 0px;border-style: initial;border-color: initial;outline: 0px;font-weight: inherit;font-style: inherit;">tapable</code>&nbsp;控制各插件在
+    webpack 事件流上运行，至于具体的思想和细节，将会在后一篇文章中提到。同时，在业务开发中，无论是为了提升构建效率，或是减小打包文件大小，我们都可以通过编写 webpack
+    插件来进行流程上的控制，这个也会在之后提到。</p>
+  <blockquote><p><span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;"></span>作者:<span
+    style=";">七珏</span></p>
+    <p><span style=";"><span style="font-size: 16px;">原文:</span><span style="font-size: 16px;">http://taobaofed.org/blog/2016/09/09/webpack-flow/</span></span>
+    </p></blockquote>
+  </section>
+</section>
+
+</body>
+</html>

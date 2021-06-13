@@ -192,7 +192,7 @@
   取组件对象的键值对,Vue.extend() 也使用同样的策略进行合并。
   ~~~
 - [掘金 Vue.js 2.0 重构最佳实践]( http://slides.com/kalasoo/vueconf-juejin-refactor/fullscreen )
-- [](  )
+- (已整理)[你或许不知道Vue的这些小技巧](https://mp.weixin.qq.com/s/dwv_Nx3mTJO8GZEZYBNOqA  )
 - [](  )
 - [](  )
 - [](  )
