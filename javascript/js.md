@@ -723,9 +723,9 @@
   ~~~
 - [轻松理解JS函数节流和函数防抖]( https://mp.weixin.qq.com/s/3FZJ0nQLhj9PCi0pfBjc9A)
 - [JavaScript深入之call和apply的模拟实现]( https://mp.weixin.qq.com/s/nFxquZAu54pVn5iG_2A9qQ)
-- [](  )
-- [](  )
-- [](  )
+- [JavaScript函数的柯里化](https://mp.weixin.qq.com/s/XKwlp3FKjeG645ElZvuIFQ  )
+- [JavaScript定时器与执行机制解析](https://mp.weixin.qq.com/s/nbgCVuBBM5KeKKsTEsUlsw)
+- [Event Loop的规范和实现]( https://mp.weixin.qq.com/s/o6ShDN4opJoDnUrCz0PLIQ)
 - [](  )
 - [](  )
 - [](  )

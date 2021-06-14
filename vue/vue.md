@@ -193,9 +193,9 @@
   ~~~
 - [掘金 Vue.js 2.0 重构最佳实践]( http://slides.com/kalasoo/vueconf-juejin-refactor/fullscreen )
 - (已整理)[你或许不知道Vue的这些小技巧](https://mp.weixin.qq.com/s/dwv_Nx3mTJO8GZEZYBNOqA  )
-- [](  )
-- [](  )
-- [](  )
+- [【译】vue技术分享-你可能不知道的7个秘密]( https://mp.weixin.qq.com/s/wQkm4bg36Rqar8CBe4Cv_A )
+- [vue 组件库]( https://mp.weixin.qq.com/s/1z6yqHOH0pKmIbafL9UyDA )
+- [解密Vue SSR ]( https://mp.weixin.qq.com/s/pY-fA4bP8clcHctqZKGMug)
 - [](  )
 - [](  )
 - [](  )

@@ -846,7 +846,75 @@ vue 和 react 组件通信
   ~~~
 - []( https://mp.weixin.qq.com/s/T-LKIPtGDJ4s5rLjwlN1mg)
 - []( https://mp.weixin.qq.com/s/hm6UD7SuBR4q59HzYW4dgg )
-- [](  )
+- [Vue 经典面试题(](  https://mp.weixin.qq.com/s/L-etx0N2rJocB6XpNp798Q)
+- [React 面试指南](https://mp.weixin.qq.com/s/cdFZh_lT9998ws07Fd_VVQ)
+  ~~~html
+      调用setState 之后发生了什么?
+    将传入的参数与当前组件状态合并
+    
+    调和过程(Reconciliation)
+    
+    构建 Element 元素树
+    
+    Diff 操作
+    
+    Render
+    
+    setState 函数的第二个参数的作用?
+    会在setState函数调用完成并且组件开始渲染的时候调用， 可以用该函数来监听渲染是否完成
+    
+    state 跟 props 差别?
+    State 代表的是自身的内部状态, props是父组件传递的参数
+    
+    什么时候应该选择用class实现一个组件，什么时候应该用一个函数实现一个组件？
+    组件需要包含内部状态或者使用到生命周期的时候用class ， 否则用纯函数
+    
+    React 中 Element 与 Component 的区别是？
+    Element 是对UI的对像描述,是描述屏幕上所见内容的数据结构， Component 是可以接收参数并返回某个React Element 的函数或者类
+    
+    React 生命周期及调用顺序？
+    getDefalutProps
+    
+    getInitialState
+    
+    componentWillMount
+    
+    render
+    
+    componentDidMount
+    
+    props 发生改变调用componentWillReceiveProps => shouldUpdateComponentUpdate => 结果为真 => componentWillUpdate => render => componentDidUpdate
+    
+    componentWillUnmount
+    
+    React 中 ShouldUpdateComponent?
+    ShouldUpdateComponent 用来手动检测是否需要重新render ， 接受props. 及nextProps 两个参数， 返回值为false 则不会进行render , 不能在shouldUpdateCompnent 中使用setState
+    
+    React 中 keys 的作用是什么？
+    key 是React 用于追踪列表中哪些元素改变的标识, 在 diff 算法中， react 会借助key来判断元素的新创建的还是被移动而来的元素, 从而减少不必要元素重渲染
+    
+    React 中 refs 的作用是什么？
+    refs 是React 提供给我们的安全访问DOM元素或者某个组件实例的句柄
+    
+    React 中 diff 算法 ?
+    tree diff
+    
+    React 对树的算法进行了优化，对树进行分层比较， 两棵树只会对同一层次的节点进行比较
+    
+    component diff
+    
+    如果是同一类型的组件， 则继续按照tree diff 比较, 如果不是， 从而替换整个组件下的所有子节点
+    
+    element diff
+    
+    1.新的 component 类型不在老集合里， 即是全新的节点，需要对新节点执行插入操作 2.在老集合有新 component 类型，且 element 是可更新的类型，generateComponentChildren 已调用 receiveComponent，这种情况下 prevChild=nextChild，就需要做移动操作，可以复用以前的 DOM 节点 3.老 component 类型，在新集合里也有，但对应的 element 不同则不能直接复用和更新，需要执行删除操作，或者老 component 不在新集合里的，也需要执行删除操作。
+    
+    ps.
+    
+    在开发组件时， 保持稳定的DOM结构助于性能提升
+    
+    尽量减少移动dom操作
+  ~~~
 - [](  )
 - [](  )
 - [](  )
