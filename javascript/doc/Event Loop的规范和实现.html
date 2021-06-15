@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p><span style="background-color: rgb(255, 255, 255);color: rgb(62, 62, 62);font-size: 16px;"></span></p>
+<p>一直以来，我对<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event
+  Loop</strong>的认知界定都是可知可不知的分级，因此仅仅保留浅显的概念，从未真正学习过，直到看了这篇文章——《这一次，彻底弄懂 JavaScript
+  执行机制》。该文作者写的非常友好，从最小的例子展开，让我获益匪浅，但最后的示例牵扯出了<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">chrome</code>和<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Node</code>下的运行结果迥异，我很好奇，我觉得有必要对这一块知识进行学习。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  由于上述原因，本文诞生，原本我计划全文共分3部分来展开：规范、实现、应用。但遗憾的是由于自己的认知尚浅，在如何根据<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>的特性来设想应用场景时，实在没有什么产出，导致有关应用的篇幅过小，故不在标题中作体现了。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（本文所有代码运行环境仅包含Node v8.9.4以及
+    Chrome v63）</em></p>
+<h2
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-weight: bold;font-size: 1.4em;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">PART 1：规范</span></h2>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">为什么要有Event Loop？</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  因为Javascript设计之初就是一门单线程语言，因此为了实现主线程的不阻塞，<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>这样的方案应运而生。
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">小测试（1）</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  先来看一段代码，打印结果会是？</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}, <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Promise</span>.resolve().then(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">3</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}).then(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">4</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">5</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  不熟悉Event Loop的我尝试进行如下分析：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>首先，我们先排除异步代码，先把同步执行的代码找出，可以知道先打印的一定是<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、5</code>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">但是，setTimeout和Promise是否有优先级？还是看执行顺序？</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">还有，Promise的多级then之间是否会插入setTimeout？</span>
+  </p></li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  带着困惑，我试着运行了一下代码，正确结果是：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、5、3、4、2</code>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  那这到底是为什么呢？</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">定义</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  看来需要先从规范定义入手，于是查阅一下HTML规范，规范着实详（luo）细（suo），我就不贴了，提炼下来关键步骤如下：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p><span
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">执行最旧的task（一次）</span></p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">检查是否存在microtask，然后不停执行，直到清空队列（多次）</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">执行render</span>
+  </p></li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  好家伙，问题还没搞明白，一下子又多出来2个概念<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">task</strong>和<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">microtask</strong>，让懵逼的我更加凌乱了。。。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  不慌不慌，通过仔细阅读文档得知，这两个概念属于对异步任务的分类，不同的API注册的异步任务会依次进入自身对应的队列中，然后等待<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>将它们依次压入执行栈中执行。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  task主要包含：<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;"><code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setInterval</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">I/O</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">UI交互事件</code></strong>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  microtask主要包含：<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;"><code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Promise</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>、<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">MutaionObserver</code></strong>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  整个最基本的<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event
+  Loop</strong>如图所示：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">queue可以看做一种数据结构，用以存储需要执行的函数</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">timer类型的API（setTimeout/setInterval）注册的函数，等到期后进入task队列（这里不详细展开timer的运行机制）</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">其余API注册函数直接进入自身对应的task/microtask队列</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">Event Loop执行一次，从task队列中拉出一个task执行</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">Event Loop继续检查microtask队列是否为空，依次执行直至清空队列</span>
+  </p></li>
+</ul>
+<figure
+  style="box-sizing: border-box;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <img class="img_loading" data-ratio="0.6102564102564103"
+       data-src="https://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utKd3IpCiawiasN1sic9kvroDc1m1YKLoOESRRqMhGb5UTPK1XnQ7hwAPnv3ef7eMEB5C989mIw2hibpQ/640?wx_fmt=png"
+       data-type="png" data-w="585"
+       style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 585px !important; height: 358.559px !important;"
+       title="规范.png | center | 585x357" _width="585px"
+       src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+       crossorigin="anonymous" alt="图片">
+  <figcaption
+    style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;">
+    规范.png | center | 585x357
+  </figcaption>
+</figure>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">继续测试（2）</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  这时候，回头再看下之前的<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">测试（1）</code>，发现概念非常清晰，一下子就得出了正确答案，感觉自己萌萌哒，再也不怕<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>了~</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  接着，准备挑战一下更高难度的问题（本题出自<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">序</strong>中提到的那篇文章，我先去除了<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>）：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Promise</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">resolve</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">4</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;}).then(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">5</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Promise</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">resolve</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">7</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}).then(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">8</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">9</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Promise</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">resolve</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">11</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;}).then(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">12</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  分析如下：</p>
+<ol style="" class="list-paddingleft-2">
+  <li><p>同步运行的代码首先输出：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、7</code>
+  </p></li>
+  <li><p>接着，清空microtask队列：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">8</code>
+  </p></li>
+  <li><p>第一个task执行：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">2、4</code>
+  </p></li>
+  <li><p>接着，清空microtask队列：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">5</code>
+  </p></li>
+  <li><p>第二个task执行：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">9、11</code>
+  </p></li>
+  <li><p>接着，清空microtask队列：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">12</code>
+  </p></li>
+</ol>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">chrome</code>下运行一下，全对！
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  自信的我膨胀了，准备加上<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>后在node上继续测试。我先测试第一个task，代码如下：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> Promise(resolve =&gt; {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">4</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;}).<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">then</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">5</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">3</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> Promise(resolve =&gt; {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">7</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}).<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">then</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">8</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">6</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  有了之前的积累，我这回自信的写下了答案：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、7、8、6、2、4、5、3</code>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  然而，帅不过3秒，正确答案是：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、7、6、8、2、4、3、5</code>。
+</p>
+<figure
+  style="box-sizing: border-box;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <img class="img_loading" data-ratio="1"
+       data-src="https://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utKd3IpCiawiasN1sic9kvroDcp2lNQcsf4UR1hwKQbYKeRfgaMGwTgbHMT7ThqMSrACYfFqAx4cqicSA/640?wx_fmt=png"
+       data-type="png" data-w="64"
+       style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 64px !important; height: 64px !important;"
+       title="打脸3.png | left | 64x64" _width="64px"
+       src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+       crossorigin="anonymous" alt="图片">
+  <figcaption
+    style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;">
+    打脸3.png | left | 64x64
+  </figcaption>
+</figure>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  我陷入了困惑，不过很快明白了，这说明**<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>注册的函数优先级高于<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Promise</code>**，这样就全说的通了~
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  接着，我再测试第二个task：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> Promise(resolve =&gt; {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">4</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;}).<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">then</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">5</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">3</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> Promise(resolve =&gt; {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">7</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}).<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">then</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">8</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">6</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">9</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">10</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> Promise(resolve =&gt; {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">11</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;resolve()<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;}).<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">then</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">12</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  吃一堑长一智，这次我掌握了microtask的优先级，所以答案应该是：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p>第一个task输出：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、7、6、8、2、4、3、5</code>
+  </p></li>
+  <li><p>然后，第二个task输出：<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">9、11、10、12</code>
+  </p></li>
+</ul>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  然而，啪啪打脸。。。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  我第一次执行，输出结果是：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、7、6、8、2、4、9、11、3、10、5、12</code>（即两次task的执行混合在一起了）。我继续执行，有时候又会输出我预期的答案。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  现实真的是如此莫名啊！啊！啊！</p>
+<figure
+  style="box-sizing: border-box;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <img class="img_loading" data-ratio="0.585"
+       data-src="https://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586utKd3IpCiawiasN1sic9kvroDc896VuwlXMIIkU5WbXF8u0iadO5jQiaLTgYvGr8RZ44kkF1K8jrbcTGPA/640?wx_fmt=jpeg"
+       data-type="jpeg" data-w="200"
+       style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 200px !important; height: 118.66px !important;"
+       title="吐血1.jpg | left | 200x117" _width="200px"
+       src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+       crossorigin="anonymous" alt="图片">
+  <figcaption
+    style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;">
+    吐血1.jpg | left | 200x117
+  </figcaption>
+</figure>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  （啊，不好意思，血一时止不住）<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">所以，这到底是为什么？？？</strong>
+</p>
+<h2
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-weight: bold;font-size: 1.4em;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">PART 2：实现</span></h2>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  俗话说得好：</p>
+<blockquote
+  style="box-sizing: border-box;margin-top: 1em;margin-bottom: 1em;padding: 15px 15px 15px 1rem;color: rgb(129, 145, 152);border-left-width: 6px;border-left-color: rgb(220, 230, 240);font-size: 0.9em;line-height: inherit;background: rgb(242, 247, 251);overflow: auto;word-wrap: normal;word-break: normal;white-space: normal;">
+  <p style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">规范是人定的，代码是人写的。 ——无名氏</p>
+</blockquote>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  规范无法囊括所有场景，虽然<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">chrome</code>和<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>都基于v8引擎，但引擎只负责管理内存堆栈，API还是由各runtime自行设计并实现的。
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">小测试（3）</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  Timer是整个<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event
+  Loop</strong>中非常重要的一环，我们先从timer切入，来切身体会下规范和实现的差异。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  首先再来一个小测试，它的输出会是什么呢？</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}, <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">2</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}, <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">}, <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  没有深入接触过timer的同学如果直接从代码中的延时设置来看，会回答：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">0、1、2</code>。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  而另一些有一定经验的同学可能会回答：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">2、1、0</code>。因为MDN的setTimeout文档中提到HTML规范最低延时为4ms：
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（补充说明：最低延时的设置是为了给CPU留下休息时间）</em>
+</p>
+<blockquote
+  style="box-sizing: border-box;margin-top: 1em;margin-bottom: 1em;padding: 15px 15px 15px 1rem;color: rgb(129, 145, 152);border-left-width: 6px;border-left-color: rgb(220, 230, 240);font-size: 0.9em;line-height: inherit;background: rgb(242, 247, 251);overflow: auto;word-wrap: normal;word-break: normal;white-space: normal;">
+  <p style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">In fact, 4ms is specified by
+    the HTML5 spec and is consistent across browsers released in 2010 and onward. Prior to (Firefox 5.0 / Thunderbird
+    5.0 / SeaMonkey 2.2), the minimum timeout value for nested timeouts was 10 ms.</p></blockquote>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  而真正痛过的同学会告诉你，答案是：<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">1、0、2</code>。并且，无论是<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">chrome</code>还是<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>下的运行结果都是一致的。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  （错误订正：经多次验证，node下的输出顺序依然是无法保证的，node的timer真是一门玄学~）</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">Chrome中的timer</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  从<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">测试（3）</code>结果可以看出，0ms和1ms的延时效果是一致的，那背后的原因是为什么呢？我们先查查<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">blink</code>的实现。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（Blink代码托管的地方我都不知道如何进行搜索，还好文件名比较明显，没花太久，找到了答案）</em>
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em
+    style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（我直接贴出最底层代码，上层代码如有兴趣请自行查阅）</em>
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">/<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/ https:/</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/chromium.googlesource.com/chromium</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/blink/</span>+<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">/master/</span>Source/core/frame/DOMTimer.cpp<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#93</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">double intervalMilliseconds = std::max(oneMillisecond, interval * oneMillisecond);<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  这里interval就是传入的数值，可以看出传入0和传入1结果都是oneMillisecond，即1ms。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  这样解释了为何1ms和0ms行为是一致的，那4ms到底是怎么回事？我再次确认了HTML规范，发现虽然有4ms的限制，但是是存在条件的，详见规范第11点：</p>
+<blockquote
+  style="box-sizing: border-box;margin-top: 1em;margin-bottom: 1em;padding: 15px 15px 15px 1rem;color: rgb(129, 145, 152);border-left-width: 6px;border-left-color: rgb(220, 230, 240);font-size: 0.9em;line-height: inherit;background: rgb(242, 247, 251);overflow: auto;word-wrap: normal;word-break: normal;white-space: normal;">
+  <p style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">If nesting level is greater
+    than 5, and timeout is less than 4, then set timeout to 4.</p></blockquote>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  并且有意思的是，MDN英文文档的说明也已经贴合了这个规范。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  我斗胆推测，一开始HTML5规范确实有定最低4ms的规范，不过在后续修订中进行了修改，我认为甚至不排除规范在向实现看齐，即逆向影响。</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">Node中的timer</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  那<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>中，为什么0ms和1ms的延时效果一致呢？
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（还是github托管代码看起来方便，直接搜到目标代码）</em>
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//</span> https:<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//gi</span>thub.com/nodejs/node/blob/v8<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">.9</span><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">.4</span>/lib/timers.js<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">#L456</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">if</span> (!(after &gt;= <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span> &amp;&amp; after &lt;= TIMEOUT_MAX))<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp;after = <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>; <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//</span> schedule <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">on</span> next tick, follows browser behavior<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  代码中的注释直接说明了，设置最低1ms的行为是为了向浏览器行为看齐。</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">Node中的Event Loop</span>
+</h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  上文的timer算一个小插曲，我们现在回归本文核心——<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  让我们聚焦在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>的实现上，<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">blink</code>的实现本文不做展开，主要是因为：
+</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p><code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">chrome</code>行为目前看来和规范一致
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">可参考的文档不多</span>
+  </p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">不会搜索，根本不知道核心代码从何找起。。。</span>
+  </p></li>
+</ul>
+<figure
+  style="box-sizing: border-box;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <img class="img_loading" data-ratio="0.9445843828715366"
+       data-src="https://mmbiz.qpic.cn/mmbiz_jpg/1NOXMW586utKd3IpCiawiasN1sic9kvroDchRqKJtbnncWh84wCpxq3DVBm24XBP4gmr8GhBDt5nBOBLic3U8C1Ldw/640?wx_fmt=jpeg"
+       data-type="jpeg" data-w="397"
+       style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 397px !important; height: 375.222px !important;"
+       title="原谅1.jpg | left | 264x250" _width="397px"
+       src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+       crossorigin="anonymous" alt="图片">
+  <figcaption
+    style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;">
+    原谅1.jpg | left | 264x250
+  </figcaption>
+</figure>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <em style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">（略过所有研究过程。。。）</em></p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  直接看结论，下图是<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>的<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>实现：</p>
+<figure
+  style="box-sizing: border-box;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <img class="img_loading" data-ratio="0.5531019978969506"
+       data-src="https://mmbiz.qpic.cn/mmbiz_png/1NOXMW586utKd3IpCiawiasN1sic9kvroDcvViaJkTgVc8K6fYNWtBYNE2DVX4pZLCC0tfPZB2YU9gWdibLSwj4iaOUA/640?wx_fmt=png"
+       data-type="png" data-w="951"
+       style="box-sizing: border-box; margin-right: auto; margin-left: auto; border-width: 2px; border-style: solid; border-color: rgb(238, 238, 238); border-radius: 6px; font-size: inherit; color: inherit; line-height: inherit; display: block; width: 677px !important; height: 376.238px !important;"
+       title="node_event_loop.png | center | 832x460" _width="677px"
+       src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+       crossorigin="anonymous" alt="图片">
+  <figcaption
+    style="box-sizing: border-box;margin-top: 10px;font-size: 0.7em;color: rgb(153, 153, 153);line-height: inherit;text-align: center;">
+    node_event_loop.png | center | 832x460
+  </figcaption>
+</figure>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  补充说明：</p>
+<ul style="" class="list-paddingleft-2">
+  <li><p><code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Node</code>的<strong
+    style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>分阶段，阶段有先后，依次是
+  </p></li>
+  <li><p><strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">expired timers
+    and intervals</strong>，即到期的setTimeout/setInterval</p></li>
+  <li><p><strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">I/O
+    events</strong>，包含文件，网络等等</p></li>
+  <li><p><strong
+    style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">immediates</strong>，通过setImmediate注册的函数
+  </p></li>
+  <li><p><strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">close
+    handlers</strong>，close事件的回调，比如TCP连接断开</p></li>
+  <li><p><span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">同步任务及每个阶段之后都会清空microtask队列</span>
+  </p></li>
+  <li><p>优先清空<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">next tick
+    queue</strong>，即通过<code
+    style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>注册的函数
+  </p></li>
+  <li><p>再清空<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">other
+    queue</strong>，常见的如Promise</p></li>
+  <li><p><strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">而和规范的区别，在于node会清空当前所处阶段的队列，即执行所有task</strong>
+  </p></li>
+</ul>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">重新挑战测试（2）</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  了解了实现，再回头看<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">测试（2）</code>：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 代码简略表示</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 1</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 2</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  可以看出由于两个<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>延时相同，被合并入了同一个<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">expired timers queue</strong>，而一起执行了。所以，只要将第二个<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>的延时改成超过2ms（1ms无效，详见上文），就可以保证这两个<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>不会同时过期，也能够保证输出结果的一致性。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  那如果我把其中一个<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>改为<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>，是否也可以做到保证输出顺序？
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  答案是<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">不能</strong>。虽然可以保证<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>和<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>的回调不会混在一起执行，但无法保证的是<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>和<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>的回调的执行顺序。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>下，看一个最简单的例子，下面代码的输出结果是无法保证的：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setImmediate(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">//</span> <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">or</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setImmediate(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">0</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(174, 135, 250);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">1</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  问题的关键在于<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>何时到期，只有到期的<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>才能保证在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>之前执行。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  不过如果是这样的<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">例子（2）</code>，虽然基本能保证输出的一致性，不过强烈不推荐：
+</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 先使用setTimeout注册</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 一系列micro tasks执行，保证setTimeout顺利到期</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">new</span> <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">Promise</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">resolve</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">process.nextTick(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// 再使用setImmediate注册，“几乎”确保后执行</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">setImmediate(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(128, 128, 128);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">// ...</span><br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  或者换种思路来保证顺序：</p>
+<pre
+  style="box-sizing: border-box;margin-top: 0px;margin-bottom: 0px;padding: 0px;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;background-color: rgb(255, 255, 255);"><code
+  class=""
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 0.5em;font-size: 14px;color: rgb(169, 183, 198);line-height: 18px;border-radius: 0px;background: rgb(40, 43, 46);font-family: Consolas, Inconsolata, Courier, monospace;display: block;overflow-x: auto;letter-spacing: 0px;word-wrap: normal !important;word-break: normal !important;overflow-y: auto !important;">const fs = <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">require</span>(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'fs'</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">fs.readFile(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'/path/to/file'</span>, <span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;setTimeout(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'timeout'</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;setImmediate(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"><span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(255, 152, 35);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">()</span> =&gt;</span> {<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp; &nbsp; &nbsp;<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(248, 35, 117);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">console</span>.log(<span
+  class=""
+  style="box-sizing: border-box;font-size: inherit;color: rgb(238, 220, 112);line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">'immediate'</span>)<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"> &nbsp; &nbsp;})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;">})<br
+  style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;word-wrap: inherit !important;word-break: inherit !important;"></code></pre>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  那，为何这样的代码能保证<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>的回调优先于<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>的回调执行呢？
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  因为当两个回调同时注册成功后，当前<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>的<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>正处于<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">I/O
+  queue</strong>阶段，而下一个阶段是<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">immediates queue</strong>，所以能够保证即使<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>已经到期，也会在<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>的回调之后执行。
+</p>
+<h2
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-weight: bold;font-size: 1.4em;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">PART 3：应用</span></h2>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  由于也是刚刚学习<strong style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event
+  Loop</strong>，无论是依托于规范还是实现，我能想到的应用场景还比较少。那掌握<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">Event Loop</strong>，我们能用在哪些地方呢？
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">查Bug</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  正常情况下，我们不会碰到非常复杂的队列场景。不过万一碰到了，比如执行顺序无法保证的情况时，我们可以快速定位到问题。</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">面试</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  那什么时候会有复杂的队列场景呢？比如面试，保不准会有这种稀奇古怪的测试，这样就能轻松应付了~</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">执行优先级</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  说回正经的，如果从规范来看，microtask优先于task执行。那如果有需要优先执行的逻辑，放入microtask队列会比task更早的被执行，这个特性可以被用于在框架中设计任务调度机制。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  如果从<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>的实现来看，如果时机合适，microtask的执行甚至可以阻塞I/O，是一把双刃剑。
+</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  综上，高优先级的代码可以用<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">Promise</code>/<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>注册执行。
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">执行效率</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  从<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">node</code>的实现来看，<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setTimeout</code>这种timer类型的API，需要创建定时器对象和迭代等操作，任务的处理需要操作小根堆，时间复杂度为<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">O(log(n))</strong>。而相对的，<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>和<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>时间复杂度为<strong
+  style="box-sizing: border-box;color: inherit;font-size: inherit;line-height: inherit;">O(1)</strong>，效率更高。</p>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  如果对执行效率有要求，优先使用<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">process.nextTick</code>和<code
+  style="box-sizing: border-box;margin-right: 2px;margin-left: 2px;padding: 2px 4px;font-size: inherit;color: rgb(233, 105, 0);line-height: inherit;word-wrap: break-word;border-radius: 4px;background: rgb(248, 248, 248);">setImmediate</code>。
+</p>
+<h3
+  style="box-sizing: border-box;margin-top: 1.5em;margin-right: 5px;margin-bottom: 2em;padding: 8px 15px;font-weight: bold;font-size: 1.3em;color: rgb(62, 62, 62);line-height: inherit;letter-spacing: 2px;border-left: 6px solid rgb(66, 185, 131);border-radius: 2px;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">其他</span></h3>
+<p
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-size: 16px;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  欢迎大家一同补充~</p><h4
+  style="box-sizing: border-box;margin-top: 1.5em;margin-bottom: 1.5em;font-weight: bold;font-size: 1.2em;color: rgb(62, 62, 62);line-height: inherit;white-space: normal;background-color: rgb(255, 255, 255);">
+  <span style="box-sizing: border-box;font-size: inherit;color: inherit;line-height: inherit;">参考</span></h4>
+<ul style="" class="list-paddingleft-2">
+  <li><p>这一次，彻底弄懂 JavaScript 执行机制</p></li>
+  <li><p>Tasks, microtasks, queues and schedules</p></li>
+  <li><p>Event Loop and the Big Picture</p></li>
+  <li><p>Timers, Immediates and Process.nextTick</p></li>
+  <li><p>What you should know to really understand the Node.js Event Loop</p></li>
+  <li><p>Node异步那些事</p></li>
+  <li><p>libuv design</p></li>
+</ul>
+<p><br></p>
+<blockquote><p>作者:nekron</p>
+  <p>https://github.com/ProtoTeam/blog/edit/master/201801/2.md</p></blockquote>
+<p style="padding-right: 12px;padding-left: 12px;max-width: 100%;min-height: 1em;color: rgb(51, 51, 51);"><span
+  style="max-width: 100%;color: rgb(217, 33, 66);font-size: 15px;letter-spacing: 1px;font-family: inherit;line-height: 22.4px;white-space: pre-wrap;box-sizing: border-box !important;word-wrap: break-word !important;"><br></span>
+</p>
+<section class="" data-tools="135编辑器" data-id="87989"
+         style="max-width: 100%;box-sizing: border-box;border-width: 0px;border-style: none;border-color: initial;word-wrap: break-word !important;">
+  <section class="" data-tools="135编辑器" data-id="87989"
+           style="max-width: 100%;box-sizing: border-box;color: rgb(62, 62, 62);font-size: 16px;white-space: normal;background-color: rgb(255, 255, 255);border-width: 0px;border-style: none;border-color: initial;word-wrap: break-word !important;">
+    <section class="__bg_gif" data-order="0"
+             style="padding: 30px;max-width: 100%;box-sizing: border-box;border-width: 3px;border-style: double;border-color: rgb(145, 44, 238);background-image: url(&quot;https://mmbiz.qpic.cn/mmbiz_gif/cZV2hRpuAPjTw2iacM6RJGggO7nTficztvMrrFT6d8NaeExPXJllNbrdTnibB8Jnuwcfcp0599X9g5aGmPDlADN3w/640&quot;);word-wrap: break-word !important;">
+      <p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;">
+        <span
+          style="max-width: 100%;font-size: 20px;color: rgb(216, 79, 169);box-sizing: border-box !important;word-wrap: break-word !important;">Vue中文社区</span><span
+        style="max-width: 100%;color: rgb(0, 128, 255);font-size: 20px;box-sizing: border-box !important;word-wrap: break-word !important;">&nbsp;</span><span
+        style="max-width: 100%;color: rgb(0, 128, 255);font-size: 12px;box-sizing: border-box !important;word-wrap: break-word !important;">独家公众号，面向前端爱好者， 每日更新最有料的文章，最前沿的资讯,内容包含但不限于Vue,React,Angular,前端工程化...等各种"<span
+        style="max-width: 100%;color: rgb(216, 79, 169);">大保健</span>"知识点,右上角点关注,老司机带你弯道超车,不定期更有各种福利赠送</span>&nbsp;</p>
+    </section>
+  </section>
+  <p
+    style="max-width: 100%;min-height: 1em;color: rgb(62, 62, 62);font-size: 16px;white-space: normal;background-color: rgb(255, 255, 255);box-sizing: border-box !important;word-wrap: break-word !important;">
+    <br></p></section>
+<p
+  style="max-width: 100%;min-height: 1em;background-color: rgb(255, 255, 255);line-height: 25.6px;text-align: center;box-sizing: border-box !important;word-wrap: break-word !important;">
+  <span
+    style="max-width: 100%;color: rgb(84, 141, 212);box-sizing: border-box !important;word-wrap: break-word !important;">FEweekly</span>
+</p>
+<p style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;word-wrap: break-word !important;"><br
+  style="max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;"></p>
+<section class="" data-tools="135编辑器" data-id="86357" data-color="rgb(89, 195, 249)" data-custom="rgb(89, 195, 249)"
+         style="max-width: 100%;box-sizing: border-box;background-color: rgb(255, 255, 255);border-width: 0px;border-style: none;border-color: initial;word-wrap: break-word !important;">
+  <section
+    style="max-width: 100%;text-align: center;box-sizing: border-box !important;word-wrap: break-word !important;">
+    <section
+      style="max-width: 100%;display: inline-block;width: 192px;box-sizing: border-box !important;word-wrap: break-word !important;">
+      <img class="" data-ratio="0.125"
+           data-src="http://mmbiz.qpic.cn/mmbiz/cZV2hRpuAPialHghKLjic2ibD7sFcuQ6wrakMrFv47qt1Lib5BD10KWLibRMLZbdQtY2TwasT3klmETSDmgXziaH3pOQ/640?"
+           data-w="600"
+           style="display: inline; box-sizing: border-box !important; overflow-wrap: break-word !important; visibility: visible !important; width: 192px !important; height: 24px !important;"
+           title="墨迹晕染分割线" width="192px" _width="192px"
+           src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="
+           crossorigin="anonymous" alt="图片"></section>
+  </section>
+</section>
+
+</body>
+</html>

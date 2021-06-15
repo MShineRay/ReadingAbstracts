@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="rich_media_content " id="js_content" style="visibility: visible;">
+  <h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">开闭原则</span>
+</h4>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">说到面向对象设计，大部分人脑海中闪过的恐怕都是“23种设计模式”。设计模式代表的是业务场景中总结出的最佳实现方式，属于实践的范畴，在其之上是更为重要的“SOLID”五大原则：</span>
+  </p>
+  <ul class="list-paddingleft-2" style="">
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">Single Responsibility Principle 单一责任原则</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">The Open Closed Principle 开放封闭原则</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">The Liskov Substitution Principle 里氏替换原则</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">The Dependency Inversion Principle 依赖倒置原则</span>
+    </p></li>
+    <li><p
+      style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 1em;letter-spacing: normal;text-align: left;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">The Interface Segregation Principle 接口分离原则</span>
+    </p></li>
+  </ul>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">SOLID 五大原则的出发点也是软件工程的终极目标：“高内聚、低耦合”。在后端开发中运用最多的是“依赖倒置原则”，与其相关的设计模式大约有5-6个。如下图所示：</span>
+  </p>
+  <figure class=""
+          style="margin-bottom: 16px;max-width: 100%;box-sizing: border-box;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 16px;overflow-wrap: break-word !important;">
+    <section class="" style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">
+      <img class="" data-ratio="0.44942196531791906" data-type="png" data-w="692"
+           data-src="https://mmbiz.qpic.cn/mmbiz_png/meG6Vo0MevhicMTZ5yKicrvM59zmJ5JYchnwlv4K81aGv19icTlAwiazHx03ng2Mypz3Rgb8RAevW4Ay4t2LQXxC6w/640?wx_fmt=png"
+           style="box-sizing: border-box; vertical-align: middle; border-color: currentcolor; border-style: none; border-width: 0px; overflow-wrap: break-word !important; visibility: visible !important; width: 677px !important; height: auto !important;"
+           _width="677px" src="函数编程、消息通知_files40(1)" crossorigin="anonymous" alt="图片" data-fail="0"></section>
+  </figure>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">上图也可以理解为从抽象概念到具体实践的逐步演进。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">在前端技术框架中，运用最多的是“开放封闭原则”，我们先来看一下这条原则是怎么定义的：</span>
+  </p>
+  <blockquote
+    style="margin-bottom: 1.125em;padding-right: 15px;padding-left: 20px;max-width: 100%;box-sizing: border-box;border-left-width: 4px;border-left-color: rgb(221, 221, 221);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgb(102, 102, 102);font-size: 14px;font-style: italic;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+    <p
+      style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;font-size: 1em;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">A software artifact should be open for extension but closed for modification.</span>
+    </p></blockquote>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">翻译过来就是：软件系统应当对扩展开放，对修改封闭（感觉像没说）。这里举一个简单的例子来说明开闭原则，先帮助大家理解概念：</span>
+  </p>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">abstract</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">class</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Shape</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">abstract</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">double</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Area</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">();</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp; &nbsp;<br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"></span><span class=""
+                                                                                                      style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}<br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">class</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Rectangle</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">:</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Shape</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">double</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Width</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">get</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">set</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">double</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Height</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">get</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">set</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">public</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">override</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">double</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Area</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">()</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp; &nbsp; &nbsp; </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">return</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Width</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">*</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">Height</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">'<br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;}
+}
+
+public class Circle: Shape
+{
+ &nbsp; &nbsp;public double Radius { get; set}
+ &nbsp; &nbsp;public override double Area()
+ &nbsp; &nbsp;{
+ &nbsp; &nbsp; &nbsp; &nbsp;return Radius*Radius*PI;
+ &nbsp; &nbsp;}
+}
+
+public double Area(Shape [] shapes)
+{
+ &nbsp; &nbsp;doubel area = 0;
+ &nbsp; &nbsp;foreach (var shape in shapes)
+ &nbsp; &nbsp;{
+ &nbsp; &nbsp; &nbsp; &nbsp;area += shape.Area();
+ &nbsp; &nbsp;}
+ &nbsp; &nbsp;return area;
+}</span></span></code></pre>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">上例中无论场景如何扩展，Area 函数都无需修改，每个 Shape 类通过继承接口和多态特性，各自实现面积计算。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">总结一下开闭原则就是：软件系统的核心逻辑都不应该轻易改变，否则会破坏系统的稳定性和增加测试成本。我们应当建立合适的抽象并统一接口，当业务需要扩展时，我们可以通过增加实体类来完成。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">接下来我们看一个“开闭原则”在前端框架中的应用： Ant Design 组件库中的 Form 表单组件。<br
+                style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">和其它组件不同，Form 组件并没有具体的形态，它更像是一个容器，提供了接入的标准，并提供了校验、表单提交等功能。绘制表单中的一项如下所示：</span>
+  </p>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">&lt;FormItem&gt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;{getFieldDecorator('userName', {
+ &nbsp; &nbsp; rules: [{ required: true, message: 'Please input your username!' }],
+ &nbsp; &nbsp; })(&lt;Input prefix={</span><span class=""
+                                                 style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">&lt;Icon</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">type</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"user"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">style</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">={{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 0, 102);overflow-wrap: break-word !important;">color</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">: </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">'rgba(0,0,0,.25)'</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> }} </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">/&gt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">}<br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp; &nbsp; &nbsp;placeholder="Username" /&gt;
+ &nbsp; )} &nbsp; &nbsp;<br
+      style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">&lt;/FormItem&gt;</span></span></code></pre>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">Ant Design 组件库中已经提供个几乎所有的常见表单组件，如：Select 、Checkbox 、Radio 、Cascader 等，但在实际业务中，我们还是会需要设计业务相关的表单项，Form 表单通过统一组件接口的方式满足了这个技术需求，具体规约如下：</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">自定义或第三方的表单控件，也可以与 Form 组件一起使用。只要该组件遵循以下的约定：</span>
+  </p>
+  <ul class="list-paddingleft-2" style="">
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">提供受控属性 value 或其它与 valuePropName 的值同名的属性。</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">提供 onChange 事件或 trigger 的值同名的事件。</span>
+    </p></li>
+    <li><p
+      style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 1em;letter-spacing: normal;text-align: left;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">不能是函数式组件。</span>
+    </p></li>
+  </ul>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">这正是“开闭原则”的一个典型实践案例，即表单核心逻辑（校验、提交等）保持不变并封装在 Form 组件中，自定义表单项只需要满足上述三条规约，就能平滑接入到 Form 组件中，和 Ant Design 原生组件契合在一起。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">Ant Design 中的 Form 组件通过这样一个简洁的设计，完美提供了表单类型页面的统一解决方案。</span>
+  </p><h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">函数式编程</span>
+</h4>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">随着人工智能、区块链、AR、VR、新零售等业务场景的出现，产品界面交互正在变得越来越复杂，这就对现代的前端开发者提出了更高的要求。如何快速、正确、高效地开发出高复杂度页面是目前前端技术最需要解决的问题。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">函数式编程（以下简称 FP ）凭借其高复用性、易测试性和与之带来的健壮性和简洁开始逐渐占据前端技术圈，我们发现越来越多的前端框架以 FP 为设计核心准则。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">我们先简单介绍一下 FP，函数式编程的特征主要包括以下几个方面：</span>
+  </p>
+  <ul class="list-paddingleft-2" style="">
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">函数为“一等公民”</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">模块化、组合</span>
+    </p></li>
+    <li><p
+      style="max-width: 100%;min-height: 1em;box-sizing: border-box !important;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">引用透明避免状态改变</span>
+    </p></li>
+    <li><p
+      style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 1em;letter-spacing: normal;text-align: left;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">避免共享状态</span>
+    </p></li>
+  </ul>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">JS 语言中的函数不同于 Java ，C/C++ 等语言, 可以被当做参数和返回值进行传递，因此天生具备“一等公民”特性。“模块化、组合”、“引用透明”、“避免状态改变”、“避免共享状态”这四个特征都需要通过特定代码模式实现。先举两个小例子：</span>
+  </p><h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">找出字符串中率先出现的四个非数字字符？</span>
+</h4><h5
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">非 FP 风格</span>
+</h5>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> words </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[],</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> count </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> text </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> str</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">split</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">''</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"></span><span class=""
+                                                                                                      style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">for</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> couont </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&lt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">4</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&lt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> text</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">length</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">++)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp; <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">if</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(!</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">text</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">].</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">match</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">/[0-9]/</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">))</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;words </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> words</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">concat</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">text</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">]);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;count</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">++;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp; <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}<br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">}</span></span></code></pre>
+  <h5
+    style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">FP 风格</span>
+  </h5>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> words </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> str</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">split</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">''</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">).</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">filter</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">function</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">){</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">return</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(!</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">match</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">/[1-9]+/</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">))}).</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">slice</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">4</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span></span></code></pre>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">第二段代码中使用的 js 数组方法 filter 和 slice，去掉了 for 循环，代码更简洁流畅。在写具体业务代码的时候，“模块化、组合”是 FP 最常用的技术，也是最重要的实现功能的手段。</span>
+  </p><h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">分别实现数组所有元素相加、相乘、相与？</span>
+</h4><h5
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">非 FP 风格</span>
+</h5>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">function</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> plus</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">for</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">let</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">1</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&lt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">length</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">++)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">+=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp; <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">function</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> mul</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">for</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">let</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">1</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&lt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">length</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">++)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">*=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">function</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">and</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">for</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">let</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">1</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&lt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">length</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">++)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp; &nbsp;res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> res </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&amp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">i</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">];</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}<br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">plus</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">mul</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">and</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span></span></code></pre>
+  <h5
+    style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">FP 风格</span>
+  </h5>
+  <pre class=""
+       style="margin-top: 0px;margin-bottom: 16px;padding: 10px;max-width: 100%;box-sizing: border-box;overflow-wrap: break-word;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;font-family: Consolas, Menlo, Courier, monospace;font-size: 13.6px;overflow: auto;line-height: 1.6;background-image: none;background-position: 0% 0%;background-repeat: repeat;background-attachment: scroll;background-color: rgb(246, 246, 246);border-radius: 3px;border-color: rgb(221, 221, 221);border-style: solid;border-width: 1px;white-space: pre-wrap;"><code
+    style="max-width: initial;box-sizing: border-box;overflow-wrap: normal;font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;font-size: 13.6px;background: none 0% 0% repeat scroll transparent;border-radius: 3px;border-color: currentcolor;border-style: none;border-width: 0px;word-break: normal;white-space: pre;display: inline;overflow: initial;line-height: inherit;"><span
+    style="max-width: 100%;font-size: 12px;box-sizing: border-box !important;overflow-wrap: break-word !important;"><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">var</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> ops </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">=</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"plus"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">:</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)=&gt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">+</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"mul"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">:</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)=&gt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">*</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"and"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">:</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)=&gt;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">x</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">&amp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">y<br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"></span><span class=""
+                                                                                                      style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">}<br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">function</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> operation</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">op</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">)</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> </span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">{</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;"> &nbsp;</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 136);overflow-wrap: break-word !important;">return</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">.</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">slice</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">1</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">).</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">reduce</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">ops</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;">op</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">],</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">[</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 102, 102);overflow-wrap: break-word !important;">0</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">]);<br
+    style="max-width: 100%;box-sizing: border-box !important;overflow-wrap: break-word !important;">}</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> <br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">operation</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"plus"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">operation</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"mul"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp;array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"><br
+    style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">operation</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">(</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 136, 0);overflow-wrap: break-word !important;">"and"</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">,</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(0, 0, 0);overflow-wrap: break-word !important;"> &nbsp;array</span><span
+    class=""
+    style="max-width: 100%;box-sizing: border-box;color: rgb(102, 102, 0);overflow-wrap: break-word !important;">);</span></span></code></pre>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">后一段代码中，使用了 reduce 函数代替了 for 循环，并将数值计算部分作为模块提取出来，当有新的计算类型时，只需要在 ops 对象中定义计算过程。这里就体现了 FP 中“模块化、组合”的特性。在 FP 风格下，我们习惯将复杂逻辑切割成一个个小模块，通过组合这些模块实现新的业务功能，当有新的需求到来时，我们尽可能地复用已有模块达到目标。FP 代码在复用性方面相比 OOD 有明显的优势。</span>
+  </p><h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">React 中的 FP 思想</span>
+</h4>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">React 框架中，当用户操作 UI 或者 API 的返回带来了数据的改变，React 随即进行 virtual dom diff 计算得到 dom 的修改指令，对 dom 元素应用修改指令便得到最新的 html 界面，如下图所示：</span>
+  </p>
+  <figure class=""
+          style="margin-bottom: 16px;max-width: 100%;box-sizing: border-box;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 16px;overflow-wrap: break-word !important;">
+    <section class="" style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">
+      <img class="" data-ratio="0.4732142857142857" data-type="png" data-w="1120"
+           data-src="https://mmbiz.qpic.cn/mmbiz_png/meG6Vo0MevhicMTZ5yKicrvM59zmJ5JYchPKN9Ratvp87lV8MntYl8uQUJpwndfYLppJne0Dm7bMMib8qQsa6Qgow/640?wx_fmt=png"
+           style="box-sizing: border-box; vertical-align: middle; border-color: currentcolor; border-style: none; border-width: 0px; overflow-wrap: break-word !important; visibility: visible !important; width: 677px !important; height: auto !important;"
+           _width="677px" src="函数编程、消息通知_files40(2)" crossorigin="anonymous" alt="图片" data-fail="0"></section>
+  </figure>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">不难发现，React 其实是应用数据对UI的一种映射，不同的数据会映射出不同样式的 UI 界面，我们可以得出如下的表达式：</span>
+  </p>
+  <blockquote
+    style="margin-bottom: 1.125em;padding-right: 15px;padding-left: 20px;max-width: 100%;box-sizing: border-box;border-left-width: 4px;border-left-color: rgb(221, 221, 221);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgb(102, 102, 102);font-size: 14px;font-style: italic;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+    <p
+      style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;font-size: 1em;overflow-wrap: break-word !important;">
+                <span
+                  style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">$UI = React(data)$</span>
+    </p></blockquote>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">没错，React 的本质其实是一种函数，并且还是符合 FP 要求的“引用透明”函数。所谓“引用透明”就是指函数的输出仅依赖函数参数，不受任何外部环境影响。这样的函数可测试性强，也非常容易进行组合。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">在 React 的体系下，任何组件都可由一个个更小的组件构成，每个组件都只关心自己的输入，他们不断地接受新的数据并输出对应的新的UI界面。React 框架中常用的“高阶组件”可以看作引用透明”函数的组合模式。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">在具体业务中我们通常还需要权衡 React 组件的复用性和开发体验，如果组件被拆分的过于细，固然复用性会提升，但文件数量会增加，对应的文档和沟通成本也会增加，这也是 FP 在实践过程中经常遭人诟病的点，即复用性提升后带来的额外开发成本。</span>
+  </p><h4
+  style="margin-top: 1em;margin-bottom: 16px;font-weight: bold;font-size: 1.15em;max-width: 100%;box-sizing: border-box;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);color: rgba(0, 0, 0, 0.85);line-height: 1.4;font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+            <span
+              style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">消息机制</span>
+</h4>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">消息机制是软件工程中一个普遍运用的工程思想。“设计模式”中的观察者模式、Windows 操作系统底层、Spring 框架中的 ApplicationListener 模块、Objective-C 语言中的函数调用、都是通过消息机制驱动的。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">使用消息机制最大的好处在于可以做到业务模块间安全解耦，模块间通过发送消息的方式进行协作，我们先举一个后端开发中的例子，下图是一个简单的预定系统的建模图，并没有使用消息机制：</span>
+  </p>
+  <figure class=""
+          style="margin-bottom: 16px;max-width: 100%;box-sizing: border-box;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 16px;overflow-wrap: break-word !important;">
+    <section class="" style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">
+      <img class="" data-ratio="0.596820809248555" data-type="png" data-w="692"
+           data-src="https://mmbiz.qpic.cn/mmbiz_png/meG6Vo0MevhicMTZ5yKicrvM59zmJ5JYch9lmKCaoxIDQK9ma8FR3FyBrEEkyXKvrahRIlpV4Fia27y8ia8gCibpU9A/640?wx_fmt=png"
+           style="box-sizing: border-box; vertical-align: middle; border-color: currentcolor; border-style: none; border-width: 0px; overflow-wrap: break-word !important; visibility: visible !important; width: 677px !important; height: auto !important;"
+           _width="677px" src="函数编程、消息通知_files40(3)" crossorigin="anonymous" alt="图片" data-fail="0"></section>
+  </figure>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">在没有消息机制的情况下，用户模块需要知道订单模块的存在，并向起进行接口调用，同理订单模块需要向支付模块进行接口调用。这种设计下模块间是耦合的。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">我们再来看一下使用消息机制的情况：</span>
+  </p>
+  <figure class=""
+          style="margin-bottom: 16px;max-width: 100%;box-sizing: border-box;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 16px;overflow-wrap: break-word !important;">
+    <section class="" style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">
+      <img class="" data-ratio="0.6979768786127167" data-type="png" data-w="692"
+           data-src="https://mmbiz.qpic.cn/mmbiz_png/meG6Vo0MevhicMTZ5yKicrvM59zmJ5JYchyphewia80dsIAibaKMqFK3s1laVibwYzcWiahY9kLRrvUziaD7IfI8JTHYw/640?wx_fmt=png"
+           style="box-sizing: border-box; vertical-align: middle; border-color: currentcolor; border-style: none; border-width: 0px; overflow-wrap: break-word !important; visibility: visible !important; width: 677px !important; height: auto !important;"
+           _width="677px" src="函数编程、消息通知_files40(4)" crossorigin="anonymous" alt="图片" data-fail="0"></section>
+  </figure>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">上图中，无论是客户下订单、支付还是预定都是通过消息的方式传递的，每个模块都是向一个消息处理器起发消息，同时也监听消息处理器发送回来的消息。在这种模式下，模块完全不知道其它模块的存在，彻底做到了解耦。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">在前端业务开发中，我们经常也会用到 EventEmitter 库来进行消息传递。比如页面上有两块区域，一块用 React 框架渲染，一块用 D3 渲染的，当两块区域需要数据同步时，就可以使用消息机制进行通讯，保证页面数据整体一致。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如果你的业务中有不同生命周期的组件，建议采用消息机制进行管理，不仅消除了耦合，逻辑关系部分的代码也集中到了一个文件中，内聚性得到了提升。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">使用消息机制的一个附属产物就是中间件，我们可以为消息定制各种中间件，在中间中完成一些通用逻辑，让业务代码更精炼。</span>
+  </p>
+  <p
+    style="margin-bottom: 1.125em;max-width: 100%;box-sizing: border-box;min-height: 1em;color: rgb(51, 51, 51);font-size: 1em;letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;overflow-wrap: break-word !important;">
+              <span
+                style="max-width: 100%;font-size: 15px;box-sizing: border-box !important;overflow-wrap: break-word !important;">说到前端框架中消息机制的运用，当然首推 Redux 框架，在 Redux 框架中，任何数据交互都需要先转化为一个 action，由 action 去触发 reducer 和相关的 middleware 处理 action，改变数据，最终同步到页面 UI 上，如下图所示：</span>
+  </p>
+  <figure class=""
+          style="margin-bottom: 16px;max-width: 100%;box-sizing: border-box;color: rgb(51, 51, 51);letter-spacing: 0.544px;text-align: justify;white-space: normal;background-color: rgb(255, 255, 255);font-family: &quot;-apple-system Helvetica&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, sans-serif;font-size: 16px;overflow-wrap: break-word !important;">
+    <section class="" style="max-width: 100%;box-sizing: border-box;overflow-wrap: break-word !important;">
+      <img class="" data-ratio="0.634393063583815" data-type="png" data-w="692"
+           data-src="https://mmbiz.qpic.cn/mmbiz_png/meG6Vo0MevhicMTZ5yKicrvM59zmJ5JYchOWylCv6xibGR1Bt1fWlMIFUZWr5aQOaogp6e3oFicNbt0tibonRAgqdEg/640?wx_fmt=png"
+           style="box-sizing: border-box; vertical-align: middle; border-color: currentcolor; border-style: none; border-width: 0px; overflow-wrap: break-word !important; visibility: visible !important; width: 677px !important; height: auto !important;"
+           _width="677px" src="函数编程、消息通知_files40(5)" crossorigin="anonymous" alt="图片" data-fail="0"></section>
+  </figure>
+</div>
+</body>
+</html>
