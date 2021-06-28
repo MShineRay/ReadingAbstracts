@@ -332,7 +332,7 @@ DevOps 平台，你觉得难吗？但是确是很多创业公司非常需要的�
   
   ~~~
 - [浅谈前端/软件工程师的代码素养 ]( https://mp.weixin.qq.com/s/ztrqKlBzyezj8HMVXnb_vQ )
-- [](  )
+- [qconbj2021]( https://ppt.infoq.cn/list/qconbj2021 )
 - [](  )
 - [](  )
 - [](  )
