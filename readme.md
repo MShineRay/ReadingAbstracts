@@ -18,6 +18,7 @@ B
 ## [browser](./browser/browser.md)
 
 C
+## [cache](./cache/cache.md)
 ## [chrome](./chrome/chrome.md)
 ## [compatibility](./compatibility/compatibility.md)
 ## [css](./css/css.md)

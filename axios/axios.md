@@ -1,2 +1,11 @@
 # axios
 - [github vue-axios](https://github.com/imcvampire/vue-axios)
+- [github axios-debug-log](https://github.com/Gerhut/axios-debug-log)
+- [聊聊 Axios 中值得学习的核心知识点](https://mp.weixin.qq.com/s/LzfiCas1SA0L4gJH9Oor_A)
+- [github axios-response-logger](https://github.com/srph/axios-response-logger)
+- [github axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter)
+- [Axios 如何缓存请求数据？](https://mp.weixin.qq.com/s/cS5XMnccxf5ESTYvJe91OA)
+- [77.9K 的 Axios 项目有哪些值得借鉴的地方](https://mp.weixin.qq.com/s?__biz=MzI2MjcxNTQ0Nw==&mid=2247486544&idx=1&sn=70b610d286d1ecd44b53a1f128a3669f&scene=21#wechat_redirect)
+- [github very-axios](https://github.com/verymuch/very-axios)
+- [github umi-request](https://github.com/umijs/umi-request)
+- [github axios-analysis](https://github.com/lxchuan12/axios-analysis)
