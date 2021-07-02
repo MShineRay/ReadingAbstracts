@@ -281,6 +281,7 @@
         脱离文档的DOM引用
         闭包
     ~~~
+- [跨域请求的十种解决方案]( https://mp.weixin.qq.com/s/-fz7R-Jtx7bPTpUi9soZaw )
 - (已整理)[如何理解浏览器的跨域问题？常用的解决方式有哪些？]( https://mp.weixin.qq.com/s/sNbXegPIDKYuu3lyAd-47A )
     ~~~
     
@@ -726,9 +727,8 @@
 - [JavaScript函数的柯里化](https://mp.weixin.qq.com/s/XKwlp3FKjeG645ElZvuIFQ  )
 - [JavaScript定时器与执行机制解析](https://mp.weixin.qq.com/s/nbgCVuBBM5KeKKsTEsUlsw)
 - [Event Loop的规范和实现]( https://mp.weixin.qq.com/s/o6ShDN4opJoDnUrCz0PLIQ)
-- [](  )
-- [](  )
-- [](  )
+- [前端性能优化之 Gzip](https://mp.weixin.qq.com/s/jbAnMz_m8fro2jlJr72LCQ)
+- [如何实施一次XSS攻击]( https://mp.weixin.qq.com/s/x9qHxMkO6YDMOEjv0Bb1XA )
 - [](  )
 - [](  )
 - [](  )

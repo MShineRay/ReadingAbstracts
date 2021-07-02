@@ -92,7 +92,7 @@
 - [什么是函数式编程？]( https://mp.weixin.qq.com/s/dWBnXbZvw6avB4ibXVKMgg)
 - [前端开发-领域驱动设计]( https://mp.weixin.qq.com/s/y0_aNlD0ILzWpgY0H7-K-w)
 - [未来的前端工程师]( https://mp.weixin.qq.com/s/o7WyaZhL5NHDRzuHOnS3lQ)
-- [](  )
+- [前端数据采集与分析]( https://mp.weixin.qq.com/s/1_Gp0amnou1PS4PevlcVkA )
 - [](  )
 - [](  )
 - [](  )
