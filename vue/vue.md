@@ -197,7 +197,7 @@
 - [vue 组件库]( https://mp.weixin.qq.com/s/1z6yqHOH0pKmIbafL9UyDA )
 - [解密Vue SSR ]( https://mp.weixin.qq.com/s/pY-fA4bP8clcHctqZKGMug)
 - [JSON 数据搭建 Vue 页面 低代码](https://mp.weixin.qq.com/s/hS01N7qz--ihjfYmWOWKTA)
-- [](  )
+- [Vue dataAc插件发布]( https://mp.weixin.qq.com/s/EGr1jlcZRGgB-VEamWUV1w )
 - [](  )
 - [](  )
 - [](  )
