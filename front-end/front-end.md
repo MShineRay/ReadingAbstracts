@@ -93,7 +93,8 @@
 - [前端开发-领域驱动设计]( https://mp.weixin.qq.com/s/y0_aNlD0ILzWpgY0H7-K-w)
 - [未来的前端工程师]( https://mp.weixin.qq.com/s/o7WyaZhL5NHDRzuHOnS3lQ)
 - [前端数据采集与分析]( https://mp.weixin.qq.com/s/1_Gp0amnou1PS4PevlcVkA )
-- [](  )
+- 小网站尽量不要托管在大型云服务商那里，流量费用实在吃不消。如果不得不放在上面，那就必须设法降低或转移流量，比如使用 CDN。
+  引申：前端可以优化，将公共资源库（js、css等）使用cdn方式引入
 - [](  )
 - [](  )
 - [](  )
