@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js'></script>
+  <script>
+
+    // Encrypt
+    var ciphertext = CryptoJS.AES.encrypt('hello world', '1234567890').toString()
+    console.log('前端加密AES后：',ciphertext)
+    var ciphertextBase64 = btoa(ciphertext)
+    console.log('前端加密AES后 base64：',ciphertextBase64)
+
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(atob(ciphertextBase64), '1234567890')
+    var originalText = bytes.toString(CryptoJS.enc.Utf8)
+    console.log('前AES解密后：', originalText)
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>
