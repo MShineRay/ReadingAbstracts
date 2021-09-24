@@ -3,8 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>翻转</title>
+  <style>
+    .card-filp {
+      height: 200px;
+      width: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: 1s;
+    }
+
+    .front,
+    .back {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      backface-visibility:hidden
+    }
+    .front {
+      background: lightgreen;
+    }
+    .back {
+      background: lightblue;
+    }
+    .back {
+      transform: rotateY(180deg);
+    }
+    .card-filp:hover {
+      transform: rotateY(180deg);
+    }
+  </style>
 </head>
 <body>
-
+<div class="card-filp">
+  <div class="back"></div>
+  <div class="front"></div>
+</div>
 </body>
 </html>
