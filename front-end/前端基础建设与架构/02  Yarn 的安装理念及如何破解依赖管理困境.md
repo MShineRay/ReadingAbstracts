@@ -1,7 +1,6 @@
 ### 
-<p data-nodeid="1645" class="">01 讲我们讲了 npm 的技巧和原理，但其实在前端工程化这个主题上除了 npm，还有不可忽视的 Yarn。</p>
-<p data-nodeid="1646">Yarn 是一个由 Facebook、Google、Exponent 和 Tilde 构建的新的 JavaScript 包管理器。它的出现是为了解决历史上 npm 的某些不足（比如 npm 对于依赖的完整性和一致性保障，以及 npm 安装速度过慢的问题等），虽然 npm 目前经过版本迭代汲取了 Yarn 一些优势特点（比如一致性安装校验算法等），但我们依然有必要关注 Yarn 的思想和理念。</p>
-<p data-nodeid="1647">Yarn 和 npm 的关系，有点像当年的 Io.js 和 Node.js，殊途同归，都是为了进一步解放和优化生产力。这里需要说明的是，<strong data-nodeid="1782">不管是哪种工具，你应该做的就是全面了解其思想，优劣胸中有数，这样才能驾驭它，为自己的项目架构服务</strong>。</p>
+<p data-nodeid="1646">Yarn 是一个由 Facebook、Google、Exponent 和 Tilde 构建的新的 JavaScript 包管理器。它的出现是为了解决历史上 npm 的某些不足（比如 npm 对于依赖的完整性和一致性保障，以及 npm 安装速度过慢的问题等），虽然 npm 目前经过版本迭代汲取了 Yarn 一些优势特点（比如一致性安装校验算法等）</p>
+<p data-nodeid="1647">Yarn 和 npm 的关系，有点像当年的 Io.js 和 Node.js，都是为了进一步解放和优化生产力。</p>
 <p data-nodeid="1648">当 npm 还处在 v3 时期时，一个叫作 Yarn 的包管理方案横空出世。2016 年，npm 还没有 package-lock.json 文件，安装速度很慢，稳定性也较差，而 Yarn 的理念很好地解决了以下问题。</p>
 <ul data-nodeid="1649">
 <li data-nodeid="1650">
@@ -41,7 +40,7 @@
 <pre class="lang-java" data-nodeid="1664"><code data-language="java">yarn cache dir
 </code></pre>
 <p data-nodeid="1665"><img src="https://s0.lgstatic.com/i/image/M00/84/9F/CgqCHl_TbhOAEFfxAAFJ2o762gM476.png" alt="Drawing 0.png" data-nodeid="1830"></p>
-<p data-nodeid="1666">值得一提的是，Yarn 默认使用 prefer-online 模式，即优先使用网络数据。如果网络数据请求失败，再去请求缓存数据。</p>
+<p data-nodeid="1666">Yarn 默认使用 prefer-online 模式，即优先使用网络数据。如果网络数据请求失败，再去请求缓存数据。</p>
 <p data-nodeid="1667">最后，我们来看一看一些区别于 npm，Yarn 所独有的命令：</p>
 <pre class="lang-java" data-nodeid="1668"><code data-language="java">yarn <span class="hljs-keyword">import</span>
 yarn licenses
@@ -50,9 +49,8 @@ yarn why
 yarn autoclean
 </code></pre>
 <p data-nodeid="1669">npm 独有的命令是：<code data-backticks="1" data-nodeid="1834">npm rebuild</code>。</p>
-<p data-nodeid="1670">现在，你已经对 Yarn 有了一个初步了解，接下来我们来分析一下 Yarn 的安装机制和思想。</p>
 <h3 data-nodeid="1671">Yarn 安装机制和背后思想</h3>
-<p data-nodeid="1672">上一讲我们已经介绍过了 npm 安装机制，这里我们再来看一下 Yarn 的安装理念。简单来说，Yarn 的安装过程主要有以下 5 大步骤：</p>
+<p data-nodeid="1672">Yarn 的安装过程主要有以下 5 大步骤：</p>
 <p data-nodeid="1673">检测（checking）→ 解析包（Resolving Packages） → 获取包（Fetching Packages）→ 链接包（Linking Packages）→ 构建包（Building Packages）</p>
 <p data-nodeid="1674"><img src="https://s0.lgstatic.com/i/image/M00/8A/17/CgqCHl_ZflCANVu8AAJJZZYzwhs026.png" alt="图片14.png" data-nodeid="1842"></p>
 <div data-nodeid="1675"><p style="text-align:center">Yarn 安装流程图</p></div>
@@ -74,19 +72,17 @@ yarn autoclean
 <p data-nodeid="1688"><img src="https://s0.lgstatic.com/i/image/M00/84/9F/CgqCHl_TbimACnDOAAFMC14gP8I289.png" alt="Drawing 2.png" data-nodeid="1875"></p>
 <div data-nodeid="1689"><p style="text-align:center">解析包获取流程图</p></div>
 <p data-nodeid="1690"><strong data-nodeid="1879">获取包（Fetching Packages）</strong></p>
-<p data-nodeid="1691">这一步我们首先需要检查缓存中是否存在当前的依赖包，同时将缓存中不存在的依赖包下载到缓存目录。说起来简单，但是还是有些问题值得思考。</p>
-<p data-nodeid="1692">比如：如何判断缓存中是否存在当前的依赖包？<strong data-nodeid="1888">其实 Yarn 会根据 cacheFolder+slug+node_modules+pkg.name 生成一个 path，判断系统中是否存在该 path，如果存在证明已经有缓存，不用重新下载。这个 path 也就是依赖包缓存的具体路径</strong>。</p>
+<p data-nodeid="1691">首先需要检查缓存中是否存在当前的依赖包，同时将缓存中不存在的依赖包下载到缓存目录。</p>
+<p data-nodeid="1692">如何判断缓存中是否存在当前的依赖包？<strong data-nodeid="1888"> Yarn 会根据 cacheFolder+slug+node_modules+pkg.name 生成一个 path，判断系统中是否存在该 path，如果存在证明已经有缓存，不用重新下载。这个 path 也就是依赖包缓存的具体路径</strong>。</p>
 <p data-nodeid="1693">对于没有命中缓存的包，Yarn 会维护一个 fetch 队列，按照规则进行网络请求。如果下载包地址是一个 file 协议，或者是相对路径，就说明其指向一个本地目录，此时调用 Fetch From Local 从离线缓存中获取包；否则调用 Fetch From External 获取包。最终获取结果使用 fs.createWriteStream 写入到缓存目录下。</p>
 <p data-nodeid="1694"><img src="https://s0.lgstatic.com/i/image/M00/84/94/Ciqc1F_TbjKAThkOAAEsp0sOHUc622.png" alt="Drawing 3.png" data-nodeid="1892"></p>
 <div data-nodeid="1695"><p style="text-align:center">获取包流程图</p></div>
 <p data-nodeid="1696"><strong data-nodeid="1896">链接包（Linking Packages）</strong></p>
 <p data-nodeid="1697">上一步是将依赖下载到缓存目录，这一步是将项目中的依赖复制到项目 node_modules 下，同时遵循扁平化原则。在复制依赖前，Yarn 会先解析 peerDependencies，如果找不到符合 peerDependencies 的包，则进行 warning 提示，并最终拷贝依赖到项目中。</p>
-<p data-nodeid="1698">这里提到的扁平化原则是核心原则，我也会在后面内容进行详细的讲解。</p>
 <p data-nodeid="1699"><img src="https://s0.lgstatic.com/i/image/M00/84/94/Ciqc1F_Tbj2AWiPOAADyaZB-wGw502.png" alt="Drawing 4.png" data-nodeid="1903"></p>
 <div data-nodeid="1700"><p style="text-align:center">链接包解析流程图</p></div>
 <p data-nodeid="1701"><strong data-nodeid="1907">构建包（Building Packages）</strong></p>
 <p data-nodeid="1702">如果依赖包中存在二进制包需要进行编译，会在这一步进行。</p>
-<p data-nodeid="1703">了解了 npm 和 Yarn 的安装原理还不是“终点”，因为一个应用项目的依赖错综复杂。接下来我将从“依赖地狱”说起，帮助你加深对依赖机制相关内容的理解，以便在开发生产中灵活运用。</p>
 <h3 data-nodeid="1704">破解依赖管理困境</h3>
 <p data-nodeid="1705">早期 npm（npm v2）的设计非常简单，在安装依赖时将依赖放到项目的 node_modules 文件中；同时如果某个直接依赖 A 还依赖其他模块 B，作为间接依赖，模块 B 将会被下载到 A 的 node_modules 文件夹中，依此递归执行，最终形成了一颗巨大的依赖模块树。</p>
 <p data-nodeid="1706">这样的 node_modules 结构，的确简单明了、符合预期，但对大型项目在某些方面却不友好，比如可能有很多重复的依赖包，而且会形成“嵌套地狱”。</p>
@@ -179,11 +175,3 @@ yarn autoclean
 <p data-nodeid="1764"><img src="https://s0.lgstatic.com/i/image/M00/8A/19/CgqCHl_Zf-WAb-BnAADAe1GD0YY021.png" alt="图片2.png" data-nodeid="2017"></p>
 <div data-nodeid="1765"><p style="text-align:center">npm 安装结构图 ⑥</p></div>
 <p data-nodeid="1766">实际上，Yarn 在安装依赖时会自动执行 dedupe 命令。<strong data-nodeid="2023">整个优化的安装过程，就是上一讲提到的扁平化安装模式，也是需要你掌握的关键内容</strong>。</p>
-<h3 data-nodeid="1767">结语</h3>
-<p data-nodeid="1768">这一讲我们解析了 Yarn 安装原理。</p>
-<p data-nodeid="1769"><img src="https://s0.lgstatic.com/i/image/M00/8A/19/CgqCHl_ZgAuAIfWbAAc_D0oluIE175.png" alt="前端基建 金句.png" data-nodeid="2028"></p>
-<p data-nodeid="1770">通过本讲内容，你可以发现包安装并不只是从远程下载文件那么简单，这其中涉及缓存、系统文件路径，更重要的是还涉及了安装依赖树的解析、安装结构算法等。</p>
-<p data-nodeid="1771">最后，给大家布置一个思考题，<a href="https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/" data-nodeid="2033">npm v7</a> 在 2020 年 10 月刚刚发布，请你总结一下它的新特性，并思考一下为什么要引入这些新的特性？这些新特性背后是如何实现的？欢迎在留言区分享你的观点。</p>
-<hr data-nodeid="1772">
-<p data-nodeid="1773"><a href="https://shenceyun.lagou.com/t/mka" data-nodeid="2039"><img src="https://s0.lgstatic.com/i/image2/M01/00/66/CgpVE1_W_x2AaW0rAAdqMM6w3z0145.png" alt="大前端引流.png" data-nodeid="2038"></a></p>
-<p data-nodeid="1774" class="">对标阿里P7技术需求 + 每月大厂内推，6 个月助你斩获名企高薪 Offer。<a href="https://shenceyun.lagou.com/t/mka" data-nodeid="2043">点此链接，快来领取！</a></p>
