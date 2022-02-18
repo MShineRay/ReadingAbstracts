@@ -16,3 +16,4 @@
 - [应用软件安全测试技术](http://www.owasp.org.cn/OWASP-CHINA/owasp-project/5e9475288f6f4ef65b8951686d4b8bd56280672f/)
 - [OWASP 无服务器应用安全风险 TOP 10](http://www.owasp.org.cn/OWASP-CHINA/owasp-project/OWASPTop10-release-v1.2.pdf)
 - [移动应用安全控制和设计原则 TOP 10](http://www.owasp.org.cn/OWASP-CHINA/owasp-project/download/2.TOP10_Beta_V2.pdf)
+- [XSS 跨站脚本攻击](https://tsejx.github.io/javascript-guidebook/computer-networks/web-security/xss)
