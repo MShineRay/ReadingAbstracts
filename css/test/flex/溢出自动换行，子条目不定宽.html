@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style type="text/css">
+      *{
+          color: #fff;
+      }
+    .list{
+        background-color: red;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .item{
+        display: inline-block;
+        background-color: green;
+        padding: 20px;
+        margin: 10px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        flex-grow: 1;
+        white-space: nowrap;
+        word-break: break-all;
+    }
+      .list::after {
+          content: "";
+          flex-grow: 9999;
+      }
+  </style>
+</head>
+<body>
+<div class="list">
+  <div class="item">1</div>
+  <div class="item">12</div>
+  <div class="item">123123123123123123123123123</div>
+  <div class="item">123</div>
+  <div class="item">123123123</div>
+  <div class="item">123123123123123123123123123</div>
+  <div class="item">1</div>
+  <div class="item">1231231231231231231231231232222</div>
+  <div class="item">123123123123123123123123123123123123123123123123123123123123123123123123123123123</div>
+  <div class="item">123123123123123123123123123</div>
+  <div class="item">1</div>
+</div>
+</body>
+</html>

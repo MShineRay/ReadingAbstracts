@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<a href="https://www.baidu.com" target="_blank">打开页面</a>
+<button id="test">location.href 当前浏览器tab打开</button>
+<button id="test2">window.open 新浏览器tab打开</button>
+<script>
+  document.getElementById('test').onclick = function (){
+    location.href = 'https://www.baidu.com'
+  }
+  document.getElementById('test2').onclick = function (){
+    window.open('https://www.baidu.com', '_blank')
+  }
+</script>
+
+</body>
+</html>
