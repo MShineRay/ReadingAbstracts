@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js'></script>
+  <script>
+
+    // Encrypt
+    var ciphertext = CryptoJS.AES.encrypt('{"password":"123456","username":"baoxun"}', 'hQ7kHJZCqSs1tBOZ').toString()
+    console.log('前端加密AES后：',ciphertext)
+    // var ciphertextBase64 = btoa(ciphertext)
+    // console.log('前端加密AES后 base64：',ciphertextBase64)
+
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(ciphertext, 'hQ7kHJZCqSs1tBOZ')
+    var originalText = bytes.toString(CryptoJS.enc.Utf8)
+    console.log('前AES解密后：', originalText)
+    //
+    //
+    // var bytes = CryptoJS.AES.decrypt(
+    //   '8DnC0s0gxCepo1FOM33pbY4lejcNTLTB0g18oL6Lvv2wFeUPFWe6ICC9fdl307d40rdrDI9YYlYPiUd3XhnA/w==',
+    //   'hQ7kHJZCqSs1tBOZ')
+    // var originalText = bytes.toString(CryptoJS.enc.Utf8)
+    // console.log('前AES解密后：', originalText)
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

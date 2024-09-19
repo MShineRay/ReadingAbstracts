@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Opay</title>
+  <style>
+    div,html,body {
+      width: 100%;
+      height: 100%
+    }
+  </style>
+</head>
+<body>
+<div id="redirectTo3ds1AcsSimple" xmlns="http://www.w3.org/1999/html">
+  <iframe id="redirectTo3ds1Frame" name="redirectTo3ds1Frame" height="100%" width="100%" sandbox="allow-forms allow-top-navigation allow-scripts"></iframe>
+  <form
+    id="redirectTo3ds1Form"
+    method="POST" action="https://secure5.arcot.com/acspage/cap?"
+    target="_top"
+  >
+    <!--替换掉父级iframe-->
+  </form>
+  <script id="authenticate-payer-script">
+    var e = document.getElementById("redirectTo3ds1Form");
+    if (e) {
+      e.submit();
+      if (e.parentNode !== null) {
+        e.parentNode.removeChild(e);
+      }
+    }
+  </script>
+</div>
+</body>
+</html>
