@@ -26,4 +26,4 @@
 	
 	babel是一个javascript编译器。宏观来说，它分3个阶段运行代码：解析（parsing），转译（transforming），生成（generation）。我们可以给babel 一些javascript代码，它修改代码然后生成新的代码返回。
     那它是怎样修改代码的呢？它创建了AST，遍历树，修改tokens，最后从AST中生成新的代码。
-	~~~
+  ~~~
